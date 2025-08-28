@@ -16,11 +16,34 @@
   outputs = {
     nixos-generators,
     nixpkgs,
+    terranix,
     ...
   } @ inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+
+    mkTerraformConfiguration = terranix.lib.terranixConfiguration {
+      extraArgs = {inherit inputs;};
+      modules = [./terranix.nix];
+      inherit system;
+    };
+
+    mkTerraformProgram = action:
+      toString (pkgs.writers.writeBash action ''
+        if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
+        cp ${mkTerraformConfiguration} config.tf.json \
+          && ${pkgs.terraform}/bin/terraform init \
+          && ${pkgs.terraform}/bin/terraform ${action}
+      '');
   in {
+    apps.${system} = builtins.listToAttrs (map (action: {
+      name = action;
+      value = {
+        type = "app";
+        program = mkTerraformProgram action;
+      };
+    }) ["apply" "destroy" "plan"]);
+
     formatter.${system} = pkgs.writeShellApplication {
       name = "format";
       runtimeInputs = builtins.attrValues {
