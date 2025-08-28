@@ -21,9 +21,11 @@
   } @ inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+    vm_props = import ./vm_props.nix;
   in {
     apps.${system} = let
       terranixProxmoxConf = terranix.lib.terranixConfiguration {
+        extraArgs = {inherit vm_props;};
         modules = [./terranix.nix];
         inherit system;
       };
@@ -56,6 +58,23 @@
         fd "$@" -t f -e nix -X alejandra '{}'
       '';
     };
+
+    nixosConfigurations = builtins.listToAttrs (map (vm: {
+      name = vm;
+      value = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit
+            inputs
+            system
+            ;
+        };
+        modules = [
+          nixos-generators.nixosModules.raw
+          ./vm/${vm}
+        ];
+      };
+    }) (builtins.attrNames vm_props));
 
     packages.${system}.default = nixos-generators.nixosGenerate {
       format = "raw";
