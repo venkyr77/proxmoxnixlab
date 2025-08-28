@@ -5,7 +5,7 @@
     disk_size = 256;
     hostpci = {
       device = "hostpci0";
-      id = "0000:01:00.0";
+      id = "0000:01:00";
       pcie = true;
       rombar = true;
       xvga = true;

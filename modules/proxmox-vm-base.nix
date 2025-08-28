@@ -8,6 +8,11 @@
     useDHCP = false;
   };
 
+  nix.settings.experimental-features = [
+    "flakes"
+    "nix-command"
+  ];
+
   security.sudo.wheelNeedsPassword = false;
 
   services = {
