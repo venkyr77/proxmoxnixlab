@@ -36,7 +36,7 @@
           cp ${terranixProxmoxConf} config.tf.json \
             && ${pkgs.terraform}/bin/terraform login \
             && ${pkgs.terraform}/bin/terraform init \
-            && ${pkgs.terraform}/bin/terraform ${action} -parallelism=1
+            && ${pkgs.terraform}/bin/terraform ${action} -var-file=./vals.tfvars -parallelism=1
         '');
     in
       builtins.listToAttrs (map (action: {
@@ -70,14 +70,14 @@
             ;
         };
         modules = [
-          nixos-generators.nixosModules.raw
+          nixos-generators.nixosModules.raw-efi
           ./vm/${vm}
         ];
       };
     }) (builtins.attrNames vm_props));
 
     packages.${system}.default = nixos-generators.nixosGenerate {
-      format = "raw";
+      format = "raw-efi";
       modules = [./modules/proxmox-vm-base.nix];
       specialArgs = {inherit inputs;};
       inherit system;

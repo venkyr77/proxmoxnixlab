@@ -6,6 +6,7 @@
     hostpci = {
       device = "hostpci0";
       id = "0000:01:00.0";
+      pcie = true;
       rombar = true;
       xvga = true;
     };

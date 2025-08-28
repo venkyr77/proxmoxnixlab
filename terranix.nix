@@ -15,6 +15,7 @@
   }:
     {
       agent.enabled = true;
+      bios = "ovmf";
       cpu = {
         cores = cpu_cores;
         type = cpu_host_type;
@@ -26,6 +27,7 @@
         file_format = "raw";
         size = disk_size;
       };
+      efi_disk = {};
       initialization = {
         ip_config.ipv4 = {
           address = "${ipv4_full}";
@@ -39,6 +41,7 @@
           ];
         };
       };
+      machine = "q35";
       memory.dedicated = memory;
       name = "${vm_name}";
       network_device = {};
