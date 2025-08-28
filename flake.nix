@@ -3,6 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    terranix = {
+      url = "github:terranix/terranix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {nixpkgs, ...}: let
