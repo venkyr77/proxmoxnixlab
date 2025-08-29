@@ -2,20 +2,37 @@
   description = "proxmox + nixos vms flake";
 
   inputs = {
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs = {
+        utils.follows = "flake-utils";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    systems.url = "github:nix-systems/default";
     terranix = {
       url = "github:terranix/terranix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+      };
     };
   };
 
   outputs = {
+    deploy-rs,
     nixos-generators,
     nixpkgs,
+    self,
     terranix,
     ...
   } @ inputs: let
@@ -47,6 +64,20 @@
         };
       }) ["apply" "destroy" "plan"]);
 
+    deploy.nodes =
+      builtins.mapAttrs (vm: conf: {
+        hostname = "${vm_props.${vm}.ipv4_short}";
+        profiles.system = {
+          path =
+            deploy-rs.lib.${system}.activate.nixos
+            self.nixosConfigurations.${vm};
+          remoteBuild = true;
+          sshUser = "ops";
+          user = "root";
+        };
+      })
+      self.nixosConfigurations;
+
     formatter.${system} = pkgs.writeShellApplication {
       name = "format";
       runtimeInputs = builtins.attrValues {
@@ -59,9 +90,8 @@
       '';
     };
 
-    nixosConfigurations = builtins.listToAttrs (map (vm: {
-      name = vm;
-      value = nixpkgs.lib.nixosSystem {
+    nixosConfigurations = builtins.mapAttrs (vm: vm_prop:
+      nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
           inherit
@@ -74,8 +104,8 @@
           ./modules/proxmox-vm-base.nix
           ./vm/${vm}
         ];
-      };
-    }) (builtins.attrNames vm_props));
+      })
+    vm_props;
 
     packages.${system}.default = nixos-generators.nixosGenerate {
       format = "raw-efi";
