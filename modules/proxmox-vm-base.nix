@@ -27,6 +27,19 @@
       settings.KbdInteractiveAuthentication = false;
     };
 
+    prometheus.exporters.node = {
+      enable = true;
+      enabledCollectors = ["systemd"];
+      extraFlags = [
+        "--collector.ethtool"
+        "--collector.softirqs"
+        "--collector.tcpstat"
+        "--collector.wifi"
+      ];
+      openFirewall = true;
+      port = 9100;
+    };
+
     qemuGuest.enable = true;
   };
 

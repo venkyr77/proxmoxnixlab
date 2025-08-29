@@ -71,6 +71,7 @@
         };
         modules = [
           nixos-generators.nixosModules.raw-efi
+          ./modules/proxmox-vm-base.nix
           ./vm/${vm}
         ];
       };
