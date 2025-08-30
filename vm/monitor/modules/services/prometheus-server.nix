@@ -5,10 +5,17 @@
     scrapeConfigs = [
       {
         job_name = "node";
-
-        static_configs = map (vm: {
-          targets = ["${props.vms.${vm}.ipv4_short}:${toString props.common_config.services.prometheus.exporters.node.port}"];
-        }) (builtins.attrNames props.vms);
+        static_configs = let
+          node_exporter_port = props.common_config.services.prometheus.exporters.node.port;
+        in
+          (
+            map (ct: {targets = ["${props.cts.${ct}.ipv4_short}:${toString node_exporter_port}"];})
+            (builtins.attrNames props.cts)
+          )
+          ++ (
+            map (vm: {targets = ["${props.vms.${vm}.ipv4_short}:${toString node_exporter_port}"];})
+            (builtins.attrNames props.vms)
+          );
       }
     ];
   };

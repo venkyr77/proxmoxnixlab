@@ -65,12 +65,16 @@
       }) ["apply" "destroy" "plan"]);
 
     deploy.nodes =
-      builtins.mapAttrs (vm: _conf: {
-        hostname = "${props.vms.${vm}.ipv4_short}";
+      builtins.mapAttrs (node: _conf: {
+        hostname = "${(
+          if builtins.hasAttr node props.cts
+          then props.cts.${node}.ipv4_short
+          else props.vms.${node}.ipv4_short
+        )}";
         profiles.system = {
           path =
             deploy-rs.lib.${system}.activate.nixos
-            self.nixosConfigurations.${vm};
+            self.nixosConfigurations.${node};
           remoteBuild = true;
           sshUser = "ops";
           user = "root";
@@ -90,29 +94,44 @@
       '';
     };
 
-    nixosConfigurations = builtins.mapAttrs (vm: _vm_prop:
-      nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {
-          inherit
-            inputs
-            props
-            system
-            ;
+    nixosConfigurations = let
+      mkConf = modules:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {inherit inputs props system;};
+          modules = [./base.nix] ++ modules;
         };
-        modules = [
+    in
+      (builtins.mapAttrs (ct: _ct_prop:
+        mkConf [
+          nixos-generators.nixosModules.proxmox-lxc
+          ./ct/base.nix
+          ./ct/${ct}
+        ])
+      props.cts)
+      // (builtins.mapAttrs (vm: _vm_prop:
+        mkConf [
           nixos-generators.nixosModules.raw-efi
-          ./proxmox-vm-base.nix
           ./vm/${vm}
-        ];
-      })
-    props.vms;
+        ])
+      props.vms);
 
-    packages.${system}.default = nixos-generators.nixosGenerate {
-      format = "raw-efi";
-      modules = [./proxmox-vm-base.nix];
-      specialArgs = {inherit inputs props;};
-      inherit system;
+    packages.${system} = {
+      mkimg = nixos-generators.nixosGenerate {
+        format = "raw-efi";
+        modules = [./base.nix];
+        specialArgs = {inherit inputs props;};
+        inherit system;
+      };
+      mktar = nixos-generators.nixosGenerate {
+        format = "proxmox-lxc";
+        modules = [
+          ./base.nix
+          ./ct/base.nix
+        ];
+        specialArgs = {inherit inputs props;};
+        inherit system;
+      };
     };
   };
 }

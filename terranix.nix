@@ -3,6 +3,43 @@
   props,
   ...
 }: let
+  mkCT = {
+    cpu_cores,
+    disk_size,
+    ipv4_full,
+    memory,
+    vm_id,
+    vm_name,
+  }: {
+    cpu.cores = cpu_cores;
+    depends_on = ["proxmox_virtual_environment_file.nixostar"];
+    disk = {
+      datastore_id = "local-lvm";
+      size = disk_size;
+    };
+    features.nesting = true;
+    initialization = {
+      hostname = vm_name;
+      ip_config.ipv4 = {
+        address = "${ipv4_full}";
+        gateway = "10.0.0.1";
+      };
+      user_account.keys = props.common_config.authorized_keys;
+    };
+    memory.dedicated = memory;
+    network_interface = {
+      bridge = "vmbr0";
+      name = "veth0";
+    };
+    node_name = "pve";
+    operating_system = {
+      template_file_id = "local:vztmpl/nixos.tar.xz";
+      type = "nixos";
+    };
+    started = true;
+    inherit vm_id;
+  };
+
   mkVM = {
     cpu_cores,
     cpu_host_type,
@@ -20,7 +57,7 @@
         cores = cpu_cores;
         type = cpu_host_type;
       };
-      depends_on = ["proxmox_virtual_environment_file.nixosbase"];
+      depends_on = ["proxmox_virtual_environment_file.nixosimg"];
       disk = {
         interface = "scsi0";
         file_id = "local:iso/nixos.img";
@@ -35,10 +72,7 @@
         };
         user_account = {
           username = "ops";
-          keys = [
-            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIKq26n2TKyJF/LSKXTjRHlCS1rG4+P/cQkG8dBufDkh venkyrocker7777@gmail.com"
-            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPlTUXrGWkLvAxORPsjc4mCkBNr1jtKJoJh6fNoj8zYj venkyrocker7777@gmail.com"
-          ];
+          keys = props.common_config.authorized_keys;
         };
       };
       machine = "q35";
@@ -80,30 +114,57 @@ in {
     ssh.agent = true;
   };
 
-  resource.proxmox_virtual_environment_file.nixosbase = {
-    content_type = "iso";
-    datastore_id = "local";
-    node_name = "pve";
-    source_file.path = "./result/nixos.img";
+  resource.proxmox_virtual_environment_file = {
+    nixosimg = {
+      content_type = "iso";
+      datastore_id = "local";
+      node_name = "pve";
+      source_file.path = "./result/img/nixos.img";
+    };
+    nixostar = {
+      content_type = "vztmpl";
+      datastore_id = "local";
+      node_name = "pve";
+      source_file.path = "./result/tar/tarball/nixos.tar.xz";
+    };
   };
 
-  resource.proxmox_virtual_environment_vm =
-    builtins.mapAttrs
-    (
-      vm_name: vm_prop:
-        mkVM {
-          inherit vm_name;
-          inherit
-            (vm_prop)
-            cpu_cores
-            cpu_host_type
-            disk_size
-            hostpci
-            ipv4_full
-            memory
-            vm_id
-            ;
-        }
-    )
-    props.vms;
+  resource = {
+    proxmox_virtual_environment_container =
+      builtins.mapAttrs
+      (
+        ct_name: ct_prop:
+          mkCT {
+            vm_name = ct_name;
+            inherit
+              (ct_prop)
+              cpu_cores
+              disk_size
+              ipv4_full
+              memory
+              vm_id
+              ;
+          }
+      )
+      props.cts;
+    proxmox_virtual_environment_vm =
+      builtins.mapAttrs
+      (
+        vm_name: vm_prop:
+          mkVM {
+            inherit vm_name;
+            inherit
+              (vm_prop)
+              cpu_cores
+              cpu_host_type
+              disk_size
+              hostpci
+              ipv4_full
+              memory
+              vm_id
+              ;
+          }
+      )
+      props.vms;
+  };
 }
