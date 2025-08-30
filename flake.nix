@@ -3,28 +3,28 @@
 
   inputs = {
     deploy-rs = {
-      url = "github:serokell/deploy-rs";
       inputs = {
-        utils.follows = "flake-utils";
         nixpkgs.follows = "nixpkgs";
+        utils.follows = "flake-utils";
       };
+      url = "github:serokell/deploy-rs";
     };
     flake-utils = {
-      url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
+      url = "github:numtide/flake-utils";
     };
     nixos-generators = {
-      url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nixos-generators";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     systems.url = "github:nix-systems/default";
     terranix = {
-      url = "github:terranix/terranix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         systems.follows = "systems";
       };
+      url = "github:terranix/terranix";
     };
   };
 
@@ -56,16 +56,13 @@
             && ${pkgs.terraform}/bin/terraform ${action} -var-file=./vals.tfvars -parallelism=1
         '');
     in
-      builtins.listToAttrs (map (action: {
-        name = "proxmox-${action}";
-        value = {
-          type = "app";
-          program = mkTerraformProgramForProxmox action;
-        };
-      }) ["apply" "destroy" "plan"]);
+      pkgs.lib.genAttrs ["apply" "destroy" "plan"] (action: {
+        type = "app";
+        program = mkTerraformProgramForProxmox action;
+      });
 
     deploy.nodes =
-      builtins.mapAttrs (vm: conf: {
+      builtins.mapAttrs (vm: _conf: {
         hostname = "${vm_props.${vm}.ipv4_short}";
         profiles.system = {
           path =
@@ -90,7 +87,7 @@
       '';
     };
 
-    nixosConfigurations = builtins.mapAttrs (vm: vm_prop:
+    nixosConfigurations = builtins.mapAttrs (vm: _vm_prop:
       nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
