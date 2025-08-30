@@ -38,11 +38,11 @@
   } @ inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
-    vm_props = import ./vm_props.nix;
+    props = import ./props.nix;
   in {
     apps.${system} = let
       terranixProxmoxConf = terranix.lib.terranixConfiguration {
-        extraArgs = {inherit vm_props;};
+        extraArgs = {inherit props;};
         modules = [./terranix.nix];
         inherit system;
       };
@@ -56,14 +56,17 @@
             && ${pkgs.terraform}/bin/terraform ${action} -var-file=./vals.tfvars -parallelism=1
         '');
     in
-      pkgs.lib.genAttrs ["apply" "destroy" "plan"] (action: {
-        type = "app";
-        program = mkTerraformProgramForProxmox action;
-      });
+      builtins.listToAttrs (map (action: {
+        name = "proxmox-${action}";
+        value = {
+          type = "app";
+          program = mkTerraformProgramForProxmox action;
+        };
+      }) ["apply" "destroy" "plan"]);
 
     deploy.nodes =
       builtins.mapAttrs (vm: _conf: {
-        hostname = "${vm_props.${vm}.ipv4_short}";
+        hostname = "${props.vms.${vm}.ipv4_short}";
         profiles.system = {
           path =
             deploy-rs.lib.${system}.activate.nixos
@@ -93,21 +96,22 @@
         specialArgs = {
           inherit
             inputs
+            props
             system
             ;
         };
         modules = [
           nixos-generators.nixosModules.raw-efi
-          ./modules/proxmox-vm-base.nix
+          ./proxmox-vm-base.nix
           ./vm/${vm}
         ];
       })
-    vm_props;
+    props.vms;
 
     packages.${system}.default = nixos-generators.nixosGenerate {
       format = "raw-efi";
-      modules = [./modules/proxmox-vm-base.nix];
-      specialArgs = {inherit inputs;};
+      modules = [./proxmox-vm-base.nix];
+      specialArgs = {inherit inputs props;};
       inherit system;
     };
   };

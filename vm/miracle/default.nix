@@ -1,5 +1,5 @@
 {
   imports = [
-    ../../modules/hardware/graphics/nvidia.nix
+    ./modules/hardware/graphics/nvidia.nix
   ];
 }

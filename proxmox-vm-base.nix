@@ -1,4 +1,8 @@
-{modulesPath, ...}: {
+{
+  modulesPath,
+  props,
+  ...
+}: {
   imports = [
     "${modulesPath}/profiles/qemu-guest.nix"
   ];
@@ -37,7 +41,7 @@
         "--collector.wifi"
       ];
       openFirewall = true;
-      port = 9100;
+      inherit (props.common_config.services.prometheus.exporters.node) port;
     };
 
     qemuGuest.enable = true;

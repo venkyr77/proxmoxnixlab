@@ -1,6 +1,6 @@
 {
   lib,
-  vm_props,
+  props,
   ...
 }: let
   mkVM = {
@@ -105,5 +105,5 @@ in {
             ;
         }
     )
-    vm_props;
+    props.vms;
 }
