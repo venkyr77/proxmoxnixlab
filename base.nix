@@ -1,10 +1,12 @@
 {
   modulesPath,
+  inputs,
   props,
   ...
 }: {
   imports = [
     "${modulesPath}/profiles/qemu-guest.nix"
+    inputs.sops-nix.nixosModules.sops
   ];
 
   networking = {
@@ -49,10 +51,9 @@
 
   system.stateVersion = "25.11";
 
-  users = {
-    users.ops = {
-      isNormalUser = true;
-      extraGroups = ["wheel"];
-    };
+  users.users.ops = {
+    extraGroups = ["wheel"];
+    isNormalUser = true;
+    openssh.authorizedKeys.keys = props.common_config.authorized_keys;
   };
 }

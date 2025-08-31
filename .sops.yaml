@@ -1,0 +1,7 @@
+keys:
+  - &primary age1m47g9gt850xxdepqtuxxuh6tpat4dukmcd3emljk4ul32wfemq6sue6z8q
+creation_rules:
+  - path_regex: secrets/caddy$
+    key_groups:
+    - age:
+      - *primary

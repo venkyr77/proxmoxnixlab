@@ -1,4 +1,4 @@
-{
+{props, ...}: {
   networking.firewall = {
     allowedTCPPorts = [53];
     allowedUDPPorts = [53];
@@ -14,6 +14,8 @@
         harden-dnssec-stripped = true;
         harden-glue = true;
         interface = ["0.0.0.0"];
+        local-data = [''"euls.dev. A ${props.cts.caddy-tailscale.ipv4_short}"''];
+        local-zone = [''"euls.dev." redirect''];
         port = 53;
         prefetch = true;
         use-caps-for-id = false;

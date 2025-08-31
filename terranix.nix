@@ -19,12 +19,12 @@
     };
     features.nesting = true;
     initialization = {
+      dns.servers = [props.cts.unbound.ipv4_short];
       hostname = vm_name;
       ip_config.ipv4 = {
         address = "${ipv4_full}";
         gateway = "10.0.0.1";
       };
-      user_account.keys = props.common_config.authorized_keys;
     };
     memory.dedicated = memory;
     network_interface = {
@@ -66,14 +66,12 @@
       };
       efi_disk = {};
       initialization = {
+        dns.servers = [props.cts.unbound.ipv4_short];
         ip_config.ipv4 = {
           address = "${ipv4_full}";
           gateway = "10.0.0.1";
         };
-        user_account = {
-          username = "ops";
-          keys = props.common_config.authorized_keys;
-        };
+        user_account.username = "ops";
       };
       machine = "q35";
       memory.dedicated = memory;
