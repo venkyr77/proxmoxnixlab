@@ -12,6 +12,7 @@
   networking = {
     enableIPv6 = false;
     hostName = "";
+    nameservers = ["10.0.0.150"];
     useDHCP = false;
   };
 
