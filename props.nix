@@ -56,6 +56,20 @@
       ];
       vm_id = 152;
     };
+    radarr = {
+      cpu_cores = 2;
+      disk_size = 16;
+      ipv4_full = "10.0.0.153/24";
+      ipv4_short = "10.0.0.153";
+      memory = 2 * 1024;
+      mount_point = [
+        {
+          path = "/mnt/sabnzbd";
+          volume = "/share/sabnzbd";
+        }
+      ];
+      vm_id = 153;
+    };
   };
   vms = {
     miracle = {

@@ -115,7 +115,14 @@
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {inherit inputs props system;};
-          modules = [./base.nix] ++ modules;
+          modules =
+            [
+              ./base.nix
+              {
+                networking.nameservers = [props.cts.unbound.ipv4_short];
+              }
+            ]
+            ++ modules;
         };
     in
       (builtins.mapAttrs (ct: _ct_prop:
