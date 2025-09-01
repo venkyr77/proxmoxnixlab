@@ -8,6 +8,7 @@
     disk_size,
     ipv4_full,
     memory,
+    mount_point,
     vm_id,
     vm_name,
   }: {
@@ -27,6 +28,7 @@
       };
     };
     memory.dedicated = memory;
+    inherit mount_point;
     network_interface = {
       bridge = "vmbr0";
       name = "veth0";
@@ -140,6 +142,7 @@ in {
               disk_size
               ipv4_full
               memory
+              mount_point
               vm_id
               ;
           }

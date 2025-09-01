@@ -30,6 +30,7 @@
       ipv4_full = "10.0.0.150/24";
       ipv4_short = "10.0.0.150";
       memory = 1 * 1024;
+      mount_point = null;
       vm_id = 150;
     };
     caddy-tailscale = {
@@ -38,6 +39,7 @@
       ipv4_full = "10.0.0.151/24";
       ipv4_short = "10.0.0.151";
       memory = 2 * 1024;
+      mount_point = null;
       vm_id = 151;
     };
     sabnzbd = {
@@ -46,6 +48,12 @@
       ipv4_full = "10.0.0.152/24";
       ipv4_short = "10.0.0.152";
       memory = 8 * 1024;
+      mount_point = [
+        {
+          path = "/mnt/sabnzbd";
+          volume = "/share/sabnzbd";
+        }
+      ];
       vm_id = 152;
     };
   };

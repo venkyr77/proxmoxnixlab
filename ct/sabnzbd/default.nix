@@ -8,17 +8,13 @@
   cfg = config.services.sabnzbd;
 in {
   imports = [
-    (import ../../modules/roles/nfs-exporter.nix {
-      exports = {
-        "sabnzbd".device = "/var/lib/sabnzbd";
-      };
-    })
     ../../modules/services/mediarr.nix
   ];
 
   networking.firewall.allowedTCPPorts = [props.common_config.services.sabnzbd.port];
 
   services.sabnzbd = {
+    configFile = "/mnt/sabnzbd/sabnzbd.ini";
     enable = true;
     group = arr_user_props.group.name;
     user = arr_user_props.user.name;
@@ -35,7 +31,7 @@ in {
         #sh
         ''
           sleep 5
-          sed -i 's/^host_whitelist\s*=.*/host_whitelist = sabnzbd.euls.dev,/' /var/lib/sabnzbd/sabnzbd.ini
+          sed -i 's/^host_whitelist\s*=.*/host_whitelist = sabnzbd.euls.dev,/' ${cfg.configFile}
           systemctl restart sabnzbd.service
         '';
       serviceConfig = {
@@ -45,4 +41,8 @@ in {
       wantedBy = ["multi-user.target"];
     };
   };
+
+  systemd.tmpfiles.rules = [
+    "d /mnt/sabnzbd 0775 ${arr_user_props.user.name} ${arr_user_props.group.name}"
+  ];
 }
