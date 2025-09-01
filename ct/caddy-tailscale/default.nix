@@ -17,12 +17,6 @@
       plugins = ["github.com/caddy-dns/cloudflare@v0.2.1"];
     };
     virtualHosts = {
-      "prometheus.euls.dev".extraConfig = ''
-        reverse_proxy 10.0.0.101:9090
-      '';
-      "sabnzbd.euls.dev".extraConfig = ''
-        reverse_proxy 10.0.0.152:8080
-      '';
     };
   };
 
