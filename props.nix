@@ -29,6 +29,14 @@
       memory = 2 * 1024;
       vm_id = 151;
     };
+    sabnzbd = {
+      cpu_cores = 2;
+      disk_size = 256;
+      ipv4_full = "10.0.0.152/24";
+      ipv4_short = "10.0.0.152";
+      memory = 8 * 1024;
+      vm_id = 152;
+    };
   };
   vms = {
     miracle = {

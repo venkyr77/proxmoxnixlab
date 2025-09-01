@@ -20,6 +20,9 @@
       "prometheus.euls.dev".extraConfig = ''
         reverse_proxy 10.0.0.101:9090
       '';
+      "sabnzbd.euls.dev".extraConfig = ''
+        reverse_proxy 10.0.0.152:8080
+      '';
     };
   };
 
