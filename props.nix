@@ -1,5 +1,15 @@
 {
   common_config = {
+    arr_user_props = {
+      group = {
+        id = 210;
+        name = "mediarr";
+      };
+      user = {
+        id = 210;
+        name = "mediarr";
+      };
+    };
     authorized_keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIKq26n2TKyJF/LSKXTjRHlCS1rG4+P/cQkG8dBufDkh venkyrocker7777@gmail.com"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPlTUXrGWkLvAxORPsjc4mCkBNr1jtKJoJh6fNoj8zYj venkyrocker7777@gmail.com"
@@ -10,6 +20,7 @@
         exporters.node.port = 9100;
         port = 9090;
       };
+      sabnzbd.port = 8080;
     };
   };
   cts = {
