@@ -128,6 +128,7 @@
       // (builtins.mapAttrs (vm: _vm_prop:
         mkConf [
           nixos-generators.nixosModules.raw-efi
+          ./vm/base.nix
           ./vm/${vm}
         ])
       props.vms);
@@ -135,7 +136,10 @@
     packages.${system} = {
       mkimg = nixos-generators.nixosGenerate {
         format = "raw-efi";
-        modules = [./base.nix];
+        modules = [
+          ./base.nix
+          ./vm/base.nix
+        ];
         specialArgs = {inherit inputs props;};
         inherit system;
       };
