@@ -20,6 +20,7 @@
         exporters.node.port = 9100;
         port = 9090;
       };
+      radarr.port = 7878;
       sabnzbd.port = 8080;
     };
   };
@@ -69,6 +70,15 @@
         }
       ];
       vm_id = 153;
+    };
+    recyclarr = {
+      cpu_cores = 2;
+      disk_size = 16;
+      ipv4_full = "10.0.0.154/24";
+      ipv4_short = "10.0.0.154";
+      memory = 2 * 1024;
+      mount_point = null;
+      vm_id = 154;
     };
   };
   vms = {
