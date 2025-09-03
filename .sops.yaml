@@ -13,3 +13,11 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: secrets/sonarr-api-key$
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: secrets/sonarr-api-key-ev$
+    key_groups:
+    - age:
+      - *primary

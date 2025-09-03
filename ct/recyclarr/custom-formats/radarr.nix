@@ -25,7 +25,7 @@ let
     "403816d65392c79236dcb6dd591aeda4" # WEB Tier 02
     "af94e0fe497124d1f9ce732069ec8c3b" # WEB Tier 03
   ];
-  repack_proper = [
+  misc_required = [
     "e7718d7a3ce595f289bfee26adc178f5" # Repack/Proper
     "ae43b294509409a6a13919dedd4764c4" # Repack2
     "5caaaa1c08c1742aa4342d8c4cc463f2" # Repack3
@@ -59,7 +59,7 @@ let
     "c9fd353f8f5f1baf56dc601c4cb29920" # PCOK
     "c2863d2a50c9acad1fb50e53ece60817" # STAN
   ];
-  audio = [
+  audio_optional = [
     "496f355514737f7d83bf7aa4d24f8169" # TrueHD ATMOS
     "2f22d89048b01681dde8afe203bf2e95" # DTS X
     "417804f7f2c4308c1f4c5d380d4c4475" # ATMOS (undefined)
@@ -75,7 +75,7 @@ let
     "240770601cc226190c367ef59aba7463" # AAC
     "c2998bd0d90ed5621d8df281e839436e" # DD
   ];
-  misc = [
+  misc_optional = [
     "b6832f586342ef70d9c128d40c07b872" # Bad Dual Groups
     "cc444569854e9de0b084ab2b8b1532b2" # Black and White Editions
     "ae9b7c9ebde1f3bd336a8cbd1ec4c5e5" # No-RlsGroup
@@ -83,12 +83,12 @@ let
     "5c44f52a8714fdd79bb4d98e2673be1f" # Retags
     "f537cf427b64c38c8e36298f657e4828" # Scene
   ];
-  misc_uhd = [
+  misc_uhd_optional = [
     "9c38ebb7384dada637be8899efa68e6f" # SDR
     "25c12f78430a3a23413652cbd1d48d77" # SDR (no WEBDL)
     "839bea857ed2c0a8e084f3cbdbd65ecb" # x265 (no HDR/DV)
   ];
-  movie_versions = [
+  movie_versions_optional = [
     "0f12c086e289cf966fa5948eac571f44" # Hybrid
     "570bc9ebecd92723d2d21500f4be314c" # Remaster
     "eca37840c13c6ef2dd0262b141a5482f" # 4K Remaster
@@ -106,17 +106,18 @@ in [
         name = "Remux + WEB 2160p";
       }
     ];
-    trash_ids =
+    trash_ids = let
+      hq_release_groups = remux_tiers ++ web_tiers;
+    in
       hdr_formats
-      ++ remux_tiers
-      ++ web_tiers
-      ++ repack_proper
+      ++ hq_release_groups
+      ++ misc_required
       ++ unwanted
       ++ general_streaming_services
-      ++ audio
-      ++ misc
-      ++ misc_uhd
-      ++ movie_versions;
+      ++ audio_optional
+      ++ misc_optional
+      ++ misc_uhd_optional
+      ++ movie_versions_optional;
   }
   {
     assign_scores_to = [
@@ -124,15 +125,16 @@ in [
         name = "Remux + WEB 1080p";
       }
     ];
-    trash_ids =
-      remux_tiers
-      ++ web_tiers
-      ++ repack_proper
+    trash_ids = let
+      hq_release_groups = remux_tiers ++ web_tiers;
+    in
+      hq_release_groups
+      ++ misc_required
       ++ unwanted
       ++ general_streaming_services
-      ++ audio
-      ++ misc
-      ++ movie_versions;
+      ++ audio_optional
+      ++ misc_optional
+      ++ movie_versions_optional;
   }
   {
     assign_scores_to = [
@@ -140,17 +142,18 @@ in [
         name = "UHD Bluray + WEB";
       }
     ];
-    trash_ids =
+    trash_ids = let
+      hq_release_groups = uhd_tiers ++ web_tiers;
+    in
       hdr_formats
-      ++ uhd_tiers
-      ++ web_tiers
-      ++ repack_proper
+      ++ hq_release_groups
+      ++ misc_required
       ++ unwanted
       ++ general_streaming_services
-      ++ audio
-      ++ misc
-      ++ misc_uhd
-      ++ movie_versions;
+      ++ audio_optional
+      ++ misc_optional
+      ++ misc_uhd_optional
+      ++ movie_versions_optional;
   }
   {
     assign_scores_to = [
@@ -158,13 +161,14 @@ in [
         name = "HD Bluray + WEB";
       }
     ];
-    trash_ids =
-      hd_tiers
-      ++ web_tiers
-      ++ repack_proper
+    trash_ids = let
+      hq_release_groups = hd_tiers ++ web_tiers;
+    in
+      hq_release_groups
+      ++ misc_required
       ++ unwanted
       ++ general_streaming_services
-      ++ misc
-      ++ movie_versions;
+      ++ misc_optional
+      ++ movie_versions_optional;
   }
 ]

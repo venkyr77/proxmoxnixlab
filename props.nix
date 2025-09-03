@@ -21,6 +21,7 @@
         port = 9090;
       };
       radarr.port = 7878;
+      sonarr.port = 8989;
       sabnzbd.port = 8080;
     };
   };
@@ -79,6 +80,20 @@
       memory = 2 * 1024;
       mount_point = null;
       vm_id = 154;
+    };
+    sonarr = {
+      cpu_cores = 2;
+      disk_size = 16;
+      ipv4_full = "10.0.0.155/24";
+      ipv4_short = "10.0.0.155";
+      memory = 2 * 1024;
+      mount_point = [
+        {
+          path = "/mnt/sabnzbd";
+          volume = "/share/sabnzbd";
+        }
+      ];
+      vm_id = 155;
     };
   };
   vms = {

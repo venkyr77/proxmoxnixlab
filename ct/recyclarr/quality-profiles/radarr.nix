@@ -13,6 +13,9 @@
         ];
       }
     ];
+    quality_sort = "top";
+    min_format_score = 0;
+    reset_unmatched_scores.enabled = true;
     upgrade = {
       allowed = true;
       until_quality = "Remux-2160p";
@@ -33,6 +36,9 @@
         ];
       }
     ];
+    quality_sort = "top";
+    min_format_score = 0;
+    reset_unmatched_scores.enabled = true;
     upgrade = {
       allowed = true;
       until_quality = "Remux-1080p";
@@ -53,6 +59,9 @@
         ];
       }
     ];
+    quality_sort = "top";
+    min_format_score = 0;
+    reset_unmatched_scores.enabled = true;
     upgrade = {
       allowed = true;
       until_quality = "Bluray-2160p";
@@ -76,6 +85,9 @@
         name = "Bluray-720p";
       }
     ];
+    quality_sort = "top";
+    min_format_score = 0;
+    reset_unmatched_scores.enabled = true;
     upgrade = {
       allowed = true;
       until_quality = "Bluray-1080p";
