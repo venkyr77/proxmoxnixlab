@@ -3,44 +3,6 @@
   props,
   ...
 }: let
-  mkCT = {
-    cpu_cores,
-    disk_size,
-    ipv4_full,
-    memory,
-    mount_point,
-    vm_id,
-    vm_name,
-  }: {
-    cpu.cores = cpu_cores;
-    depends_on = ["proxmox_virtual_environment_file.nixostar"];
-    disk = {
-      datastore_id = "local-lvm";
-      size = disk_size;
-    };
-    features.nesting = true;
-    initialization = {
-      hostname = vm_name;
-      ip_config.ipv4 = {
-        address = "${ipv4_full}";
-        gateway = "10.0.0.1";
-      };
-    };
-    memory.dedicated = memory;
-    inherit mount_point;
-    network_interface = {
-      bridge = "vmbr0";
-      name = "veth0";
-    };
-    node_name = "pve";
-    operating_system = {
-      template_file_id = "local:vztmpl/nixos.tar.xz";
-      type = "nixos";
-    };
-    started = true;
-    inherit vm_id;
-  };
-
   mkVM = {
     cpu_cores,
     cpu_host_type,
@@ -119,51 +81,25 @@ in {
       node_name = "pve";
       source_file.path = "./result/img/nixos.img";
     };
-    nixostar = {
-      content_type = "vztmpl";
-      datastore_id = "local";
-      node_name = "pve";
-      source_file.path = "./result/tar/tarball/nixos.tar.xz";
-    };
   };
 
-  resource = {
-    proxmox_virtual_environment_container =
-      builtins.mapAttrs
-      (
-        ct_name: ct_prop:
-          mkCT {
-            vm_name = ct_name;
-            inherit
-              (ct_prop)
-              cpu_cores
-              disk_size
-              ipv4_full
-              memory
-              mount_point
-              vm_id
-              ;
-          }
-      )
-      props.cts;
-    proxmox_virtual_environment_vm =
-      builtins.mapAttrs
-      (
-        vm_name: vm_prop:
-          mkVM {
-            inherit vm_name;
-            inherit
-              (vm_prop)
-              cpu_cores
-              cpu_host_type
-              disk_size
-              hostpci
-              ipv4_full
-              memory
-              vm_id
-              ;
-          }
-      )
-      props.vms;
-  };
+  resource.proxmox_virtual_environment_vm =
+    builtins.mapAttrs
+    (
+      vm_name: vm_prop:
+        mkVM {
+          inherit vm_name;
+          inherit
+            (vm_prop)
+            cpu_cores
+            cpu_host_type
+            disk_size
+            hostpci
+            ipv4_full
+            memory
+            vm_id
+            ;
+        }
+    )
+    props.vms;
 }

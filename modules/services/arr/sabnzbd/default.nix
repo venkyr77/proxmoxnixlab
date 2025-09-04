@@ -7,14 +7,9 @@
   inherit (props.common_config) arr_user_props;
   cfg = config.services.sabnzbd;
 in {
-  imports = [
-    ../../modules/services/mediarr.nix
-  ];
-
   networking.firewall.allowedTCPPorts = [props.common_config.services.sabnzbd.port];
 
   services.sabnzbd = {
-    configFile = "/mnt/sabnzbd/sabnzbd.ini";
     enable = true;
     group = arr_user_props.group.name;
     user = arr_user_props.user.name;
@@ -41,8 +36,4 @@ in {
       wantedBy = ["multi-user.target"];
     };
   };
-
-  systemd.tmpfiles.rules = [
-    "d /mnt/sabnzbd 0775 ${arr_user_props.user.name} ${arr_user_props.group.name}"
-  ];
 }

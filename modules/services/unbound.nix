@@ -14,7 +14,7 @@
         harden-dnssec-stripped = true;
         harden-glue = true;
         interface = ["0.0.0.0"];
-        local-data = [''"euls.dev. A ${props.cts.caddy-tailscale.ipv4_short}"''];
+        local-data = [''"euls.dev. A ${props.vms.collapse.ipv4_short}"''];
         local-zone = [''"euls.dev." redirect''];
         port = 53;
         prefetch = true;

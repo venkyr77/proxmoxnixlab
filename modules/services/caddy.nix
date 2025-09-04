@@ -19,14 +19,4 @@
     virtualHosts = {
     };
   };
-
-  sops = {
-    age.keyFile = "/etc/caddy-tailscale/sopspk";
-    defaultSopsFormat = "binary";
-    secrets = {
-      caddy = {
-        sopsFile = ../../secrets/caddy;
-      };
-    };
-  };
 }

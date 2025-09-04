@@ -1,7 +1,7 @@
 {props, ...}: {
   imports = [
-    ./modules/services/grafana.nix
-    ./modules/services/prometheus-server.nix
+    ../../modules/services/grafana.nix
+    ../../modules/services/prometheus-server.nix
   ];
 
   networking.firewall.allowedTCPPorts = [

@@ -25,95 +25,18 @@
       sabnzbd.port = 8080;
     };
   };
-  cts = {
-    unbound = {
-      cpu_cores = 1;
-      disk_size = 16;
-      ipv4_full = "10.0.0.150/24";
-      ipv4_short = "10.0.0.150";
-      memory = 1 * 1024;
-      mount_point = null;
-      vm_id = 150;
-    };
-    caddy-tailscale = {
-      cpu_cores = 1;
-      disk_size = 16;
-      ipv4_full = "10.0.0.151/24";
-      ipv4_short = "10.0.0.151";
-      memory = 2 * 1024;
-      mount_point = null;
-      vm_id = 151;
-    };
-    sabnzbd = {
-      cpu_cores = 2;
-      disk_size = 256;
-      ipv4_full = "10.0.0.152/24";
-      ipv4_short = "10.0.0.152";
-      memory = 8 * 1024;
-      mount_point = [
-        {
-          path = "/mnt/sabnzbd";
-          volume = "/share/sabnzbd";
-        }
-      ];
-      vm_id = 152;
-    };
-    radarr = {
-      cpu_cores = 2;
-      disk_size = 16;
-      ipv4_full = "10.0.0.153/24";
-      ipv4_short = "10.0.0.153";
-      memory = 2 * 1024;
-      mount_point = [
-        {
-          path = "/mnt/sabnzbd";
-          volume = "/share/sabnzbd";
-        }
-      ];
-      vm_id = 153;
-    };
-    recyclarr = {
-      cpu_cores = 2;
-      disk_size = 16;
-      ipv4_full = "10.0.0.154/24";
-      ipv4_short = "10.0.0.154";
-      memory = 2 * 1024;
-      mount_point = null;
-      vm_id = 154;
-    };
-    sonarr = {
-      cpu_cores = 2;
-      disk_size = 16;
-      ipv4_full = "10.0.0.155/24";
-      ipv4_short = "10.0.0.155";
-      memory = 2 * 1024;
-      mount_point = [
-        {
-          path = "/mnt/sabnzbd";
-          volume = "/share/sabnzbd";
-        }
-      ];
-      vm_id = 155;
-    };
-  };
   vms = {
-    miracle = {
-      cpu_cores = 16;
+    collapse = {
+      cpu_cores = 2;
       cpu_host_type = "host";
-      disk_size = 256;
-      hostpci = {
-        device = "hostpci0";
-        id = "0000:01:00";
-        pcie = true;
-        rombar = true;
-        xvga = true;
-      };
+      disk_size = 64;
+      hostpci = null;
       ipv4_full = "10.0.0.100/24";
       ipv4_short = "10.0.0.100";
-      memory = 64 * 1024;
+      memory = 4 * 1024;
       vm_id = 100;
     };
-    monitor = {
+    jerax = {
       cpu_cores = 2;
       cpu_host_type = "host";
       disk_size = 64;
@@ -122,6 +45,32 @@
       ipv4_short = "10.0.0.101";
       memory = 4 * 1024;
       vm_id = 101;
+    };
+    miracle = {
+      cpu_cores = 16;
+      cpu_host_type = "host";
+      disk_size = 64;
+      hostpci = {
+        device = "hostpci0";
+        id = "0000:01:00";
+        pcie = true;
+        rombar = true;
+        xvga = true;
+      };
+      ipv4_full = "10.0.0.102/24";
+      ipv4_short = "10.0.0.102";
+      memory = 16 * 1024;
+      vm_id = 102;
+    };
+    topson = {
+      cpu_cores = 2;
+      cpu_host_type = "host";
+      disk_size = 512;
+      hostpci = null;
+      ipv4_full = "10.0.0.103/24";
+      ipv4_short = "10.0.0.103";
+      memory = 8 * 1024;
+      vm_id = 103;
     };
   };
 }
