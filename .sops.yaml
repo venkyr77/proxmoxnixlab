@@ -13,3 +13,11 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: secrets/mediarr_smbaccess$
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: secrets/jellyfin_smbaccess$
+    key_groups:
+    - age:
+      - *primary

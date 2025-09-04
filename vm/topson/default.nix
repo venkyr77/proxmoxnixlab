@@ -1,16 +1,28 @@
 {
   config,
+  nasIP,
+  pkgs,
   props,
   ...
 }: {
   imports = [
     ../../modules/services/arr
+    (import ../../modules/roles/smb-accessor.nix {
+      dataset_to_accessor = {
+        "movies" = props.common_config.arr_user_props.user.name;
+        "shows" = props.common_config.arr_user_props.user.name;
+      };
+      inherit config nasIP pkgs;
+    })
   ];
 
   sops = {
     age.keyFile = "/etc/topson/sopspk";
     defaultSopsFormat = "binary";
     secrets = {
+      mediarr_smbaccess = {
+        sopsFile = ../../secrets/mediarr_smbaccess;
+      };
       radarr-api-key = {
         sopsFile = ../../secrets/radarr-api-key;
       };

@@ -43,6 +43,7 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
     props = import ./props.nix;
+    nasIP = "10.0.0.221";
   in {
     apps.${system} = let
       terranixProxmoxConf = terranix.lib.terranixConfiguration {
@@ -109,7 +110,7 @@
     nixosConfigurations = builtins.mapAttrs (vm: _vm_prop:
       nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = {inherit inputs props system;};
+        specialArgs = {inherit inputs nasIP props system;};
         modules = [
           nixos-generators.nixosModules.raw-efi
           ./base.nix
