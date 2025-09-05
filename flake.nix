@@ -60,6 +60,13 @@
         };
       };
 
+      adg = {
+        imports = [
+          ./hosts/ct/base.nix
+          ./hosts/ct/adg
+        ];
+      };
+
       unbound = {
         imports = [
           ./hosts/ct/base.nix
