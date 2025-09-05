@@ -63,6 +63,7 @@
       unbound = {
         imports = [
           ./hosts/ct/base.nix
+          ./hosts/ct/unbound
         ];
       };
     };
