@@ -11,6 +11,10 @@
       url = "github:nix-community/nixos-generators";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     terranix = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:terranix/terranix";
@@ -21,6 +25,7 @@
     colmena,
     nixos-generators,
     nixpkgs,
+    sops-nix,
     terranix,
     ...
   }: let
@@ -50,7 +55,19 @@
           type = "app";
           program = mkTerraformProgramForProxmox action;
         };
-      }) ["apply" "destroy" "plan"]);
+      }) ["apply" "destroy" "plan"])
+      // {
+        copy-sops-pk = {
+          type = "app";
+          program = toString (pkgs.writers.writeBash "copy-sops-pk" ''
+            set -euo pipefail
+            read -r -p "Enter host ip: " host
+            ssh -t "ops@$host" 'sudo mkdir -p "/etc/$HOSTNAME"'
+            scp "$HOME/.config/sops/age/keys.txt" "ops@$host:~/sopspk"
+            ssh -t "ops@$host" 'sudo mv "$HOME/sopspk" "/etc/$HOSTNAME"'
+          '');
+        };
+      };
 
     colmenaHive = colmena.lib.makeHive ({
         meta = {
@@ -62,6 +79,7 @@
       }
       // (builtins.mapAttrs (ct: _ct_prop: {
           imports = [
+            sops-nix.nixosModules.sops
             ./hosts/ct/base.nix
             ./hosts/ct/${ct}
           ];
@@ -84,7 +102,7 @@
       mktar = nixos-generators.nixosGenerate {
         format = "proxmox-lxc";
         modules = [
-          ./hosts/base.nix
+          ./minimal.nix
           {
             image.baseName = "nixos";
           }
