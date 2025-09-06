@@ -13,3 +13,11 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: hosts/ct/recyclarr/secrets/radarr-api-key
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: hosts/ct/recyclarr/secrets/sonarr-api-key
+    key_groups:
+    - age:
+      - *primary
