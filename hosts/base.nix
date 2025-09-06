@@ -17,11 +17,26 @@
 
   security.sudo.wheelNeedsPassword = false;
 
-  services.openssh = {
-    enable = true;
-    settings = {
-      KbdInteractiveAuthentication = false;
-      PasswordAuthentication = false;
+  services = {
+    openssh = {
+      enable = true;
+      settings = {
+        KbdInteractiveAuthentication = false;
+        PasswordAuthentication = false;
+      };
+    };
+
+    prometheus.exporters.node = {
+      enable = true;
+      enabledCollectors = ["systemd"];
+      extraFlags = [
+        "--collector.ethtool"
+        "--collector.softirqs"
+        "--collector.tcpstat"
+        "--collector.wifi"
+      ];
+      openFirewall = true;
+      port = 9100;
     };
   };
 

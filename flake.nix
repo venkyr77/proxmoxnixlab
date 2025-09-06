@@ -52,28 +52,21 @@
         };
       }) ["apply" "destroy" "plan"]);
 
-    colmenaHive = colmena.lib.makeHive {
-      meta = {
-        nixpkgs = pkgs;
-        specialArgs = {
-          inherit props;
+    colmenaHive = colmena.lib.makeHive ({
+        meta = {
+          nixpkgs = pkgs;
+          specialArgs = {
+            inherit props;
+          };
         };
-      };
-
-      adg = {
-        imports = [
-          ./hosts/ct/base.nix
-          ./hosts/ct/adg
-        ];
-      };
-
-      unbound = {
-        imports = [
-          ./hosts/ct/base.nix
-          ./hosts/ct/unbound
-        ];
-      };
-    };
+      }
+      // (builtins.mapAttrs (ct: _ct_prop: {
+          imports = [
+            ./hosts/ct/base.nix
+            ./hosts/ct/${ct}
+          ];
+        })
+        props.cts));
 
     formatter.${system} = pkgs.writeShellApplication {
       name = "format";
