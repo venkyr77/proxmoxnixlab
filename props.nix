@@ -48,5 +48,17 @@
       };
       vm_id = 154;
     };
+    sonarr = {
+      cpu_cores = 1;
+      disk_size = 16;
+      ipv4_full = "10.0.0.155/24";
+      ipv4_short = "10.0.0.155";
+      memory = 1 * 1024;
+      mount_point = {
+        path = "/mnt/shows";
+        volume = "/mnt/shows";
+      };
+      vm_id = 155;
+    };
   };
 }
