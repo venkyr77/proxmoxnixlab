@@ -111,5 +111,17 @@
       mount_point = null;
       vm_id = 161;
     };
+    sabnzbd = {
+      cpu_cores = 2;
+      disk_size = 512;
+      ipv4_full = "10.0.0.162/24";
+      ipv4_short = "10.0.0.162";
+      memory = 4 * 1024;
+      mount_point = {
+        path = "/mnt/sabnzbd";
+        volume = "/export/sabnzbd";
+      };
+      vm_id = 162;
+    };
   };
 }
