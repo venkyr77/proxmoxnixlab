@@ -5,6 +5,10 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: hosts/ct/lidarr/secrets/lidarr-api-key-ev
+    key_groups:
+    - age:
+      - *primary
   - path_regex: hosts/ct/radarr/secrets/radarr-api-key-ev
     key_groups:
     - age:

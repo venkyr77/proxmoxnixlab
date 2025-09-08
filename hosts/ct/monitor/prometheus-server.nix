@@ -14,8 +14,14 @@
       {
         job_name = "node";
         static_configs =
-          map (ct: {targets = ["${props.cts.${ct}.ipv4_short}:${toString nodes.${ct}.config.services.prometheus.exporters.node.port}"];})
-          (builtins.attrNames props.cts);
+          (
+            map (ct: {targets = ["${props.cts.${ct}.ipv4_short}:${toString nodes.${ct}.config.services.prometheus.exporters.node.port}"];})
+            (builtins.attrNames props.cts)
+          )
+          ++ (
+            map (vm: {targets = ["${props.vms.${vm}.ipv4_short}:${toString nodes.${vm}.config.services.prometheus.exporters.node.port}"];})
+            (builtins.attrNames props.vms)
+          );
       }
     ];
   };

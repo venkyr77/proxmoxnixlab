@@ -17,7 +17,17 @@
         local-data =
           map (service: ''"${service}.euls.dev. A ${props.cts.caddy-tailscale.ipv4_short}"'')
           [
+            "adg"
             "grafana"
+            "jellyfin"
+            "lidarr"
+            "navidrome"
+            "prometheus"
+            "prowlarr"
+            "radarr"
+            "sabnzbd"
+            "searx"
+            "sonarr"
           ];
         local-zone = [''"euls.dev." transparent''];
         port = 53;
