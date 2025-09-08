@@ -7,6 +7,11 @@
 in {
   imports = [
     ../../../modules/common/mediarr.nix
+    (import ../../../modules/common/nfs-exporter.nix {
+      exports = {
+        "sabnzbd".device = "/var/lib/sabnzbd";
+      };
+    })
   ];
 
   options.services.sabnzbd.port = pkgs.lib.mkOption {
@@ -17,39 +22,30 @@ in {
   config = {
     networking.firewall.allowedTCPPorts = [cfg.port];
 
-    services.sabnzbd = {
-      configFile = "/mnt/sabnzbd/sabnzbd.ini";
-      enable = true;
-    };
+    services.sabnzbd.enable = true;
 
-    systemd = {
-      services = {
-        sabnzbd.serviceConfig.ExecStart =
-          pkgs.lib.mkForce
-          "${pkgs.lib.getBin cfg.package}/bin/sabnzbd -d -f ${cfg.configFile} -s 0.0.0.0:${toString cfg.port}";
+    systemd.services = {
+      sabnzbd.serviceConfig.ExecStart =
+        pkgs.lib.mkForce
+        "${pkgs.lib.getBin cfg.package}/bin/sabnzbd -d -f ${cfg.configFile} -s 0.0.0.0:${toString cfg.port}";
 
-        sabnzbd-config-maker = {
-          after = ["sabnzbd.service"];
-          path = with pkgs; [coreutils gnused systemd];
-          script =
-            #sh
-            ''
-              sleep 5
-              systemctl stop sabnzbd.service
-              sed -i 's/^host_whitelist\s*=.*/host_whitelist = sabnzbd.euls.dev,/' ${cfg.configFile}
-              systemctl start sabnzbd.service
-            '';
-          serviceConfig = {
-            Type = "oneshot";
-            User = "root";
-          };
-          wantedBy = ["multi-user.target"];
+      sabnzbd-config-maker = {
+        after = ["sabnzbd.service"];
+        path = with pkgs; [coreutils gnused systemd];
+        script =
+          #sh
+          ''
+            sleep 5
+            systemctl stop sabnzbd.service
+            sed -i 's/^host_whitelist\s*=.*/host_whitelist = sabnzbd.euls.dev,/' ${cfg.configFile}
+            systemctl start sabnzbd.service
+          '';
+        serviceConfig = {
+          Type = "oneshot";
+          User = "root";
         };
+        wantedBy = ["multi-user.target"];
       };
-
-      tmpfiles.rules = [
-        "d /mnt/sabnzbd 0755 mediarr mediarr"
-      ];
     };
   };
 }

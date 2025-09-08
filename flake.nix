@@ -73,7 +73,7 @@
         meta = {
           nixpkgs = pkgs;
           specialArgs = {
-            nasIP = "10.0.0.221";
+            nasIP = "10.0.0.222";
             inherit props;
           };
         };

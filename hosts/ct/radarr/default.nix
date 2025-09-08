@@ -1,7 +1,18 @@
-{config, ...}: {
+{
+  config,
+  props,
+  ...
+}: {
   imports = [
     ../../../modules/common/mediarr.nix
   ];
+
+  boot.supportedFilesystems = ["nfs"];
+
+  fileSystems."/mnt/sabnzbd" = {
+    device = "${props.cts.sabnzbd.ipv4_short}:/export/sabnzbd";
+    fsType = "nfs";
+  };
 
   services.radarr = {
     enable = true;

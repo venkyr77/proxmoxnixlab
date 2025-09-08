@@ -24,16 +24,10 @@
       ipv4_full = "10.0.0.72/24";
       ipv4_short = "10.0.0.72";
       memory = 1 * 1024;
-      mount_point = [
-        {
-          path = "/mnt/music";
-          volume = "/mnt/music";
-        }
-        {
-          path = "/mnt/sabnzbd";
-          volume = "/export/sabnzbd";
-        }
-      ];
+      mount_point = {
+        path = "/mnt/music";
+        volume = "/mnt/music";
+      };
       vm_id = 152;
     };
     monitor = {
@@ -72,16 +66,10 @@
       ipv4_full = "10.0.0.76/24";
       ipv4_short = "10.0.0.76";
       memory = 1 * 1024;
-      mount_point = [
-        {
-          path = "/mnt/movies";
-          volume = "/mnt/movies";
-        }
-        {
-          path = "/mnt/sabnzbd";
-          volume = "/export/sabnzbd";
-        }
-      ];
+      mount_point = {
+        path = "/mnt/movies";
+        volume = "/mnt/movies";
+      };
       vm_id = 156;
     };
     recyclarr = {
@@ -99,10 +87,7 @@
       ipv4_full = "10.0.0.78/24";
       ipv4_short = "10.0.0.78";
       memory = 4 * 1024;
-      mount_point = {
-        path = "/mnt/sabnzbd";
-        volume = "/export/sabnzbd";
-      };
+      mount_point = null;
       vm_id = 158;
     };
     searx = {
@@ -120,16 +105,10 @@
       ipv4_full = "10.0.0.80/24";
       ipv4_short = "10.0.0.80";
       memory = 1 * 1024;
-      mount_point = [
-        {
-          path = "/mnt/shows";
-          volume = "/mnt/shows";
-        }
-        {
-          path = "/mnt/sabnzbd";
-          volume = "/export/sabnzbd";
-        }
-      ];
+      mount_point = {
+        path = "/mnt/shows";
+        volume = "/mnt/shows";
+      };
       vm_id = 160;
     };
     unbound = {
