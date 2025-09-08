@@ -73,18 +73,29 @@
         meta = {
           nixpkgs = pkgs;
           specialArgs = {
+            nasIP = "10.0.0.221";
             inherit props;
           };
         };
       }
       // (builtins.mapAttrs (ct: _ct_prop: {
           imports = [
+            nixos-generators.nixosModules.proxmox-lxc
             sops-nix.nixosModules.sops
             ./hosts/ct/base.nix
             ./hosts/ct/${ct}
           ];
         })
-        props.cts));
+        props.cts)
+      // (builtins.mapAttrs (vm: _vm_prop: {
+          imports = [
+            nixos-generators.nixosModules.raw-efi
+            sops-nix.nixosModules.sops
+            ./hosts/vm/base.nix
+            ./hosts/vm/${vm}
+          ];
+        })
+        props.vms));
 
     formatter.${system} = pkgs.writeShellApplication {
       name = "format";
@@ -99,6 +110,14 @@
     };
 
     packages.${system} = {
+      mkimg = nixos-generators.nixosGenerate {
+        format = "raw-efi";
+        modules = [
+          ./minimal.nix
+          ./minimal-vm.nix
+        ];
+        inherit system;
+      };
       mktar = nixos-generators.nixosGenerate {
         format = "proxmox-lxc";
         modules = [

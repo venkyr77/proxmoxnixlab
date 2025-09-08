@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
 read -r -p "Enter Proxmox IP: " PVE_IP

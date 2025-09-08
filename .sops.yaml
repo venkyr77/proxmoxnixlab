@@ -25,3 +25,7 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: hosts/vm/gpubox/secrets/jellyfin_smbaccess
+    key_groups:
+    - age:
+      - *primary
