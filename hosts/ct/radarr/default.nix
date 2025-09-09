@@ -1,10 +1,19 @@
 {
   config,
+  nasIP,
+  pkgs,
   props,
   ...
 }: {
   imports = [
     ../../../modules/common/mediarr.nix
+    (import ../../../modules/common/smb-accessor.nix {
+      dataset_to_accessor = {
+        "movies" = "mediarr";
+      };
+      isVM = false;
+      inherit config nasIP pkgs;
+    })
   ];
 
   boot.supportedFilesystems = ["nfs"];
@@ -22,5 +31,8 @@
     openFirewall = true;
   };
 
-  sops.secrets.radarr-api-key-ev.sopsFile = ./secrets/radarr-api-key-ev;
+  sops.secrets = {
+    mediarr_smbaccess.sopsFile = ../../../secrets/common/mediarr_smbaccess;
+    radarr-api-key-ev.sopsFile = ./secrets/radarr-api-key-ev;
+  };
 }

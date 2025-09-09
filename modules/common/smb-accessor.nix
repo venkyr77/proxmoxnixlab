@@ -1,6 +1,7 @@
 {
   config,
   dataset_to_accessor,
+  isVM,
   nasIP,
   pkgs,
 }: let
@@ -16,13 +17,17 @@ in {
         device = "//${nasIP}/${builtins.baseNameOf ds}";
         fsType = "cifs";
         options =
-          [
-            "noauto"
-            "x-systemd.automount"
-            "x-systemd.device-timeout=5s"
-            "x-systemd.idle-timeout=60"
-            "x-systemd.mount-timeout=5s"
-          ]
+          (
+            if isVM
+            then [
+              "noauto"
+              "x-systemd.automount"
+              "x-systemd.device-timeout=5s"
+              "x-systemd.idle-timeout=60"
+              "x-systemd.mount-timeout=5s"
+            ]
+            else []
+          )
           ++ [
             "credentials=${config.sops.secrets."${accessor}_smbaccess".path}"
             "nodev"

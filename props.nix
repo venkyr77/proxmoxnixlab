@@ -6,7 +6,6 @@
       ipv4_full = "10.0.0.70/24";
       ipv4_short = "10.0.0.70";
       memory = 1 * 1024;
-      mount_point = null;
       vm_id = 150;
     };
     caddy-tailscale = {
@@ -15,7 +14,6 @@
       ipv4_full = "10.0.0.71/24";
       ipv4_short = "10.0.0.71";
       memory = 1 * 1024;
-      mount_point = null;
       vm_id = 151;
     };
     lidarr = {
@@ -24,10 +22,6 @@
       ipv4_full = "10.0.0.72/24";
       ipv4_short = "10.0.0.72";
       memory = 1 * 1024;
-      mount_point = {
-        path = "/mnt/music";
-        volume = "/mnt/music";
-      };
       vm_id = 152;
     };
     monitor = {
@@ -36,7 +30,6 @@
       ipv4_full = "10.0.0.73/24";
       ipv4_short = "10.0.0.73";
       memory = 1 * 1024;
-      mount_point = null;
       vm_id = 153;
     };
     navidrome = {
@@ -45,10 +38,6 @@
       ipv4_full = "10.0.0.74/24";
       ipv4_short = "10.0.0.74";
       memory = 1 * 1024;
-      mount_point = {
-        path = "/mnt/music";
-        volume = "/mnt/music";
-      };
       vm_id = 154;
     };
     prowlarr = {
@@ -57,7 +46,6 @@
       ipv4_full = "10.0.0.75/24";
       ipv4_short = "10.0.0.75";
       memory = 0.5 * 1024;
-      mount_point = null;
       vm_id = 155;
     };
     radarr = {
@@ -66,10 +54,6 @@
       ipv4_full = "10.0.0.76/24";
       ipv4_short = "10.0.0.76";
       memory = 1 * 1024;
-      mount_point = {
-        path = "/mnt/movies";
-        volume = "/mnt/movies";
-      };
       vm_id = 156;
     };
     recyclarr = {
@@ -78,7 +62,6 @@
       ipv4_full = "10.0.0.77/24";
       ipv4_short = "10.0.0.77";
       memory = 0.5 * 1024;
-      mount_point = null;
       vm_id = 157;
     };
     sabnzbd = {
@@ -87,7 +70,6 @@
       ipv4_full = "10.0.0.78/24";
       ipv4_short = "10.0.0.78";
       memory = 4 * 1024;
-      mount_point = null;
       vm_id = 158;
     };
     searx = {
@@ -96,7 +78,6 @@
       ipv4_full = "10.0.0.79/24";
       ipv4_short = "10.0.0.79";
       memory = 1 * 1024;
-      mount_point = null;
       vm_id = 159;
     };
     sonarr = {
@@ -105,10 +86,6 @@
       ipv4_full = "10.0.0.80/24";
       ipv4_short = "10.0.0.80";
       memory = 1 * 1024;
-      mount_point = {
-        path = "/mnt/shows";
-        volume = "/mnt/shows";
-      };
       vm_id = 160;
     };
     unbound = {
@@ -117,7 +94,6 @@
       ipv4_full = "10.0.0.81/24";
       ipv4_short = "10.0.0.81";
       memory = 1 * 1024;
-      mount_point = null;
       vm_id = 161;
     };
   };

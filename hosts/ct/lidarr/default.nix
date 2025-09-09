@@ -1,10 +1,19 @@
 {
   config,
+  nasIP,
+  pkgs,
   props,
   ...
 }: {
   imports = [
     ../../../modules/common/mediarr.nix
+    (import ../../../modules/common/smb-accessor.nix {
+      dataset_to_accessor = {
+        "music" = "mediarr";
+      };
+      isVM = false;
+      inherit config nasIP pkgs;
+    })
   ];
 
   fileSystems."/mnt/sabnzbd" = {
@@ -20,5 +29,8 @@
     openFirewall = true;
   };
 
-  sops.secrets.lidarr-api-key-ev.sopsFile = ./secrets/lidarr-api-key-ev;
+  sops.secrets = {
+    mediarr_smbaccess.sopsFile = ../../../secrets/common/mediarr_smbaccess;
+    lidarr-api-key-ev.sopsFile = ./secrets/lidarr-api-key-ev;
+  };
 }
