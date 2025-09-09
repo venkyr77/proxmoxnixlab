@@ -1,4 +1,4 @@
-{props, ...}: {
+{
   networking.firewall = {
     allowedTCPPorts = [53];
     allowedUDPPorts = [53];
@@ -15,7 +15,7 @@
         harden-glue = true;
         interface = ["0.0.0.0"];
         local-data =
-          map (service: ''"${service}.euls.dev. A ${props.cts.caddy-tailscale.ipv4_short}"'')
+          map (service: ''"${service}.euls.dev. A 100.77.0.100"'')
           [
             "adg"
             "grafana"

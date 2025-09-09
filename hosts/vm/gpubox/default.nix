@@ -10,7 +10,7 @@
         "movies" = "jellyfin";
         "shows" = "jellyfin";
       };
-      isVM = false;
+      isVM = true;
       inherit config nasIP pkgs;
     })
     ./jellyfin.nix

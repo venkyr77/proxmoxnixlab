@@ -19,5 +19,7 @@
     };
 
     resolved.enable = false;
+
+    tailscale.enable = true;
   };
 }
