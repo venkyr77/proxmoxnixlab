@@ -5,23 +5,15 @@ creation_rules:
     key_groups:
     - age:
       - *primary
-  - path_regex: hosts/ct/lidarr/secrets/lidarr-api-key-ev
+  - path_regex: hosts/ct/mediarr/secrets/lidarr-api-key
     key_groups:
     - age:
       - *primary
-  - path_regex: hosts/ct/radarr/secrets/radarr-api-key-ev
+  - path_regex: hosts/ct/mediarr/secrets/radarr-api-key
     key_groups:
     - age:
       - *primary
-  - path_regex: hosts/ct/sonarr/secrets/sonarr-api-key-ev
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: hosts/ct/recyclarr/secrets/radarr-api-key
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: hosts/ct/recyclarr/secrets/sonarr-api-key
+  - path_regex: hosts/ct/mediarr/secrets/sonarr-api-key
     key_groups:
     - age:
       - *primary

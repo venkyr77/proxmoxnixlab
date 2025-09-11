@@ -5,15 +5,6 @@
 }: let
   cfg = config.services.sabnzbd;
 in {
-  imports = [
-    ../../../modules/common/mediarr.nix
-    (import ../../../modules/common/nfs-exporter.nix {
-      exports = {
-        "sabnzbd".device = "/var/lib/sabnzbd";
-      };
-    })
-  ];
-
   options.services.sabnzbd.port = pkgs.lib.mkOption {
     default = 8082;
     type = pkgs.lib.types.int;
@@ -22,7 +13,11 @@ in {
   config = {
     networking.firewall.allowedTCPPorts = [cfg.port];
 
-    services.sabnzbd.enable = true;
+    services.sabnzbd = {
+      enable = true;
+      group = "mediarr";
+      user = "mediarr";
+    };
 
     systemd.services = {
       sabnzbd.serviceConfig.ExecStart =
