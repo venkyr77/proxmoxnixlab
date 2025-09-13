@@ -40,9 +40,11 @@ let
     "43b3cf48cb385cd3eac608ee6bca7f09" # UHD Streaming Boost
     "d2d299244a92b8a52d4921ce3897a256" # UHD Streaming Cut
   ];
-  hq_source_groups = [
+  remux_tiers = [
     "9965a052eb87b0d10313b1cea89eb451" # Remux Tier 01
     "8a1d0c3d7497e741736761a1da866a2e" # Remux Tier 02
+  ];
+  web_tiers = [
     "e6258996055b9fbab7e9cb2f75819294" # WEB Tier 01
     "58790d4e2fdcd9733aa7ae68ba2bb503" # WEB Tier 02
     "d84935abd3f8556dcd51d4f27e22d0a6" # WEB Tier 03
@@ -83,7 +85,9 @@ in [
         name = "Remux + WEB 2160p";
       }
     ];
-    trash_ids =
+    trash_ids = let
+      hq_source_groups = remux_tiers ++ web_tiers;
+    in
       hdr_formats
       ++ unwanted
       ++ misc_required
@@ -97,15 +101,50 @@ in [
   {
     assign_scores_to = [
       {
+        name = "WEB-2160p";
+      }
+    ];
+    trash_ids = let
+      hq_source_groups = web_tiers;
+    in
+      hdr_formats
+      ++ unwanted
+      ++ misc_required
+      ++ general_streaming_services
+      ++ general_streaming_services_uhd
+      ++ hq_source_groups
+      ++ misc_optional
+      ++ misc_uhd_optional;
+  }
+  {
+    assign_scores_to = [
+      {
         name = "Remux + WEB 1080p";
       }
     ];
-    trash_ids =
+    trash_ids = let
+      hq_source_groups = remux_tiers ++ web_tiers;
+    in
       unwanted
       ++ misc_required
       ++ general_streaming_services
       ++ hq_source_groups
       ++ audio_optional
+      ++ misc_optional;
+  }
+  {
+    assign_scores_to = [
+      {
+        name = "WEB-1080p";
+      }
+    ];
+    trash_ids = let
+      hq_source_groups = web_tiers;
+    in
+      unwanted
+      ++ misc_required
+      ++ general_streaming_services
+      ++ hq_source_groups
       ++ misc_optional;
   }
 ]
