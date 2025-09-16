@@ -56,6 +56,14 @@
       memory = 1 * 1024;
       vm_id = 161;
     };
+    vaultwarden = {
+      cpu_cores = 1;
+      disk_size = 16;
+      ipv4_full = "10.0.0.82/24";
+      ipv4_short = "10.0.0.82";
+      memory = 1 * 1024;
+      vm_id = 162;
+    };
   };
 
   vms = {

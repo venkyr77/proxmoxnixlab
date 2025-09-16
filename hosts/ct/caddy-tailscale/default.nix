@@ -53,6 +53,9 @@
         "sonarr.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.mediarr.ipv4_short}:${toString nodes.mediarr.config.services.sonarr.settings.server.port}
         '';
+        "vaultwarden.euls.dev".extraConfig = ''
+          reverse_proxy ${props.cts.vaultwarden.ipv4_short}:${toString nodes.vaultwarden.config.services.vaultwarden.config.ROCKET_PORT}
+        '';
       };
     };
     tailscale.enable = true;

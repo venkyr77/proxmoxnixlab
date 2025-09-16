@@ -28,6 +28,7 @@
             "sabnzbd"
             "searx"
             "sonarr"
+            "vaultwarden"
           ];
         local-zone = [''"euls.dev." transparent''];
         port = 53;
