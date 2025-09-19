@@ -112,6 +112,7 @@ in [
       ++ general_streaming_services
       ++ general_streaming_services_uhd
       ++ hq_source_groups
+      ++ audio_optional
       ++ misc_optional
       ++ misc_uhd_optional;
   }
@@ -144,6 +145,7 @@ in [
       ++ misc_required
       ++ general_streaming_services
       ++ hq_source_groups
+      ++ audio_optional
       ++ misc_optional;
   }
 ]

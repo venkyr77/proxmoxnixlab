@@ -167,6 +167,7 @@ in [
       ++ misc_required
       ++ unwanted
       ++ general_streaming_services
+      ++ audio_optional
       ++ misc_optional
       ++ movie_versions_optional;
   }
