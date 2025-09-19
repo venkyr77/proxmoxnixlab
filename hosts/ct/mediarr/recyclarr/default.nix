@@ -23,6 +23,7 @@
           };
         };
         quality_profiles = import ./quality-profiles/radarr.nix;
+        replace_existing_custom_formats = true;
       };
 
       sonarr.sonarr_instance = {
@@ -46,6 +47,7 @@
           series = "default";
         };
         quality_profiles = import ./quality-profiles/sonarr.nix;
+        replace_existing_custom_formats = true;
       };
     };
     enable = true;
