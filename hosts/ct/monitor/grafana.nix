@@ -5,26 +5,33 @@
 }: let
   PROMETHEUS_DATASOURCE_UID = "PROMETHEUS_DATASOURCE";
 in {
-  environment.etc = {
+  environment.etc = let
+    patchGrafanaDashboard = dashboard:
+      pkgs.runCommand
+      "patch-grafana-dashboard"
+      {}
+      ''
+        cp ${dashboard} $out
+        sed -i 's/''${DS_PROMETHEUS}/${PROMETHEUS_DATASOURCE_UID}/g' $out
+      '';
+  in {
     "grafana-dashboards/node-exporter-full.json" = {
       user = "grafana";
       group = "grafana";
-      source = let
-        node-exporter-full-grafana-dashboard = pkgs.fetchurl {
-          name = "fetch-node-exporter-full-grafana-dashboard";
-          url = "https://grafana.com/api/dashboards/1860/revisions/41/download";
-          sha256 = "sha256-EywgxEayjwNIGDvSmA/S56Ld49qrTSbIYFpeEXBJlTs=";
-        };
-        pathced-node-exporter-full-grafana-dashboard =
-          pkgs.runCommand
-          "patch-node-exporter-full-grafana-dashboard"
-          {}
-          ''
-            cp ${node-exporter-full-grafana-dashboard} $out
-            sed -i 's/''${DS_PROMETHEUS}/${PROMETHEUS_DATASOURCE_UID}/g' $out
-          '';
-      in
-        pathced-node-exporter-full-grafana-dashboard;
+      source = patchGrafanaDashboard (pkgs.fetchurl {
+        name = "fetch-node-exporter-full-grafana-dashboard";
+        url = "https://grafana.com/api/dashboards/1860/revisions/41/download";
+        sha256 = "sha256-EywgxEayjwNIGDvSmA/S56Ld49qrTSbIYFpeEXBJlTs=";
+      });
+    };
+    "grafana-dashboards/unbound.json" = {
+      user = "grafana";
+      group = "grafana";
+      source = patchGrafanaDashboard (pkgs.fetchurl {
+        name = "fetch-unbound-grafana-dashboard";
+        url = "https://grafana.com/api/dashboards/21006/revisions/2/download";
+        sha256 = "sha256-5hAlTsOj+Nb5KBSzYpZkr283TWW3xzEY7XiEkZyfcl8=";
+      });
     };
   };
 

@@ -23,6 +23,16 @@
             (builtins.attrNames props.vms)
           );
       }
+      {
+        job_name = "unbound";
+        static_configs = [
+          {
+            targets = [
+              "${props.cts.unbound.ipv4_short}:${toString nodes.unbound.config.services.prometheus.exporters.unbound.port}"
+            ];
+          }
+        ];
+      }
     ];
   };
 }
