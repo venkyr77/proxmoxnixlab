@@ -45,26 +45,26 @@
     searx = {
       cpu_cores = 1;
       disk_size = 16;
-      ipv4_full = "10.0.0.79/24";
-      ipv4_short = "10.0.0.79";
+      ipv4_full = "10.0.0.75/24";
+      ipv4_short = "10.0.0.75";
       memory = 1 * 1024;
-      vm_id = 159;
+      vm_id = 155;
     };
     unbound = {
       cpu_cores = 1;
       disk_size = 16;
-      ipv4_full = "10.0.0.81/24";
-      ipv4_short = "10.0.0.81";
+      ipv4_full = "10.0.0.76/24";
+      ipv4_short = "10.0.0.76";
       memory = 1 * 1024;
-      vm_id = 161;
+      vm_id = 156;
     };
     vaultwarden = {
       cpu_cores = 1;
       disk_size = 16;
-      ipv4_full = "10.0.0.82/24";
-      ipv4_short = "10.0.0.82";
+      ipv4_full = "10.0.0.77/24";
+      ipv4_short = "10.0.0.77";
       memory = 1 * 1024;
-      vm_id = 162;
+      vm_id = 157;
     };
   };
 
