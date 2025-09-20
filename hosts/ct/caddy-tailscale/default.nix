@@ -16,12 +16,12 @@
         email {env.CLOUDFLARE_EMAIL}
       '';
       package = pkgs.caddy.withPlugins {
-        hash = "sha256-AcWko5513hO8I0lvbCLqVbM1eWegAhoM0J0qXoWL/vI=";
+        hash = "sha256-j+xUy8OAjEo+bdMOkQ1kVqDnEkzKGTBIbMDVL7YDwDY=";
         plugins = ["github.com/caddy-dns/cloudflare@v0.2.1"];
       };
       virtualHosts = {
         "adg.euls.dev".extraConfig = ''
-          reverse_proxy ${props.cts.adg.ipv4_short}:${toString nodes.adg.config.services.adguardhome.port}
+          reverse_proxy ${props.cts.adg-tailscale.ipv4_short}:${toString nodes.adg-tailscale.config.services.adguardhome.port}
         '';
         "grafana.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.monitor.ipv4_short}:${toString nodes.monitor.config.services.grafana.settings.server.http_port}
@@ -58,6 +58,7 @@
         '';
       };
     };
+
     tailscale.enable = true;
   };
 

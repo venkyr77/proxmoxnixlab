@@ -4,8 +4,8 @@
   props,
   ...
 }: {
-  networking.nameservers = lib.mkIf (!(name == "unbound" || name == "adg")) [
-    props.cts.adg.ipv4_short
+  networking.nameservers = lib.mkIf (!(name == "unbound" || name == "adg-tailscale")) [
+    props.cts.adg-tailscale.ipv4_short
   ];
 
   sops = {

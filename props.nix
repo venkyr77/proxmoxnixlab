@@ -1,11 +1,12 @@
 {
   cts = {
-    adg = {
+    adg-tailscale = {
       cpu_cores = 1;
       disk_size = 16;
       ipv4_full = "10.0.0.70/24";
       ipv4_short = "10.0.0.70";
       memory = 1 * 1024;
+      tailscale_ip = "100.77.0.100";
       vm_id = 150;
     };
     caddy-tailscale = {
@@ -14,6 +15,7 @@
       ipv4_full = "10.0.0.71/24";
       ipv4_short = "10.0.0.71";
       memory = 1 * 1024;
+      tailscale_ip = "100.77.0.101";
       vm_id = 151;
     };
     mediarr = {
