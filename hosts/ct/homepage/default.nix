@@ -78,6 +78,12 @@
               href = "https://prometheus.euls.dev";
             };
           }
+          {
+            "uptime-kuma" = {
+              icon = "uptime-kuma.svg";
+              href = "https://uptimekuma.euls.dev";
+            };
+          }
         ];
       }
       {

@@ -56,6 +56,9 @@
         "sonarr.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.sonarr.ipv4_short}:${toString nodes.sonarr.config.services.sonarr.settings.server.port}
         '';
+        "uptimekuma.euls.dev".extraConfig = ''
+          reverse_proxy ${props.cts.uptime-kuma.ipv4_short}:${toString nodes.uptime-kuma.config.services.uptime-kuma.settings.PORT}
+        '';
         "vaultwarden.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.vaultwarden.ipv4_short}:${toString nodes.vaultwarden.config.services.vaultwarden.config.ROCKET_PORT}
         '';
