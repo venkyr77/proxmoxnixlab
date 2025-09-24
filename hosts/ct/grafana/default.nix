@@ -1,6 +1,8 @@
 {
   config,
+  nodes,
   pkgs,
+  props,
   ...
 }: let
   PROMETHEUS_DATASOURCE_UID = "PROMETHEUS_DATASOURCE";
@@ -54,7 +56,7 @@ in {
             name = "Prometheus";
             type = "prometheus";
             uid = "${PROMETHEUS_DATASOURCE_UID}";
-            url = "http://localhost:${toString config.services.prometheus.port}";
+            url = "http://${props.cts.prometheus-server.ipv4_short}:${toString nodes.prometheus-server.config.services.prometheus.port}";
           }
         ];
       };

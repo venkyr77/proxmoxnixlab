@@ -1,9 +1,8 @@
-{config, ...}: {
+{
   boot.kernelParams = ["ipv6.disable=1"];
 
   networking = {
     enableIPv6 = false;
-    firewall.allowedTCPPorts = [config.services.glances.port];
     hostName = "";
     useDHCP = false;
   };
@@ -19,14 +18,6 @@
   security.sudo.wheelNeedsPassword = false;
 
   services = {
-    glances = {
-      enable = true;
-      extraArgs = [
-        "--disable-webui"
-        "--webserver"
-      ];
-    };
-
     openssh = {
       enable = true;
       settings = {

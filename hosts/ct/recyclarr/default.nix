@@ -3,11 +3,15 @@
   props,
   ...
 }: {
+  imports = [
+    ../../../modules/common/mediarr.nix
+  ];
+
   services.recyclarr = {
     configuration = {
       radarr.radarr_instance = {
         api_key._secret = "/run/credentials/recyclarr.service/radarr-api-key";
-        base_url = "http://${props.cts.mediarr.ipv4_short}:${toString config.services.radarr.settings.server.port}";
+        base_url = "http://${props.cts.radarr.ipv4_short}:${toString config.services.radarr.settings.server.port}";
         custom_formats = import ./custom-formats/radarr.nix;
         delete_old_custom_formats = true;
         include = [
@@ -28,7 +32,7 @@
 
       sonarr.sonarr_instance = {
         api_key._secret = "/run/credentials/recyclarr.service/sonarr-api-key";
-        base_url = "http://${props.cts.mediarr.ipv4_short}:${toString config.services.sonarr.settings.server.port}";
+        base_url = "http://${props.cts.sonarr.ipv4_short}:${toString config.services.sonarr.settings.server.port}";
         custom_formats = import ./custom-formats/sonarr.nix;
         delete_old_custom_formats = true;
         include = [
@@ -53,6 +57,11 @@
     enable = true;
     group = "mediarr";
     user = "mediarr";
+  };
+
+  sops.secrets = {
+    radarr-api-key.sopsFile = ../../../secrets/common/radarr-api-key;
+    sonarr-api-key.sopsFile = ../../../secrets/common/sonarr-api-key;
   };
 
   systemd.services.recyclarr.serviceConfig.LoadCredential = [

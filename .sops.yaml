@@ -5,18 +5,6 @@ creation_rules:
     key_groups:
     - age:
       - *primary
-  - path_regex: hosts/ct/mediarr/secrets/lidarr-api-key
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: hosts/ct/mediarr/secrets/radarr-api-key
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: hosts/ct/mediarr/secrets/sonarr-api-key
-    key_groups:
-    - age:
-      - *primary
   - path_regex: hosts/ct/searx/secrets/searx-ev
     key_groups:
     - age:
@@ -25,7 +13,19 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: secrets/common/lidarr-api-key
+    key_groups:
+    - age:
+      - *primary
   - path_regex: secrets/common/mediarr_smbaccess
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: secrets/common/radarr-api-key
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: secrets/common/sonarr-api-key
     key_groups:
     - age:
       - *primary

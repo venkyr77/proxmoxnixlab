@@ -12,6 +12,7 @@
       isVM = false;
       inherit config nasIP pkgs;
     })
+    ../../../modules/common/mediarr.nix
   ];
 
   services.navidrome = {
@@ -26,13 +27,4 @@
   };
 
   sops.secrets.mediarr_smbaccess.sopsFile = ../../../secrets/common/mediarr_smbaccess;
-
-  users = {
-    groups.mediarr.gid = 210;
-    users.mediarr = {
-      group = "mediarr";
-      isSystemUser = true;
-      uid = 210;
-    };
-  };
 }
