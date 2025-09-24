@@ -1,17 +1,10 @@
 {
-  description = "proxmox + nixos vms flake";
+  description = "nixos proxmox fleet managed by colmena";
 
   inputs = {
-    deploy-rs = {
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        utils.follows = "flake-utils";
-      };
-      url = "github:serokell/deploy-rs";
-    };
-    flake-utils = {
-      inputs.systems.follows = "systems";
-      url = "github:numtide/flake-utils";
+    colmena = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:zhaofengli/colmena";
     };
     nixos-generators = {
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,33 +15,28 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    systems.url = "github:nix-systems/default";
     terranix = {
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        systems.follows = "systems";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:terranix/terranix";
     };
   };
 
   outputs = {
-    deploy-rs,
+    colmena,
     nixos-generators,
     nixpkgs,
-    self,
+    sops-nix,
     terranix,
     ...
-  } @ inputs: let
+  }: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
     props = import ./props.nix;
-    nasIP = "10.0.0.221";
   in {
     apps.${system} = let
       terranixProxmoxConf = terranix.lib.terranixConfiguration {
         extraArgs = {inherit props;};
-        modules = [./terranix.nix];
+        modules = [./terranix];
         inherit system;
       };
 
@@ -81,19 +69,33 @@
         };
       };
 
-    deploy.nodes =
-      builtins.mapAttrs (vm: _conf: {
-        hostname = props.vms.${vm}.ipv4_short;
-        profiles.system = {
-          path =
-            deploy-rs.lib.${system}.activate.nixos
-            self.nixosConfigurations.${vm};
-          remoteBuild = true;
-          sshUser = "ops";
-          user = "root";
+    colmenaHive = colmena.lib.makeHive ({
+        meta = {
+          nixpkgs = pkgs;
+          specialArgs = {
+            nasIP = "10.0.0.222";
+            inherit props;
+          };
         };
-      })
-      self.nixosConfigurations;
+      }
+      // (builtins.mapAttrs (ct: _ct_prop: {
+          imports = [
+            nixos-generators.nixosModules.proxmox-lxc
+            sops-nix.nixosModules.sops
+            ./hosts/ct/base.nix
+            ./hosts/ct/${ct}
+          ];
+        })
+        props.cts)
+      // (builtins.mapAttrs (vm: _vm_prop: {
+          imports = [
+            nixos-generators.nixosModules.raw-efi
+            sops-nix.nixosModules.sops
+            ./hosts/vm/base.nix
+            ./hosts/vm/${vm}
+          ];
+        })
+        props.vms));
 
     formatter.${system} = pkgs.writeShellApplication {
       name = "format";
@@ -107,28 +109,25 @@
       '';
     };
 
-    nixosConfigurations = builtins.mapAttrs (vm: _vm_prop:
-      nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {inherit inputs nasIP props system;};
+    packages.${system} = {
+      mkimg = nixos-generators.nixosGenerate {
+        format = "raw-efi";
         modules = [
-          nixos-generators.nixosModules.raw-efi
-          ./base.nix
-          {
-            networking.nameservers = [props.vms.collapse.ipv4_short];
-          }
-          ./vm/${vm}
+          ./minimal.nix
+          ./minimal-vm.nix
         ];
-      })
-    props.vms;
-
-    packages.${system}.default = nixos-generators.nixosGenerate {
-      format = "raw-efi";
-      modules = [
-        ./base.nix
-      ];
-      specialArgs = {inherit inputs props;};
-      inherit system;
+        inherit system;
+      };
+      mktar = nixos-generators.nixosGenerate {
+        format = "proxmox-lxc";
+        modules = [
+          ./minimal.nix
+          {
+            image.baseName = "nixos";
+          }
+        ];
+        inherit system;
+      };
     };
   };
 }

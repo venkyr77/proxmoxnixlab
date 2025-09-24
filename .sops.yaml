@@ -1,23 +1,31 @@
 keys:
   - &primary age1m47g9gt850xxdepqtuxxuh6tpat4dukmcd3emljk4ul32wfemq6sue6z8q
 creation_rules:
-  - path_regex: secrets/caddy$
+  - path_regex: hosts/ct/caddy-tailscale/secrets/caddy-ev
     key_groups:
     - age:
       - *primary
-  - path_regex: secrets/radarr-api-key$
+  - path_regex: hosts/ct/mediarr/secrets/lidarr-api-key
     key_groups:
     - age:
       - *primary
-  - path_regex: secrets/sonarr-api-key$
+  - path_regex: hosts/ct/mediarr/secrets/radarr-api-key
     key_groups:
     - age:
       - *primary
-  - path_regex: secrets/mediarr_smbaccess$
+  - path_regex: hosts/ct/mediarr/secrets/sonarr-api-key
     key_groups:
     - age:
       - *primary
-  - path_regex: secrets/jellyfin_smbaccess$
+  - path_regex: hosts/ct/searx/secrets/searx-ev
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: hosts/vm/gpubox/secrets/jellyfin_smbaccess
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: secrets/common/mediarr_smbaccess
     key_groups:
     - age:
       - *primary
