@@ -23,6 +23,9 @@
         "adg.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.adg-tailscale.ipv4_short}:${toString nodes.adg-tailscale.config.services.adguardhome.port}
         '';
+        "homepage.euls.dev".extraConfig = ''
+          reverse_proxy ${props.cts.homepage.ipv4_short}:${toString nodes.homepage.config.services.homepage-dashboard.listenPort}
+        '';
         "grafana.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.monitor.ipv4_short}:${toString nodes.monitor.config.services.grafana.settings.server.http_port}
         '';

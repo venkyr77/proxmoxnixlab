@@ -66,6 +66,14 @@
       memory = 1 * 1024;
       vm_id = 157;
     };
+    homepage = {
+      cpu_cores = 1;
+      disk_size = 16;
+      ipv4_full = "10.0.0.78/24";
+      ipv4_short = "10.0.0.78";
+      memory = 1 * 1024;
+      vm_id = 158;
+    };
   };
 
   vms = {
