@@ -3,7 +3,7 @@
 set -euo pipefail
 
 read -r -p "Enter Proxmox IP: " PVE_IP
-read -r -p "Enter ZFS pool name (default: test): " ZPOOL; ZPOOL=${ZPOOL:-test}
+read -r -p "Enter ZFS pool name (default: tank): " ZPOOL; ZPOOL=${ZPOOL:-tank}
 read -r -p "Enter dataset name(s) under pool (comma-separated, default: sabnzbd): " ZDATASETS_RAW
 ZDATASETS_RAW=${ZDATASETS_RAW:-sabnzbd}
 
