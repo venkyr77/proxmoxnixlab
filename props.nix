@@ -19,11 +19,11 @@
       vm_id = 151;
     };
     mediarr = {
-      cpu_cores = 4;
+      cpu_cores = 8;
       disk_size = 512;
       ipv4_full = "10.0.0.72/24";
       ipv4_short = "10.0.0.72";
-      memory = 4 * 1024;
+      memory = 8 * 1024;
       vm_id = 152;
     };
     monitor = {
