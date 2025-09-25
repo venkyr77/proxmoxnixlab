@@ -20,7 +20,7 @@
       tailscale_ip = "100.77.0.101";
       vm_id = 151;
     };
-    grafana = {
+    configarr = {
       cpu_cores = 1;
       disk_size = 16;
       ipv4_full = "10.0.0.72/24";
@@ -29,7 +29,7 @@
       mount_point = null;
       vm_id = 152;
     };
-    homepage = {
+    grafana = {
       cpu_cores = 1;
       disk_size = 16;
       ipv4_full = "10.0.0.73/24";
@@ -38,28 +38,28 @@
       mount_point = null;
       vm_id = 153;
     };
-    lidarr = {
-      cpu_cores = 2;
+    homepage = {
+      cpu_cores = 1;
       disk_size = 16;
       ipv4_full = "10.0.0.74/24";
       ipv4_short = "10.0.0.74";
+      memory = 1 * 1024;
+      mount_point = null;
+      vm_id = 154;
+    };
+    lidarr = {
+      cpu_cores = 2;
+      disk_size = 16;
+      ipv4_full = "10.0.0.75/24";
+      ipv4_short = "10.0.0.75";
       memory = 2 * 1024;
       mount_point = {
         path = "/var/lib/sabnzbd";
         volume = "/tank/sabnzbd";
       };
-      vm_id = 154;
-    };
-    navidrome = {
-      cpu_cores = 1;
-      disk_size = 16;
-      ipv4_full = "10.0.0.75/24";
-      ipv4_short = "10.0.0.75";
-      memory = 1 * 1024;
-      mount_point = null;
       vm_id = 155;
     };
-    prometheus-server = {
+    navidrome = {
       cpu_cores = 1;
       disk_size = 16;
       ipv4_full = "10.0.0.76/24";
@@ -68,7 +68,7 @@
       mount_point = null;
       vm_id = 156;
     };
-    prowlarr = {
+    prometheus-server = {
       cpu_cores = 1;
       disk_size = 16;
       ipv4_full = "10.0.0.77/24";
@@ -77,25 +77,25 @@
       mount_point = null;
       vm_id = 157;
     };
-    radarr = {
-      cpu_cores = 2;
+    prowlarr = {
+      cpu_cores = 1;
       disk_size = 16;
       ipv4_full = "10.0.0.78/24";
       ipv4_short = "10.0.0.78";
+      memory = 1 * 1024;
+      mount_point = null;
+      vm_id = 158;
+    };
+    radarr = {
+      cpu_cores = 2;
+      disk_size = 16;
+      ipv4_full = "10.0.0.79/24";
+      ipv4_short = "10.0.0.79";
       memory = 2 * 1024;
       mount_point = {
         path = "/var/lib/sabnzbd";
         volume = "/tank/sabnzbd";
       };
-      vm_id = 158;
-    };
-    recyclarr = {
-      cpu_cores = 1;
-      disk_size = 16;
-      ipv4_full = "10.0.0.79/24";
-      ipv4_short = "10.0.0.79";
-      memory = 1 * 1024;
-      mount_point = null;
       vm_id = 159;
     };
     sabnzbd = {

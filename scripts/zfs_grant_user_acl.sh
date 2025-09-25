@@ -4,7 +4,7 @@ set -euo pipefail
 
 read -r -p "Enter Proxmox IP: " PVE_IP
 read -r -p "Enter ZFS pool name (default: tank): " ZPOOL; ZPOOL=${ZPOOL:-tank}
-read -r -p "Enter dataset name under pool (e.g., sabnzbd): " ZDATASET
+read -r -p "Enter dataset name under pool (default: sabnzbd): " ZDATASET; ZDATASET=${ZDATASET:-sabnzbd}
 read -r -p "Enter numeric UID to grant rwx (GID will be assumed equal): " NUM_UID
 
 ssh root@"${PVE_IP}" bash -s <<'EOSH' "${ZPOOL}" "${ZDATASET}" "${NUM_UID}"
