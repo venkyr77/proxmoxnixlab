@@ -1,24 +1,20 @@
 {
-  nodes,
-  props,
-  ...
-}: {
+  imports = [
+    ./tests
+  ];
+
   services.gatus = {
     enable = true;
     openFirewall = true;
     settings = {
-      endpoints = [
-        {
-          conditions = [
-            "[STATUS] == 200"
-            "[BODY] == Healthy"
-          ];
-          interval = "1m";
-          name = "jellyfin";
-          url = "http://${props.vms.gpubox.ipv4_short}:${toString nodes.gpubox.config.services.jellyfin.port}/health";
-        }
-      ];
+      storage = {
+        path = "/var/lib/gatus/data.db";
+        type = "sqlite";
+      };
+      ui.default-sort-by = "group";
       web.port = 8080;
     };
   };
+
+  systemd.services.gatus.serviceConfig.StateDirectory = "gatus";
 }
