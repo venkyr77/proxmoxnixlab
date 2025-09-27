@@ -67,6 +67,12 @@
       {
         MONITORING = [
           {
+            "gatus" = {
+              icon = "gatus.svg";
+              href = "https://gatus.euls.dev";
+            };
+          }
+          {
             "grafana" = {
               icon = "grafana.svg";
               href = "https://grafana.euls.dev";

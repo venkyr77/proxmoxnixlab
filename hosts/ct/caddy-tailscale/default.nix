@@ -26,6 +26,9 @@
         "homepage.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.homepage.ipv4_short}:${toString nodes.homepage.config.services.homepage-dashboard.listenPort}
         '';
+        "gatus.euls.dev".extraConfig = ''
+          reverse_proxy ${props.cts.gatus.ipv4_short}:${toString nodes.gatus.config.services.gatus.settings.web.port}
+        '';
         "grafana.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.grafana.ipv4_short}:${toString nodes.grafana.config.services.grafana.settings.server.http_port}
         '';
