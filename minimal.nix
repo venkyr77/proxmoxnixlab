@@ -18,6 +18,17 @@
   security.sudo.wheelNeedsPassword = false;
 
   services = {
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+      publish = {
+        addresses = true;
+        enable = true;
+        workstation = true;
+      };
+    };
+
     openssh = {
       enable = true;
       settings = {
