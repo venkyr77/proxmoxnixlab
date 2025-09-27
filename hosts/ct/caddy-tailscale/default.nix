@@ -2,6 +2,7 @@
   config,
   nodes,
   pkgs,
+  props,
   ...
 }: {
   networking.firewall.allowedTCPPorts = [80 443];
@@ -20,46 +21,46 @@
       };
       virtualHosts = {
         "adg.euls.dev".extraConfig = ''
-          reverse_proxy adg-tailscale.local:${toString nodes.adg-tailscale.config.services.adguardhome.port}
+          reverse_proxy ${props.cts.adg-tailscale.ipv4_short}:${toString nodes.adg-tailscale.config.services.adguardhome.port}
         '';
         "homepage.euls.dev".extraConfig = ''
-          reverse_proxy homepage.local:${toString nodes.homepage.config.services.homepage-dashboard.listenPort}
+          reverse_proxy ${props.cts.homepage.ipv4_short}:${toString nodes.homepage.config.services.homepage-dashboard.listenPort}
         '';
         "grafana.euls.dev".extraConfig = ''
-          reverse_proxy grafana.local:${toString nodes.grafana.config.services.grafana.settings.server.http_port}
+          reverse_proxy ${props.cts.grafana.ipv4_short}:${toString nodes.grafana.config.services.grafana.settings.server.http_port}
         '';
         "jellyfin.euls.dev".extraConfig = ''
-          reverse_proxy gpubox.local:${toString nodes.gpubox.config.services.jellyfin.port}
+          reverse_proxy ${props.vms.gpubox.ipv4_short}:${toString nodes.gpubox.config.services.jellyfin.port}
         '';
         "lidarr.euls.dev".extraConfig = ''
-          reverse_proxy lidarr.local:${toString nodes.lidarr.config.services.lidarr.settings.server.port}
+          reverse_proxy ${props.cts.lidarr.ipv4_short}:${toString nodes.lidarr.config.services.lidarr.settings.server.port}
         '';
         "navidrome.euls.dev".extraConfig = ''
-          reverse_proxy navidrome.local:${toString nodes.navidrome.config.services.navidrome.settings.Port}
+          reverse_proxy ${props.cts.navidrome.ipv4_short}:${toString nodes.navidrome.config.services.navidrome.settings.Port}
         '';
         "prometheus.euls.dev".extraConfig = ''
-          reverse_proxy prometheus-server.local:${toString nodes.prometheus-server.config.services.prometheus.port}
+          reverse_proxy ${props.cts.prometheus-server.ipv4_short}:${toString nodes.prometheus-server.config.services.prometheus.port}
         '';
         "prowlarr.euls.dev".extraConfig = ''
-          reverse_proxy prowlarr.local:${toString nodes.prowlarr.config.services.prowlarr.settings.server.port}
+          reverse_proxy ${props.cts.prowlarr.ipv4_short}:${toString nodes.prowlarr.config.services.prowlarr.settings.server.port}
         '';
         "radarr.euls.dev".extraConfig = ''
-          reverse_proxy radarr.local:${toString nodes.radarr.config.services.radarr.settings.server.port}
+          reverse_proxy ${props.cts.radarr.ipv4_short}:${toString nodes.radarr.config.services.radarr.settings.server.port}
         '';
         "sabnzbd.euls.dev".extraConfig = ''
-          reverse_proxy sabnzbd.local:${toString nodes.sabnzbd.config.services.sabnzbd.port}
+          reverse_proxy ${props.cts.sabnzbd.ipv4_short}:${toString nodes.sabnzbd.config.services.sabnzbd.port}
         '';
         "searx.euls.dev".extraConfig = ''
-          reverse_proxy searx.local:${toString nodes.searx.config.services.searx.settings.server.port}
+          reverse_proxy ${props.cts.searx.ipv4_short}:${toString nodes.searx.config.services.searx.settings.server.port}
         '';
         "sonarr.euls.dev".extraConfig = ''
-          reverse_proxy sonarr.local:${toString nodes.sonarr.config.services.sonarr.settings.server.port}
+          reverse_proxy ${props.cts.sonarr.ipv4_short}:${toString nodes.sonarr.config.services.sonarr.settings.server.port}
         '';
         "uptimekuma.euls.dev".extraConfig = ''
-          reverse_proxy uptime-kuma.local:${toString nodes.uptime-kuma.config.services.uptime-kuma.settings.PORT}
+          reverse_proxy ${props.cts.uptime-kuma.ipv4_short}:${toString nodes.uptime-kuma.config.services.uptime-kuma.settings.PORT}
         '';
         "vaultwarden.euls.dev".extraConfig = ''
-          reverse_proxy vaultwarden.local:${toString nodes.vaultwarden.config.services.vaultwarden.config.ROCKET_PORT}
+          reverse_proxy ${props.cts.vaultwarden.ipv4_short}:${toString nodes.vaultwarden.config.services.vaultwarden.config.ROCKET_PORT}
         '';
       };
     };
