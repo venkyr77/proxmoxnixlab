@@ -158,7 +158,7 @@
       mount_point = null;
       vm_id = 165;
     };
-    gatus = {
+    gatus-tailscale = {
       cpu_cores = 1;
       disk_size = 16;
       ipv4_full = "10.0.0.86/24";

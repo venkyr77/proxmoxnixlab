@@ -1,8 +1,4 @@
-{
-  nodes,
-  props,
-  ...
-}: {
+{props, ...}: {
   services.gatus.settings.endpoints =
     map (endpoint_conf:
       endpoint_conf
@@ -64,6 +60,19 @@
       }
       {
         conditions = [
+          "[BODY] == ${props.cts.caddy-tailscale.ipv4_short}"
+          "[DNS_RCODE] == NOERROR"
+        ];
+        dns = {
+          query-name = "test.euls.dev.";
+          query-type = "A";
+        };
+        interval = "1m";
+        name = "[ADG][LOCAL] - test.euls.dev";
+        url = "${props.cts.adg-tailscale.ipv4_short}";
+      }
+      {
+        conditions = [
           "[BODY] == ${props.cts.caddy-tailscale.tailscale_ip}"
           "[DNS_RCODE] == NOERROR"
         ];
@@ -72,17 +81,8 @@
           query-type = "A";
         };
         interval = "1m";
-        name = "[ADG] - test.euls.dev";
-        url = "${props.cts.adg-tailscale.ipv4_short}";
-      }
-      {
-        conditions = [
-          "[STATUS] == 200"
-          "[BODY] == Healthy"
-        ];
-        interval = "1m";
-        name = "jellyfin";
-        url = "http://${props.vms.gpubox.ipv4_short}:${toString nodes.gpubox.config.services.jellyfin.port}/health";
+        name = "[ADG][TAILSCALE] - test.euls.dev";
+        url = "${props.cts.adg-tailscale.tailscale_ip}";
       }
     ];
 }
