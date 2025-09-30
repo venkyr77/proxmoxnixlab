@@ -46,6 +46,7 @@
             quality_profiles: ${(pkgs.lib.generators.toYAML {} (import ./quality-profiles/radarr.nix))}
             root_folders:
               - /mnt/movies/English
+              - /mnt/movies/Tamil
 
         sonarr:
           sonarr_instance:
