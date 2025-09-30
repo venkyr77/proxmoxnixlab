@@ -35,7 +35,8 @@ let
     "e6886871085226c3da1830830146846c" # Generated Dynamic HDR
     "90a6f9a284dff5103f6346090e6280c8" # LQ
     "e204b80c87be9497a8a6eaff48f72905" # LQ (Release Title)
-    "dc98083864ea246d05a42df0d05f81cc" # x265 (HD)
+    # "dc98083864ea246d05a42df0d05f81cc" # x265 (HD)
+    "839bea857ed2c0a8e084f3cbdbd65ecb" # x265 (no HDR/DV)
     "b8cd450cbfa689c0259a01d9e29ba3d6" # 3D
     "bfd8eb01832d646a0a89c4deb46f8564" # Upscaled
     "0a3f082873eb454bde444150b70253cc" # Extras
@@ -83,9 +84,9 @@ let
     "f537cf427b64c38c8e36298f657e4828" # Scene
   ];
   misc_uhd_optional = [
-    "9c38ebb7384dada637be8899efa68e6f" # SDR
+    # "9c38ebb7384dada637be8899efa68e6f" # SDR
     "25c12f78430a3a23413652cbd1d48d77" # SDR (no WEBDL)
-    "839bea857ed2c0a8e084f3cbdbd65ecb" # x265 (no HDR/DV)
+    # "839bea857ed2c0a8e084f3cbdbd65ecb" # x265 (no HDR/DV)
   ];
   movie_versions_optional = [
     "0f12c086e289cf966fa5948eac571f44" # Hybrid
