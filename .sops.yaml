@@ -1,6 +1,10 @@
 keys:
   - &primary age1m47g9gt850xxdepqtuxxuh6tpat4dukmcd3emljk4ul32wfemq6sue6z8q
 creation_rules:
+  - path_regex: hosts/ct/authentik/secrets/authentik-ev
+    key_groups:
+    - age:
+      - *primary
   - path_regex: hosts/ct/caddy-tailscale/secrets/caddy-ev
     key_groups:
     - age:
@@ -9,7 +13,7 @@ creation_rules:
     key_groups:
     - age:
       - *primary
-  - path_regex: hosts/vm/gpubox/secrets/jellyfin_smbaccess
+  - path_regex: hosts/ct/jellyfin/secrets/jellyfin_smbaccess
     key_groups:
     - age:
       - *primary

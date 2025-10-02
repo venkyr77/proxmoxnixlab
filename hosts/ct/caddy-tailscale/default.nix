@@ -5,6 +5,8 @@
   props,
   ...
 }: {
+  environment.systemPackages = [pkgs.dig];
+
   networking.firewall.allowedTCPPorts = [80 443];
 
   services = {
@@ -20,6 +22,9 @@
         plugins = ["github.com/caddy-dns/cloudflare@v0.2.1"];
       };
       virtualHosts = {
+        "auth.euls.dev".extraConfig = ''
+          reverse_proxy ${props.cts.authentik.ipv4_short}:9000
+        '';
         "adg.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.adg-tailscale.ipv4_short}:${toString nodes.adg-tailscale.config.services.adguardhome.port}
         '';
@@ -31,9 +36,6 @@
         '';
         "grafana.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.grafana.ipv4_short}:${toString nodes.grafana.config.services.grafana.settings.server.http_port}
-        '';
-        "jellyfin.euls.dev".extraConfig = ''
-          reverse_proxy ${props.vms.gpubox.ipv4_short}:${toString nodes.gpubox.config.services.jellyfin.port}
         '';
         "lidarr.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.lidarr.ipv4_short}:${toString nodes.lidarr.config.services.lidarr.settings.server.port}

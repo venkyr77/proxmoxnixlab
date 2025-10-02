@@ -10,12 +10,14 @@
         "movies" = "jellyfin";
         "shows" = "jellyfin";
       };
-      isVM = true;
+      isVM = false;
       inherit config nasIP pkgs;
     })
+    ../../../modules/common/intel-igpu.nix
     ./jellyfin.nix
-    ./nvidia.nix
   ];
+
+  intel-igpu.user = "jellyfin";
 
   sops.secrets.jellyfin_smbaccess.sopsFile = ./secrets/jellyfin_smbaccess;
 }

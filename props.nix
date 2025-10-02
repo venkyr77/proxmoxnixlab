@@ -167,24 +167,23 @@
       mount_point = null;
       vm_id = 166;
     };
-  };
-
-  vms = {
-    gpubox = {
-      cpu_cores = 16;
-      cpu_host_type = "host";
-      disk_size = 64;
-      hostpci = {
-        device = "hostpci0";
-        id = "0000:01:00";
-        pcie = true;
-        rombar = true;
-        xvga = true;
-      };
-      ipv4_full = "10.0.0.101/24";
-      ipv4_short = "10.0.0.101";
-      memory = 16 * 1024;
-      vm_id = 101;
+    authentik = {
+      cpu_cores = 8;
+      disk_size = 16;
+      ipv4_full = "10.0.0.87/24";
+      ipv4_short = "10.0.0.87";
+      memory = 8 * 1024;
+      mount_point = null;
+      vm_id = 167;
+    };
+    jellyfin = {
+      cpu_cores = 8;
+      disk_size = 16;
+      ipv4_full = "10.0.0.88/24";
+      ipv4_short = "10.0.0.88";
+      memory = 8 * 1024;
+      mount_point = null;
+      vm_id = 168;
     };
   };
 }

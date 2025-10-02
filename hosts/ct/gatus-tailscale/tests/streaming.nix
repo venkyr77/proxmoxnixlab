@@ -13,15 +13,6 @@
       {
         conditions = [
           "[STATUS] == 200"
-          "[BODY] == Healthy"
-        ];
-        interval = "1m";
-        name = "jellyfin";
-        url = "http://${props.vms.gpubox.ipv4_short}:${toString nodes.gpubox.config.services.jellyfin.port}/health";
-      }
-      {
-        conditions = [
-          "[STATUS] == 200"
           "[BODY] == ."
         ];
         interval = "1m";

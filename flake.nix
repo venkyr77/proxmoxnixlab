@@ -2,9 +2,32 @@
   description = "nixos proxmox fleet managed by colmena";
 
   inputs = {
+    authentik-nix = {
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        flake-parts.follows = "flake-parts";
+        flake-utils.follows = "flake-utils";
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+      };
+      url = "github:nix-community/authentik-nix";
+    };
     colmena = {
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        flake-utils.follows = "flake-utils";
+        nixpkgs.follows = "nixpkgs";
+      };
       url = "github:zhaofengli/colmena";
+    };
+    flake-compat = {
+      flake = false;
+      url = "github:edolstra/flake-compat";
+    };
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-utils = {
+      inputs.systems.follows = "systems";
+      url = "github:numtide/flake-utils";
     };
     nixos-generators = {
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,13 +38,19 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    systems.url = "github:nix-systems/default";
     terranix = {
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+      };
       url = "github:terranix/terranix";
     };
   };
 
   outputs = {
+    authentik-nix,
     colmena,
     nixos-generators,
     nixpkgs,
@@ -79,23 +108,20 @@
         };
       }
       // (builtins.mapAttrs (ct: _ct_prop: {
-          imports = [
-            nixos-generators.nixosModules.proxmox-lxc
-            sops-nix.nixosModules.sops
-            ./hosts/ct/base.nix
-            ./hosts/ct/${ct}
-          ];
+          imports =
+            [
+              nixos-generators.nixosModules.proxmox-lxc
+              sops-nix.nixosModules.sops
+              ./hosts/ct/base.nix
+              ./hosts/ct/${ct}
+            ]
+            ++ (
+              if ct == "authentik"
+              then [authentik-nix.nixosModules.default]
+              else []
+            );
         })
-        props.cts)
-      // (builtins.mapAttrs (vm: _vm_prop: {
-          imports = [
-            nixos-generators.nixosModules.raw-efi
-            sops-nix.nixosModules.sops
-            ./hosts/vm/base.nix
-            ./hosts/vm/${vm}
-          ];
-        })
-        props.vms));
+        props.cts));
 
     formatter.${system} = pkgs.writeShellApplication {
       name = "format";
@@ -109,25 +135,15 @@
       '';
     };
 
-    packages.${system} = {
-      mkimg = nixos-generators.nixosGenerate {
-        format = "raw-efi";
-        modules = [
-          ./minimal.nix
-          ./minimal-vm.nix
-        ];
-        inherit system;
-      };
-      mktar = nixos-generators.nixosGenerate {
-        format = "proxmox-lxc";
-        modules = [
-          ./minimal.nix
-          {
-            image.baseName = "nixos";
-          }
-        ];
-        inherit system;
-      };
+    packages.${system}.mktar = nixos-generators.nixosGenerate {
+      format = "proxmox-lxc";
+      modules = [
+        ./minimal.nix
+        {
+          image.baseName = "nixos";
+        }
+      ];
+      inherit system;
     };
   };
 }
