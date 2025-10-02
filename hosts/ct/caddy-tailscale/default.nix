@@ -37,6 +37,9 @@
         "grafana.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.grafana.ipv4_short}:${toString nodes.grafana.config.services.grafana.settings.server.http_port}
         '';
+        "jellyfin.euls.dev".extraConfig = ''
+          reverse_proxy ${props.cts.jellyfin.ipv4_short}:${toString nodes.jellyfin.config.services.jellyfin.port}
+        '';
         "lidarr.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.lidarr.ipv4_short}:${toString nodes.lidarr.config.services.lidarr.settings.server.port}
         '';
@@ -60,9 +63,6 @@
         '';
         "sonarr.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.sonarr.ipv4_short}:${toString nodes.sonarr.config.services.sonarr.settings.server.port}
-        '';
-        "uptimekuma.euls.dev".extraConfig = ''
-          reverse_proxy ${props.cts.uptime-kuma.ipv4_short}:${toString nodes.uptime-kuma.config.services.uptime-kuma.settings.PORT}
         '';
         "vaultwarden.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.vaultwarden.ipv4_short}:${toString nodes.vaultwarden.config.services.vaultwarden.config.ROCKET_PORT}

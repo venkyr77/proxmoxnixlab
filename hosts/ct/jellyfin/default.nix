@@ -17,7 +17,11 @@
     ./jellyfin.nix
   ];
 
-  intel-igpu.user = "jellyfin";
+  intel-igpu = {
+    enable = true;
+    mediagpu_gid = 2999;
+    user = "jellyfin";
+  };
 
   sops.secrets.jellyfin_smbaccess.sopsFile = ./secrets/jellyfin_smbaccess;
 }

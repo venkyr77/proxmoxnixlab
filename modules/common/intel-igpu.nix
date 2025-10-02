@@ -7,23 +7,28 @@
   cfg = config.intel-igpu;
 in {
   options.intel-igpu = {
+    enable = lib.mkEnableOption "Enable Intel iGPU";
+
+    mediagpu_gid = lib.mkOption {
+      default = 2999;
+      description = "gid for mediagpu group(must match gid of mediagpu in pve)";
+      type = lib.types.int;
+    };
+
     user = lib.mkOption {
-      type = lib.types.str;
       default = null;
-      description = "Username to add into mediagpu group for Intel iGPU access.";
+      description = "Username to add into mediagpu group for Intel iGPU access";
+      type = lib.types.str;
     };
   };
 
-  config = {
-    environment.systemPackages = [
-      pkgs.intel-gpu-tools
-      pkgs.libva-utils
-    ];
-
-    users.groups.mediagpu.gid = 2999;
-
-    users.users = lib.mkIf (cfg.user != null) {
-      "${cfg.user}".extraGroups = ["mediagpu" "video"];
+  config = lib.mkIf cfg.enable {
+    environment = {
+      systemPackages = [
+        pkgs.intel-gpu-tools
+        pkgs.libva-utils
+      ];
+      variables.LIBVA_DRIVER_NAME = "iHD";
     };
 
     hardware.graphics = {
@@ -35,6 +40,14 @@ in {
       ];
     };
 
-    environment.variables.LIBVA_DRIVER_NAME = "iHD";
+    users = {
+      groups.mediagpu.gid = cfg.mediagpu_gid;
+      users = lib.mkIf (cfg.user != null) {
+        "${cfg.user}".extraGroups = [
+          "mediagpu"
+          "video"
+        ];
+      };
+    };
   };
 }
