@@ -61,6 +61,7 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
     props = import ./props.nix;
+    pveIP = "10.0.0.108";
   in {
     apps.${system} = let
       terranixProxmoxConf = terranix.lib.terranixConfiguration {
@@ -95,6 +96,63 @@
             scp "$HOME/.config/sops/age/keys.txt" "ops@$host:~/sopspk"
             ssh -t "ops@$host" 'sudo mv "$HOME/sopspk" "/etc/$HOSTNAME"'
           '');
+        };
+
+        igpu-host-bootstrap = {
+          type = "app";
+          program = toString (
+            pkgs.writers.writeBash
+            "igpu-host-bootstrap"
+            (import ./scripts/igpu_host_bootstrap.nix {inherit pveIP;})
+          );
+        };
+
+        igpu-lxc-patch = {
+          type = "app";
+          program = toString (
+            pkgs.writers.writeBash
+            "igpu-lxc-patch"
+            (import ./scripts/igpu_lxc_patch.nix {inherit pveIP;})
+          );
+        };
+
+        pve-authorize-ssh-pk = {
+          type = "app";
+          program = toString (
+            pkgs.writers.writeBash
+            "pve-authorize-ssh-pk"
+            # sh
+            ''
+              cat ~/.ssh/id_ed25519.pub | ssh root@${pveIP} "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+            ''
+          );
+        };
+
+        tailscale-lxc-patch = {
+          type = "app";
+          program = toString (
+            pkgs.writers.writeBash
+            "tailscale-lxc-patch"
+            (import ./scripts/tailscale_lxc_patch.nix {inherit pveIP;})
+          );
+        };
+
+        zfs-create-dataset = {
+          type = "app";
+          program = toString (
+            pkgs.writers.writeBash
+            "zfs-create-dataset"
+            (import ./scripts/zfs_create_dataset.nix {inherit pveIP;})
+          );
+        };
+
+        zfs-grant-user-acl = {
+          type = "app";
+          program = toString (
+            pkgs.writers.writeBash
+            "zfs-create-dataset"
+            (import ./scripts/zfs_grant_user_acl.nix {inherit pveIP;})
+          );
         };
       };
 

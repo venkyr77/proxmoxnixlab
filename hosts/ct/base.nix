@@ -9,7 +9,7 @@
   ];
 
   networking.nameservers = lib.mkIf (!(name == "unbound" || name == "adg-tailscale")) [
-    props.cts.unbound.ipv4_short
+    props.cts.adg-tailscale.ipv4_short
   ];
 
   deployment = {
