@@ -87,7 +87,7 @@
       vm_id = 158;
     };
     radarr = {
-      cpu_cores = 2;
+      cpu_cores = 8;
       disk_size = 16;
       ipv4_full = "10.0.0.79/24";
       ipv4_short = "10.0.0.79";
@@ -120,7 +120,7 @@
       vm_id = 161;
     };
     sonarr = {
-      cpu_cores = 2;
+      cpu_cores = 8;
       disk_size = 16;
       ipv4_full = "10.0.0.82/24";
       ipv4_short = "10.0.0.82";
