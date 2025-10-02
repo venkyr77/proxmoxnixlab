@@ -1,5 +1,7 @@
-{
+{pkgs, ...}: {
   boot.kernelParams = ["ipv6.disable=1"];
+
+  environment.systemPackages = [pkgs.dig];
 
   networking = {
     enableIPv6 = false;

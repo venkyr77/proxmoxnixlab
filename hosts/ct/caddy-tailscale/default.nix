@@ -5,8 +5,6 @@
   props,
   ...
 }: {
-  environment.systemPackages = [pkgs.dig];
-
   networking.firewall.allowedTCPPorts = [80 443];
 
   services = {
