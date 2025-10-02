@@ -70,7 +70,7 @@
       disk_size = 16;
       ipv4_full = "10.0.0.77/24";
       ipv4_short = "10.0.0.77";
-      memory = 8 * 1024;
+      memory = 16 * 1024;
       mount_point = null;
       vm_id = 157;
     };
