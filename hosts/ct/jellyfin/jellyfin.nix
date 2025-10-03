@@ -19,8 +19,8 @@ in {
     networking.firewall.allowedTCPPorts = [cfg.port];
     services.jellyfin.enable = true;
     systemd.tmpfiles.rules = [
-      "d /mnt/jellyfin 0755 ${cfg.user} ${cfg.group}"
-      "d /mnt/jellyfin/transcode 0755 ${cfg.user} ${cfg.group}"
+      "d /mnt/jellyfin 0775 ${cfg.user} ${cfg.group}"
+      "d /mnt/jellyfin/transcode 0775 ${cfg.user} ${cfg.group}"
     ];
     users = {
       groups.jellyfin.gid = 210;
