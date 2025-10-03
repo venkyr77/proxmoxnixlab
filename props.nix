@@ -71,7 +71,10 @@
       ipv4_full = "10.0.0.77/24";
       ipv4_short = "10.0.0.77";
       memory = 16 * 1024;
-      mount_point = null;
+      mount_point = {
+        path = "/mnt/jellyfin";
+        volume = "/tank/jellyfin";
+      };
       vm_id = 157;
     };
     lidarr = {

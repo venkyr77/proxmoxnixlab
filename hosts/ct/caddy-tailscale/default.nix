@@ -12,7 +12,6 @@
       enable = true;
       environmentFile = "${config.sops.secrets.caddy-ev.path}";
       globalConfig = ''
-        acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
         acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
         email {env.CLOUDFLARE_EMAIL}
       '';
