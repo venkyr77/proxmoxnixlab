@@ -33,6 +33,7 @@ in {
     networking.firewall.allowedTCPPorts = [cfg.port];
 
     services.jellyfin = {
+      cacheDir = "/mnt/jellyfin-data/cache";
       enable = true;
       group = "mediarr";
       user = "mediarr";
