@@ -1,4 +1,15 @@
-{
+let
+  attachHostDatasetMP = host: {
+    acl = true;
+    path = "/mnt/${host}-data";
+    volume = "/tank/${host}-data";
+  };
+  attachProxyMP = path: {
+    acl = true;
+    inherit path;
+    volume = path;
+  };
+in {
   cts = {
     adg-tailscale = {
       cpu_cores = 1;
@@ -72,21 +83,9 @@
       ipv4_short = "10.0.0.77";
       memory = 16 * 1024;
       mount_point = [
-        {
-          acl = true;
-          path = "/mnt/data";
-          volume = "/tank/jellyfin-data";
-        }
-        {
-          acl = true;
-          path = "/mnt/movies";
-          volume = "/mnt/movies";
-        }
-        {
-          acl = true;
-          path = "/mnt/shows";
-          volume = "/mnt/shows";
-        }
+        (attachHostDatasetMP "jellyfin")
+        (attachProxyMP "/mnt/movies")
+        (attachProxyMP "/mnt/shows")
       ];
       vm_id = 157;
     };
@@ -97,16 +96,8 @@
       ipv4_short = "10.0.0.78";
       memory = 2 * 1024;
       mount_point = [
-        {
-          acl = true;
-          path = "/var/lib/sabnzbd";
-          volume = "/tank/sabnzbd-data";
-        }
-        {
-          acl = true;
-          path = "/mnt/music";
-          volume = "/mnt/music";
-        }
+        (attachHostDatasetMP "sabnzbd")
+        (attachProxyMP "/mnt/music")
       ];
       vm_id = 158;
     };
@@ -116,11 +107,9 @@
       ipv4_full = "10.0.0.79/24";
       ipv4_short = "10.0.0.79";
       memory = 1 * 1024;
-      mount_point = {
-        acl = true;
-        path = "/mnt/music";
-        volume = "/mnt/music";
-      };
+      mount_point = [
+        (attachProxyMP "/mnt/music")
+      ];
       vm_id = 159;
     };
     prometheus-server = {
@@ -148,16 +137,8 @@
       ipv4_short = "10.0.0.82";
       memory = 2 * 1024;
       mount_point = [
-        {
-          acl = true;
-          path = "/var/lib/sabnzbd";
-          volume = "/tank/sabnzbd-data";
-        }
-        {
-          acl = true;
-          path = "/mnt/movies";
-          volume = "/mnt/movies";
-        }
+        (attachHostDatasetMP "sabnzbd")
+        (attachProxyMP "/mnt/movies")
       ];
       vm_id = 162;
     };
@@ -167,11 +148,9 @@
       ipv4_full = "10.0.0.83/24";
       ipv4_short = "10.0.0.83";
       memory = 4 * 1024;
-      mount_point = {
-        acl = true;
-        path = "/var/lib/sabnzbd";
-        volume = "/tank/sabnzbd-data";
-      };
+      mount_point = [
+        (attachHostDatasetMP "sabnzbd")
+      ];
       vm_id = 163;
     };
     searx = {
@@ -190,16 +169,8 @@
       ipv4_short = "10.0.0.85";
       memory = 2 * 1024;
       mount_point = [
-        {
-          acl = true;
-          path = "/var/lib/sabnzbd";
-          volume = "/tank/sabnzbd-data";
-        }
-        {
-          acl = true;
-          path = "/mnt/shows";
-          volume = "/mnt/shows";
-        }
+        (attachHostDatasetMP "sabnzbd")
+        (attachProxyMP "/mnt/shows")
       ];
       vm_id = 165;
     };

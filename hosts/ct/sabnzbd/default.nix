@@ -20,6 +20,7 @@ in {
     networking.firewall.allowedTCPPorts = [cfg.port];
 
     services.sabnzbd = {
+      configFile = "/mnt/sabnzbd-data/sabnzbd.ini";
       enable = true;
       group = "mediarr";
       user = "mediarr";
