@@ -61,106 +61,92 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
     props = import ./props.nix;
+
+    nasIP = "10.0.0.222";
     pveIP = "10.0.0.108";
   in {
-    apps.${system} = let
-      terranixProxmoxConf = terranix.lib.terranixConfiguration {
-        extraArgs = {inherit props;};
-        modules = [./terranix];
-        inherit system;
-      };
+    apps.${system} =
+      (
+        let
+          terranixProxmoxConf = terranix.lib.terranixConfiguration {
+            extraArgs = {inherit props;};
+            modules = [./terranix];
+            inherit system;
+          };
 
-      mkTerraformProgramForProxmox = action:
-        toString (pkgs.writers.writeBash action ''
-          if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
-          cp ${terranixProxmoxConf} config.tf.json \
-            && ${pkgs.terraform}/bin/terraform login \
-            && ${pkgs.terraform}/bin/terraform init \
-            && ${pkgs.terraform}/bin/terraform ${action} -var-file=./vals.tfvars -parallelism=1
-        '');
-    in
-      builtins.listToAttrs (map (action: {
-        name = "proxmox-${action}";
-        value = {
-          type = "app";
-          program = mkTerraformProgramForProxmox action;
-        };
-      }) ["apply" "destroy" "plan"])
-      // {
-        copy-sops-pk = {
-          type = "app";
-          program = toString (pkgs.writers.writeBash "copy-sops-pk" ''
-            set -euo pipefail
-            read -r -p "Enter host ip: " host
-            ssh -t "ops@$host" 'sudo mkdir -p "/etc/$HOSTNAME"'
-            scp "$HOME/.config/sops/age/keys.txt" "ops@$host:~/sopspk"
-            ssh -t "ops@$host" 'sudo mv "$HOME/sopspk" "/etc/$HOSTNAME"'
-          '');
-        };
-
-        igpu-host-bootstrap = {
-          type = "app";
-          program = toString (
-            pkgs.writers.writeBash
-            "igpu-host-bootstrap"
-            (import ./scripts/igpu_host_bootstrap.nix {inherit pveIP;})
-          );
-        };
-
-        igpu-lxc-patch = {
-          type = "app";
-          program = toString (
-            pkgs.writers.writeBash
-            "igpu-lxc-patch"
-            (import ./scripts/igpu_lxc_patch.nix {inherit pveIP;})
-          );
-        };
-
-        pve-authorize-ssh-pk = {
-          type = "app";
-          program = toString (
-            pkgs.writers.writeBash
-            "pve-authorize-ssh-pk"
-            # sh
-            ''
-              cat ~/.ssh/id_ed25519.pub | ssh root@${pveIP} "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
-            ''
-          );
-        };
-
-        tailscale-lxc-patch = {
-          type = "app";
-          program = toString (
-            pkgs.writers.writeBash
-            "tailscale-lxc-patch"
-            (import ./scripts/tailscale_lxc_patch.nix {inherit pveIP;})
-          );
-        };
-
-        zfs-create-dataset = {
-          type = "app";
-          program = toString (
-            pkgs.writers.writeBash
-            "zfs-create-dataset"
-            (import ./scripts/zfs_create_dataset.nix {inherit pveIP;})
-          );
-        };
-
-        zfs-grant-user-acl = {
-          type = "app";
-          program = toString (
-            pkgs.writers.writeBash
-            "zfs-create-dataset"
-            (import ./scripts/zfs_grant_user_acl.nix {inherit pveIP;})
-          );
-        };
-      };
+          mkTerraformProgramForProxmox = action:
+            toString (
+              pkgs.writers.writeBash
+              action
+              ''
+                if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
+                cp ${terranixProxmoxConf} config.tf.json \
+                  && ${pkgs.terraform}/bin/terraform login \
+                  && ${pkgs.terraform}/bin/terraform init \
+                  && ${pkgs.terraform}/bin/terraform ${action} -var-file=./vals.tfvars -parallelism=1
+              ''
+            );
+        in
+          builtins.listToAttrs (map (action: {
+            name = "proxmox-${action}";
+            value = {
+              type = "app";
+              program = mkTerraformProgramForProxmox action;
+            };
+          }) ["apply" "destroy" "plan"])
+      )
+      // (
+        builtins.listToAttrs (map (app: {
+            inherit (app) name;
+            value = {
+              type = "app";
+              program = toString (
+                pkgs.writers.writeBash
+                app.name
+                (import ./scripts/${app.name}.nix app.extraArgs)
+              );
+            };
+          })
+          [
+            {
+              name = "copy-sops-pk";
+              extraArgs = {};
+            }
+            {
+              name = "create-cifs-automount";
+              extraArgs = {inherit nasIP pveIP;};
+            }
+            {
+              name = "igpu-host-bootstrap";
+              extraArgs = {inherit pveIP;};
+            }
+            {
+              name = "igpu-lxc-patch";
+              extraArgs = {inherit pveIP;};
+            }
+            {
+              name = "pve-authorize-ssh-pk";
+              extraArgs = {inherit pveIP;};
+            }
+            {
+              name = "tailscale-lxc-patch";
+              extraArgs = {inherit pveIP;};
+            }
+            {
+              name = "zfs-create-dataset";
+              extraArgs = {inherit pveIP;};
+            }
+            {
+              name = "zfs-grant-user-acl";
+              extraArgs = {inherit pveIP;};
+            }
+          ])
+      );
 
     colmenaHive = colmena.lib.makeHive ({
         meta = {
           nixpkgs = pkgs;
           specialArgs = {
-            nasIP = "10.0.0.222";
             inherit props;
           };
         };

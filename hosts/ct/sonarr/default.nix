@@ -1,19 +1,9 @@
-{
-  config,
-  nasIP,
-  pkgs,
-  ...
-}: {
+{config, ...}: {
   imports = [
-    (import ../../../modules/common/smb-accessor.nix {
-      dataset_to_accessor = {
-        "shows" = "mediarr";
-      };
-      isVM = false;
-      inherit config nasIP pkgs;
-    })
-    ../../../modules/common/mediarr.nix
+    ../../../modules/users/mediarr.nix
   ];
+
+  mediarr.make_user = true;
 
   services.sonarr = {
     enable = true;
@@ -26,10 +16,7 @@
   };
 
   sops = {
-    secrets = {
-      mediarr_smbaccess.sopsFile = ../../../secrets/common/mediarr_smbaccess;
-      sonarr-api-key.sopsFile = ../../../secrets/common/sonarr-api-key;
-    };
+    secrets.sonarr-api-key.sopsFile = ../../../secrets/common/sonarr-api-key;
     templates.sonarr-api-key-ev = {
       content = ''
         SONARR__AUTH__APIKEY=${config.sops.placeholder.sonarr-api-key}

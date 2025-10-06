@@ -8,9 +8,7 @@
   };
 
   sops = {
-    secrets = {
-      prowlarr-api-key.sopsFile = ../../../secrets/common/prowlarr-api-key;
-    };
+    secrets.prowlarr-api-key.sopsFile = ../../../secrets/common/prowlarr-api-key;
     templates.prowlarr-api-key-ev = {
       content = ''
         PROWLARR__AUTH__APIKEY=${config.sops.placeholder.prowlarr-api-key}

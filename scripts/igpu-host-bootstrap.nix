@@ -15,9 +15,10 @@
 
   ssh root@"''${PVE_IP}" bash -s <<'EOSH' "''${UDEV_RULE}" "''${UDEV_GROUP}" "''${UDEV_GID}"
   set -euo pipefail
+
   UDEV_RULE="$1"; UDEV_GROUP="$2"; UDEV_GID="$3"
 
-  # Fixed group for DRM nodes
+  echo "[+] Creating group ''${UDEV_GROUP} with gid ''${UDEV_GID}."
   if getent group "''${UDEV_GROUP}" >/dev/null; then
     gid="$(getent group "''${UDEV_GROUP}" | cut -d: -f3)"
     if [ "$gid" != "''${UDEV_GID}" ]; then
@@ -29,9 +30,8 @@
     echo "[✓] Created group ''${UDEV_GROUP} with gid ''${UDEV_GID}."
   fi
 
-  # Udev rule for /dev/dri/*
+  echo "[+] Installing udev rule and triggering DRM subsystem."
   cat > "''${UDEV_RULE}" <<EOF
-  # Intel iGPU DRM nodes -> fixed group for container sharing
   KERNEL=="renderD*", SUBSYSTEM=="drm", GROUP="''${UDEV_GROUP}", MODE="0660"
   KERNEL=="card*",    SUBSYSTEM=="drm", GROUP="''${UDEV_GROUP}", MODE="0660"
   EOF
@@ -39,7 +39,7 @@
   udevadm trigger --subsystem-match=drm || true
   echo "[✓] Installed udev rule and triggered DRM subsystem."
 
-  # Ensure i915 autoloads; (re)load now
+  echo "[+] loading i915."
   grep -qxF i915 /etc/modules || { echo i915 >> /etc/modules; echo "[✓] Added 'i915' to /etc/modules."; }
   modprobe -r i915 2>/dev/null || true
   if modprobe i915 2>/dev/null; then

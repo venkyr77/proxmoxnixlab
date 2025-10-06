@@ -13,15 +13,7 @@ creation_rules:
     key_groups:
     - age:
       - *primary
-  - path_regex: hosts/ct/jellyfin/secrets/jellyfin_smbaccess
-    key_groups:
-    - age:
-      - *primary
   - path_regex: secrets/common/lidarr-api-key
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: secrets/common/mediarr_smbaccess
     key_groups:
     - age:
       - *primary

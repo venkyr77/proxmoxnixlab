@@ -71,10 +71,23 @@
       ipv4_full = "10.0.0.77/24";
       ipv4_short = "10.0.0.77";
       memory = 16 * 1024;
-      mount_point = {
-        path = "/mnt/jellyfin";
-        volume = "/tank/jellyfin";
-      };
+      mount_point = [
+        {
+          acl = true;
+          path = "/mnt/data";
+          volume = "/tank/jellyfin-data";
+        }
+        {
+          acl = true;
+          path = "/mnt/movies";
+          volume = "/mnt/movies";
+        }
+        {
+          acl = true;
+          path = "/mnt/shows";
+          volume = "/mnt/shows";
+        }
+      ];
       vm_id = 157;
     };
     lidarr = {
@@ -83,10 +96,18 @@
       ipv4_full = "10.0.0.78/24";
       ipv4_short = "10.0.0.78";
       memory = 2 * 1024;
-      mount_point = {
-        path = "/var/lib/sabnzbd";
-        volume = "/tank/sabnzbd";
-      };
+      mount_point = [
+        {
+          acl = true;
+          path = "/var/lib/sabnzbd";
+          volume = "/tank/sabnzbd-data";
+        }
+        {
+          acl = true;
+          path = "/mnt/music";
+          volume = "/mnt/music";
+        }
+      ];
       vm_id = 158;
     };
     navidrome = {
@@ -95,7 +116,11 @@
       ipv4_full = "10.0.0.79/24";
       ipv4_short = "10.0.0.79";
       memory = 1 * 1024;
-      mount_point = null;
+      mount_point = {
+        acl = true;
+        path = "/mnt/music";
+        volume = "/mnt/music";
+      };
       vm_id = 159;
     };
     prometheus-server = {
@@ -122,10 +147,18 @@
       ipv4_full = "10.0.0.82/24";
       ipv4_short = "10.0.0.82";
       memory = 2 * 1024;
-      mount_point = {
-        path = "/var/lib/sabnzbd";
-        volume = "/tank/sabnzbd";
-      };
+      mount_point = [
+        {
+          acl = true;
+          path = "/var/lib/sabnzbd";
+          volume = "/tank/sabnzbd-data";
+        }
+        {
+          acl = true;
+          path = "/mnt/movies";
+          volume = "/mnt/movies";
+        }
+      ];
       vm_id = 162;
     };
     sabnzbd = {
@@ -135,8 +168,9 @@
       ipv4_short = "10.0.0.83";
       memory = 4 * 1024;
       mount_point = {
+        acl = true;
         path = "/var/lib/sabnzbd";
-        volume = "/tank/sabnzbd";
+        volume = "/tank/sabnzbd-data";
       };
       vm_id = 163;
     };
@@ -155,10 +189,18 @@
       ipv4_full = "10.0.0.85/24";
       ipv4_short = "10.0.0.85";
       memory = 2 * 1024;
-      mount_point = {
-        path = "/var/lib/sabnzbd";
-        volume = "/tank/sabnzbd";
-      };
+      mount_point = [
+        {
+          acl = true;
+          path = "/var/lib/sabnzbd";
+          volume = "/tank/sabnzbd-data";
+        }
+        {
+          acl = true;
+          path = "/mnt/shows";
+          volume = "/mnt/shows";
+        }
+      ];
       vm_id = 165;
     };
     unbound = {

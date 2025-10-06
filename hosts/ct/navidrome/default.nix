@@ -1,19 +1,9 @@
 {
-  config,
-  nasIP,
-  pkgs,
-  ...
-}: {
   imports = [
-    (import ../../../modules/common/smb-accessor.nix {
-      dataset_to_accessor = {
-        "music" = "mediarr";
-      };
-      isVM = false;
-      inherit config nasIP pkgs;
-    })
-    ../../../modules/common/mediarr.nix
+    ../../../modules/users/mediarr.nix
   ];
+
+  mediarr.make_user = true;
 
   services.navidrome = {
     enable = true;
@@ -25,6 +15,4 @@
     };
     user = "mediarr";
   };
-
-  sops.secrets.mediarr_smbaccess.sopsFile = ../../../secrets/common/mediarr_smbaccess;
 }

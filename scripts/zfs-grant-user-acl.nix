@@ -18,7 +18,6 @@
   NUM_GID="$NUM_UID"
 
   need() { command -v "$1" >/dev/null 2>&1 || { apt-get update -y && apt-get install -y "$2"; }; }
-  need zfs             zfsutils-linux
   need setfacl         acl
   need getfacl         acl
 

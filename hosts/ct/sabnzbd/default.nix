@@ -6,7 +6,7 @@
   cfg = config.services.sabnzbd;
 in {
   imports = [
-    ../../../modules/common/mediarr.nix
+    ../../../modules/users/mediarr.nix
   ];
 
   options.services.sabnzbd.port = pkgs.lib.mkOption {
@@ -15,6 +15,8 @@ in {
   };
 
   config = {
+    mediarr.make_user = true;
+
     networking.firewall.allowedTCPPorts = [cfg.port];
 
     services.sabnzbd = {

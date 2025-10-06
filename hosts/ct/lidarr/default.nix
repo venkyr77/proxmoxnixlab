@@ -1,19 +1,9 @@
-{
-  config,
-  nasIP,
-  pkgs,
-  ...
-}: {
+{config, ...}: {
   imports = [
-    (import ../../../modules/common/smb-accessor.nix {
-      dataset_to_accessor = {
-        "music" = "mediarr";
-      };
-      isVM = false;
-      inherit config nasIP pkgs;
-    })
-    ../../../modules/common/mediarr.nix
+    ../../../modules/users/mediarr.nix
   ];
+
+  mediarr.make_user = true;
 
   services.lidarr = {
     enable = true;
@@ -26,10 +16,7 @@
   };
 
   sops = {
-    secrets = {
-      mediarr_smbaccess.sopsFile = ../../../secrets/common/mediarr_smbaccess;
-      lidarr-api-key.sopsFile = ../../../secrets/common/lidarr-api-key;
-    };
+    secrets.lidarr-api-key.sopsFile = ../../../secrets/common/lidarr-api-key;
     templates.lidarr-api-key-ev = {
       content = ''
         LIDARR__AUTH__APIKEY=${config.sops.placeholder.lidarr-api-key}

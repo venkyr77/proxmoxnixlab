@@ -1,19 +1,9 @@
-{
-  config,
-  nasIP,
-  pkgs,
-  ...
-}: {
+{config, ...}: {
   imports = [
-    (import ../../../modules/common/smb-accessor.nix {
-      dataset_to_accessor = {
-        "movies" = "mediarr";
-      };
-      isVM = false;
-      inherit config nasIP pkgs;
-    })
-    ../../../modules/common/mediarr.nix
+    ../../../modules/users/mediarr.nix
   ];
+
+  mediarr.make_user = true;
 
   services.radarr = {
     enable = true;
@@ -26,10 +16,7 @@
   };
 
   sops = {
-    secrets = {
-      mediarr_smbaccess.sopsFile = ../../../secrets/common/mediarr_smbaccess;
-      radarr-api-key.sopsFile = ../../../secrets/common/radarr-api-key;
-    };
+    secrets.radarr-api-key.sopsFile = ../../../secrets/common/radarr-api-key;
     templates.radarr-api-key-ev = {
       content = ''
         RADARR__AUTH__APIKEY=${config.sops.placeholder.radarr-api-key}

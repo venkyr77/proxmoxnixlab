@@ -38,6 +38,7 @@
       type = "nixos";
     };
     started = true;
+    unprivileged = true;
     inherit vm_id;
   };
 in {
