@@ -77,8 +77,8 @@ in {
       vm_id = 156;
     };
     jellyfin = {
-      cpu_cores = 8;
-      disk_size = 16;
+      cpu_cores = 16;
+      disk_size = 128;
       ipv4_full = "10.0.0.77/24";
       ipv4_short = "10.0.0.77";
       memory = 16 * 1024;

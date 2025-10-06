@@ -60,8 +60,8 @@
       }
       {
         conditions = [
-          "[BODY] == ${props.cts.caddy-tailscale.ipv4_short}"
-          "[DNS_RCODE] == NOERROR"
+          "has([BODY]) == false"
+          "[DNS_RCODE] == NXDOMAIN"
         ];
         dns = {
           query-name = "test.euls.dev.";
@@ -73,8 +73,8 @@
       }
       {
         conditions = [
-          "[BODY] == ${props.cts.caddy-tailscale.tailscale_ip}"
-          "[DNS_RCODE] == NOERROR"
+          "has([BODY]) == false"
+          "[DNS_RCODE] == NXDOMAIN"
         ];
         dns = {
           query-name = "test.euls.dev.";
@@ -82,6 +82,32 @@
         };
         interval = "1m";
         name = "[ADG][TAILSCALE] - test.euls.dev";
+        url = "${props.cts.adg-tailscale.tailscale_ip}";
+      }
+      {
+        conditions = [
+          "[BODY] == ${props.cts.caddy-tailscale.ipv4_short}"
+          "[DNS_RCODE] == NOERROR"
+        ];
+        dns = {
+          query-name = "searx.euls.dev.";
+          query-type = "A";
+        };
+        interval = "1m";
+        name = "[ADG][LOCAL] - searx.euls.dev";
+        url = "${props.cts.adg-tailscale.ipv4_short}";
+      }
+      {
+        conditions = [
+          "[BODY] == ${props.cts.caddy-tailscale.tailscale_ip}"
+          "[DNS_RCODE] == NOERROR"
+        ];
+        dns = {
+          query-name = "searx.euls.dev.";
+          query-type = "A";
+        };
+        interval = "1m";
+        name = "[ADG][TAILSCALE] - searx.euls.dev";
         url = "${props.cts.adg-tailscale.tailscale_ip}";
       }
     ];

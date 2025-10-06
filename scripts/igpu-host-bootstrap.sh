@@ -5,9 +5,11 @@ set -euo pipefail
 ssh root@"${PVE_IP}" bash -s <<'EOSH'
 set -euo pipefail
 
+BASE="$(awk -F: '/^root:/{print $2; exit}' /etc/subuid || echo 100000)"
+
 UDEV_RULE="/etc/udev/rules.d/99-igpu-drm.rules"
 UDEV_GROUP="mediagpu"
-UDEV_GID="2999"
+UDEV_GID=$(("$BASE" + "2999"))
 
 echo "[+] Bootstrapping Intel iGPU for group: (${UDEV_GROUP}:${UDEV_GID})"
 
