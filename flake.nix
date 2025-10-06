@@ -95,53 +95,35 @@
             };
           }) ["apply" "destroy" "plan"])
       )
-      // (
-        builtins.listToAttrs (map (app: {
-            inherit (app) name;
-            value = {
-              type = "app";
-              program = toString (
-                pkgs.writers.writeBash
-                app.name
-                (import ./scripts/${app.name}.nix app.extraArgs)
-              );
-            };
-          })
-          [
-            {
-              name = "copy-sops-pk";
-              extraArgs = {};
-            }
-            {
-              name = "create-cifs-automount";
-              extraArgs = {inherit nasIP pveIP;};
-            }
-            {
-              name = "igpu-host-bootstrap";
-              extraArgs = {inherit pveIP;};
-            }
-            {
-              name = "igpu-lxc-patch";
-              extraArgs = {inherit pveIP;};
-            }
-            {
-              name = "pve-authorize-ssh-pk";
-              extraArgs = {inherit pveIP;};
-            }
-            {
-              name = "tailscale-lxc-patch";
-              extraArgs = {inherit pveIP;};
-            }
-            {
-              name = "zfs-create-dataset";
-              extraArgs = {inherit pveIP;};
-            }
-            {
-              name = "zfs-grant-user-acl";
-              extraArgs = {inherit pveIP;};
-            }
-          ])
-      );
+      // (builtins.listToAttrs (map (app: {
+          name = app;
+          value = {
+            type = "app";
+            program = toString (
+              pkgs.writeScript
+              app
+              # sh
+              ''
+                #!/usr/bin/env bash
+
+                NAS_IP=${nasIP}
+                PVE_IP=${pveIP}
+
+                ${(builtins.readFile ./scripts/${app}.sh)}
+              ''
+            );
+          };
+        })
+        [
+          "copy-sops-pk"
+          "create-cifs-automount"
+          "igpu-host-bootstrap"
+          "igpu-lxc-patch"
+          "pve-authorize-ssh-pk"
+          "tailscale-lxc-patch"
+          "zfs-create-dataset"
+          "zfs-grant-user-acl"
+        ]));
 
     colmenaHive = colmena.lib.makeHive ({
         meta = {
