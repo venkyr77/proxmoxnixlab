@@ -37,10 +37,5 @@ in {
       group = "mediarr";
       user = "mediarr";
     };
-
-    systemd.tmpfiles.rules = [
-      "d /mnt/jellyfin-data 0775 ${cfg.user} ${cfg.group}"
-      "d /mnt/jellyfin-data/transcode 0775 ${cfg.user} ${cfg.group}"
-    ];
   };
 }
