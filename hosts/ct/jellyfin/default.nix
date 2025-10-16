@@ -90,11 +90,14 @@ in {
       user = "mediarr";
       users = {
         admin = {
-          mutable = true;
-          password = "test";
+          mutable = false;
+          hashedPasswordFile = config.sops.secrets.admin-pass.path;
+          loginAttemptsBeforeLockout = 0;
           permissions.isAdministrator = true;
         };
       };
     };
+
+    sops.secrets.admin-pass.sopsFile = ./secrets/admin-pass;
   };
 }

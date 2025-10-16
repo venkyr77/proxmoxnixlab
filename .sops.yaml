@@ -13,6 +13,10 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: hosts/ct/jellyfin/secrets/admin-pass
+    key_groups:
+    - age:
+      - *primary
   - path_regex: secrets/common/lidarr-api-key
     key_groups:
     - age:
