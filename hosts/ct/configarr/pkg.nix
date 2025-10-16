@@ -63,7 +63,7 @@
 in {
   options.services.configarr = {
     config = lib.mkOption {
-      default = {};
+      default = "";
       description = "YAML configuration.";
       type = lib.types.string;
     };

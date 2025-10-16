@@ -32,11 +32,71 @@ in {
 
     networking.firewall.allowedTCPPorts = [cfg.port];
 
-    services.jellyfin = {
+    services.declarative-jellyfin = {
+      branding.customCss =
+        # css
+        ''
+          @import url("https://cdn.jsdelivr.net/npm/jellyskin@latest/dist/main.css");
+        '';
       cacheDir = "/mnt/jellyfin-data/cache";
       enable = true;
+      encoding = {
+        enableHardwareEncoding = true;
+        hardwareAccelerationType = "vaapi";
+        hardwareDecodingCodecs = [
+          "h264"
+          "hevc"
+          "mpeg2video"
+          "vc1"
+          "vp8"
+          "vp9"
+          "av1"
+        ];
+        enableDecodingColorDepth10Hevc = true;
+        enableDecodingColorDepth10HevcRext = true;
+        enableDecodingColorDepth12HevcRext = true;
+        enableDecodingColorDepth10Vp9 = true;
+      };
       group = "mediarr";
+      libraries = {
+        "Movies - English" = {
+          enabled = true;
+          contentType = "movies";
+          pathInfos = [
+            "/mnt/movies/English"
+          ];
+        };
+        "Movies - Tamil" = {
+          enabled = true;
+          contentType = "movies";
+          pathInfos = [
+            "/mnt/movies/Tamil"
+          ];
+        };
+        "Shows" = {
+          enabled = true;
+          contentType = "tvshows";
+          pathInfos = [
+            "/mnt/shows"
+          ];
+        };
+      };
+      system = {
+        trickplayOptions = {
+          enableHwAcceleration = true;
+          enableHwEncoding = true;
+        };
+      };
       user = "mediarr";
+      users = {
+        admin = {
+          mutable = false;
+          hashedPasswordFile = config.sops.secrets.admin-pass.path;
+          permissions.isAdministrator = true;
+        };
+      };
     };
+
+    sops.secrets.admin-pass.sopsFile = ./secrets/admin-pass;
   };
 }

@@ -20,6 +20,13 @@
       };
       url = "github:zhaofengli/colmena";
     };
+    declarative-jellyfin = {
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+      };
+      url = "github:venkyr77/declarative-jellyfin?ref=test";
+    };
     flake-compat = {
       flake = false;
       url = "github:edolstra/flake-compat";
@@ -52,6 +59,7 @@
   outputs = {
     authentik-nix,
     colmena,
+    declarative-jellyfin,
     nixos-generators,
     nixpkgs,
     sops-nix,
@@ -144,6 +152,11 @@
             ++ (
               if ct == "authentik"
               then [authentik-nix.nixosModules.default]
+              else []
+            )
+            ++ (
+              if ct == "jellyfin"
+              then [declarative-jellyfin.nixosModules.default]
               else []
             );
         })
