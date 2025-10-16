@@ -92,7 +92,7 @@ in {
         admin = {
           mutable = false;
           hashedPasswordFile = config.sops.secrets.admin-pass.path;
-          loginAttemptsBeforeLockout = 0;
+          loginAttemptsBeforeLockout = null;
           permissions.isAdministrator = true;
         };
       };
