@@ -90,8 +90,8 @@ in {
       user = "mediarr";
       users = {
         admin = {
-          mutable = false;
-          hashedPassword = "$PBKDF2-SHA512$iterations=210000$C74E2E2B4E8593951F29F38287E76F15$CBB89E5C7E5E32FA55C1B6E380493FF9311523CE235019DDB95F835EDD151833EE5643FA8ADF4406BA08D34D59A9D287D58064A77F711BB2F943700E95F91F56";
+          mutable = true;
+          password = "test";
           permissions.isAdministrator = true;
         };
       };
