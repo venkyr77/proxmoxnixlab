@@ -44,6 +44,9 @@
         "navidrome.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.navidrome.ipv4_short}:${toString nodes.navidrome.config.services.navidrome.settings.Port}
         '';
+        "ntfysh.euls.dev".extraConfig = ''
+          reverse_proxy ${props.cts.ntfy-sh.ipv4_short}:${toString nodes.ntfy-sh.config.services.ntfy-sh.port}
+        '';
         "prometheus.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.prometheus-server.ipv4_short}:${toString nodes.prometheus-server.config.services.prometheus.port}
         '';

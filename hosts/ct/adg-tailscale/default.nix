@@ -44,6 +44,7 @@
           ++ mkRule "jellyfin"
           ++ mkRule "lidarr"
           ++ mkRule "navidrome"
+          ++ mkRule "ntfysh"
           ++ mkRule "prometheus"
           ++ mkRule "prowlarr"
           ++ mkRule "radarr"

@@ -65,7 +65,7 @@
         ];
       }
       {
-        MONITORING = [
+        "MONITORING & ALERTS" = [
           {
             "gatus" = {
               icon = "gatus.svg";
@@ -82,6 +82,12 @@
             "prometheus" = {
               icon = "prometheus.svg";
               href = "https://prometheus.euls.dev";
+            };
+          }
+          {
+            "ntfy-sh" = {
+              icon = "ntfy.svg";
+              href = "https://ntfysh.euls.dev";
             };
           }
         ];
