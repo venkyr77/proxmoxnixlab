@@ -95,6 +95,12 @@
       {
         TOOLS = [
           {
+            "memos" = {
+              icon = "memos.jpg";
+              href = "https://memos.euls.dev";
+            };
+          }
+          {
             "searx" = {
               icon = "searx.svg";
               href = "https://searx.euls.dev";

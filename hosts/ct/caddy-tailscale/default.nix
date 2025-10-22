@@ -41,6 +41,9 @@
         "lidarr.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.lidarr.ipv4_short}:${toString nodes.lidarr.config.services.lidarr.settings.server.port}
         '';
+        "memos.euls.dev".extraConfig = ''
+          reverse_proxy ${props.cts.memos.ipv4_short}:${toString nodes.memos.config.services.memos.port}
+        '';
         "navidrome.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.navidrome.ipv4_short}:${toString nodes.navidrome.config.services.navidrome.settings.Port}
         '';
