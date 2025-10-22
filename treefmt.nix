@@ -16,5 +16,9 @@ _: {
       enable = true;
       priority = 30;
     };
+
+    shfmt = {
+      enable = true;
+    };
   };
 }

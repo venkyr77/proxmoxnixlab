@@ -4,7 +4,7 @@ set -euo pipefail
 
 read -r -p "Enter LXC ID: " LXC_ID
 
-ssh root@"${PVE_IP}" bash -s <<'EOSH' "${LXC_ID}"
+ssh root@"${PVE_IP}" bash -s "${LXC_ID}" <<'EOSH'
 set -euo pipefail
 
 LXC_ID="$1"

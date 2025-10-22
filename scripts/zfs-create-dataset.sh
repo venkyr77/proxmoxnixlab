@@ -2,12 +2,16 @@
 
 set -euo pipefail
 
-read -r -p "Enter ZFS pool name (default: tank): " ZPOOL; ZPOOL=${ZPOOL:-tank}
-read -r -p "Enter dataset name under pool (default: sabnzbd): " ZDATASET; ZDATASET=${ZDATASET:-sabnzbd}
-read -r -p "Bootstrap chown to mapped root (base:base)? (y/N): " DO_CHOWN; DO_CHOWN=${DO_CHOWN:-N}
-read -r -p "Enter UID(GID will be assumed equal) to mount as (default: 0): " MOUNT_AS_UID; MOUNT_AS_UID=${MOUNT_AS_UID:-0}
+read -r -p "Enter ZFS pool name (default: tank): " ZPOOL
+ZPOOL=${ZPOOL:-tank}
+read -r -p "Enter dataset name under pool (default: sabnzbd): " ZDATASET
+ZDATASET=${ZDATASET:-sabnzbd}
+read -r -p "Bootstrap chown to mapped root (base:base)? (y/N): " DO_CHOWN
+DO_CHOWN=${DO_CHOWN:-N}
+read -r -p "Enter UID(GID will be assumed equal) to mount as (default: 0): " MOUNT_AS_UID
+MOUNT_AS_UID=${MOUNT_AS_UID:-0}
 
-ssh root@"${PVE_IP}" bash -s <<'EOSH' "${ZPOOL}" "${ZDATASET}" "${DO_CHOWN}" "${MOUNT_AS_UID}"
+ssh root@"${PVE_IP}" bash -s "${ZPOOL}" "${ZDATASET}" "${DO_CHOWN}" "${MOUNT_AS_UID}" <<'EOSH'
 set -euo pipefail
 ZPOOL="$1"; ZDATASET="$2"; DO_CHOWN="$3"; MOUNT_AS_UID="$4"; MOUNT_AS_GID="$MOUNT_AS_UID";
 

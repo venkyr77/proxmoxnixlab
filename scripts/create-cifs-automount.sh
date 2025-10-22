@@ -6,22 +6,24 @@ read -r -p "Enter NAS dataset name (e.g. media, projects): " DATASET
 read -r -p "Enter NAS username for $DATASET: " CIFS_USER
 read -r -s -p "Enter NAS password for $DATASET: " CIFS_PASS
 echo
-read -r -p "Bootstrap chown to mapped root (base:base)? (y/N): " DO_CHOWN; DO_CHOWN=${DO_CHOWN:-N}
-read -r -p "Enter UID(GID will be assumed equal) to mount as (default: 0): " MOUNT_AS_UID; MOUNT_AS_UID=${MOUNT_AS_UID:-0}
+read -r -p "Bootstrap chown to mapped root (base:base)? (y/N): " DO_CHOWN
+DO_CHOWN=${DO_CHOWN:-N}
+read -r -p "Enter UID(GID will be assumed equal) to mount as (default: 0): " MOUNT_AS_UID
+MOUNT_AS_UID=${MOUNT_AS_UID:-0}
 
 echo "[+] Setting up CIFS automount for $DATASET on root@${PVE_IP} pointing to //${NAS_IP}/$DATASET"
 
 CRED_FILE_LOCAL=$(mktemp)
 chmod 600 "$CRED_FILE_LOCAL"
 {
-echo "username=$CIFS_USER"
-echo "password=$CIFS_PASS"
-} > "$CRED_FILE_LOCAL"
+  echo "username=$CIFS_USER"
+  echo "password=$CIFS_PASS"
+} >"$CRED_FILE_LOCAL"
 
 scp "$CRED_FILE_LOCAL" root@"${PVE_IP}":/root/.smbcredentials-"${DATASET}"
 rm -f "$CRED_FILE_LOCAL"
 
-ssh root@"${PVE_IP}" bash -s <<'EOSH' "$DATASET" "$NAS_IP" "$DO_CHOWN" "$MOUNT_AS_UID"
+ssh root@"${PVE_IP}" bash -s "$DATASET" "$NAS_IP" "$DO_CHOWN" "$MOUNT_AS_UID" <<'EOSH'
 set -euo pipefail
 
 DATASET="$1"; NAS_IP="$2"; DO_CHOWN="$3"; MOUNT_AS_UID="$4"; MOUNT_AS_GID="$MOUNT_AS_UID";
