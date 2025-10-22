@@ -13,6 +13,15 @@
       {
         conditions = [
           "[STATUS] == 200"
+          "[BODY] == Healthy"
+        ];
+        interval = "1m";
+        name = "jellyfin";
+        url = "http://${props.cts.jellyfin.ipv4_short}:${toString nodes.jellyfin.config.services.jellyfin.port}/health";
+      }
+      {
+        conditions = [
+          "[STATUS] == 200"
           "[BODY] == ."
         ];
         interval = "1m";
