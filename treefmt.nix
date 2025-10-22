@@ -17,6 +17,10 @@ _: {
       priority = 30;
     };
 
+    shellcheck = {
+      enable = true;
+    };
+
     shfmt = {
       enable = true;
     };
