@@ -95,8 +95,14 @@
       {
         TOOLS = [
           {
+            "linkwarden" = {
+              icon = "linkwarden.png";
+              href = "https://linkwarden.euls.dev";
+            };
+          }
+          {
             "memos" = {
-              icon = "memos.jpg";
+              icon = "memos.png";
               href = "https://memos.euls.dev";
             };
           }

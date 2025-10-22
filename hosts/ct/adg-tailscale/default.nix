@@ -43,6 +43,7 @@
           ++ mkRule "grafana"
           ++ mkRule "jellyfin"
           ++ mkRule "lidarr"
+          ++ mkRule "linkwarden"
           ++ mkRule "memos"
           ++ mkRule "navidrome"
           ++ mkRule "ntfysh"

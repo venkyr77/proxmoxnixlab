@@ -41,6 +41,9 @@
         "lidarr.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.lidarr.ipv4_short}:${toString nodes.lidarr.config.services.lidarr.settings.server.port}
         '';
+        "linkwarden.euls.dev".extraConfig = ''
+          reverse_proxy ${props.cts.linkwarden.ipv4_short}:${toString nodes.linkwarden.config.services.linkwarden.port}
+        '';
         "memos.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.memos.ipv4_short}:${toString nodes.memos.config.services.memos.port}
         '';

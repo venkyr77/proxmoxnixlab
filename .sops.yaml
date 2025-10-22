@@ -9,6 +9,10 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: hosts/ct/linkwarden/secrets/linkwarden-ev
+    key_groups:
+    - age:
+      - *primary
   - path_regex: hosts/ct/searx/secrets/searx-ev
     key_groups:
     - age:
