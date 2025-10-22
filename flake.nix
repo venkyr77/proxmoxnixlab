@@ -54,6 +54,10 @@
       };
       url = "github:terranix/terranix";
     };
+    treefmt-nix = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:numtide/treefmt-nix";
+    };
   };
 
   outputs = {
@@ -63,7 +67,9 @@
     nixos-generators,
     nixpkgs,
     sops-nix,
+    systems,
     terranix,
+    treefmt-nix,
     ...
   }: let
     system = "x86_64-linux";
@@ -162,17 +168,11 @@
         })
         props.cts));
 
-    formatter.${system} = pkgs.writeShellApplication {
-      name = "format";
-      runtimeInputs = builtins.attrValues {
-        inherit (pkgs) alejandra deadnix fd statix;
-      };
-      text = ''
-        fd "$@" -t f -e nix -x statix fix -- '{}'
-        fd "$@" -t f -e nix -X deadnix -e -- '{}'
-        fd "$@" -t f -e nix -X alejandra '{}'
-      '';
-    };
+    formatter = let
+      eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
+      treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+    in
+      eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
 
     packages.${system}.mktar = nixos-generators.nixosGenerate {
       format = "proxmox-lxc";
