@@ -93,15 +93,15 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1760603229,
-        "narHash": "sha256-PBienw3IxbOn95/0NU+78EdRR7LmhAnHtxEA3opGKic=",
-        "owner": "Sveske-Juice",
+        "lastModified": 1761173007,
+        "narHash": "sha256-pebbh3IEl8crA9g0fbHeUvNyawAvhO2kNq8klpUWyk0=",
+        "owner": "venkyr77",
         "repo": "declarative-jellyfin",
-        "rev": "301e653d70310e95fa72cdd340f95eb2f317b6d0",
+        "rev": "676a6e22b15ca690a662d033228791afa8d08600",
         "type": "github"
       },
       "original": {
-        "owner": "Sveske-Juice",
+        "owner": "venkyr77",
         "repo": "declarative-jellyfin",
         "type": "github"
       }

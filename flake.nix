@@ -25,7 +25,7 @@
         nixpkgs.follows = "nixpkgs";
         systems.follows = "systems";
       };
-      url = "github:Sveske-Juice/declarative-jellyfin";
+      url = "github:venkyr77/declarative-jellyfin";
     };
     flake-compat = {
       flake = false;
