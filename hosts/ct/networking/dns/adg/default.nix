@@ -1,4 +1,8 @@
-{props, ...}: {
+{
+  config,
+  props,
+  ...
+}: {
   services.adguardhome = {
     enable = true;
     mutableSettings = false;
@@ -18,9 +22,9 @@
         ];
       };
       dns = {
-        bootstrap_dns = ["127.0.0.1"];
+        bootstrap_dns = ["127.0.0.1:${toString config.services.unbound.settings.server.port}"];
         cache_enabled = false;
-        upstream_dns = ["127.0.0.1"];
+        upstream_dns = ["127.0.0.1:${toString config.services.unbound.settings.server.port}"];
       };
       user_rules = let
         mkRule = vhost: [
@@ -52,6 +56,5 @@
         ++ mkRule "sonarr"
         ++ mkRule "vaultwarden";
     };
-    openFirewall = true;
   };
 }
