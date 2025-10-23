@@ -4,7 +4,7 @@ set -euo pipefail
 
 DATASET="${DATASET:-${1:-}}"
 if [[ -z ${DATASET} ]]; then
-  read -r -p "Enter NAS dataset name (e.g. media, projects): " DATASET
+  read -r -p "Enter NAS dataset name: " DATASET
 fi
 
 CIFS_USER="${CIFS_USER:-${2:-}}"
