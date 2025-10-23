@@ -1,9 +1,9 @@
 {
   imports = [
-    ./angel.nix
-    ./auth-n-pass.nix
-    ./mediarr.nix
+    ./angel
+    ./auth-n-pass
+    ./mediarr
     ./networking
-    ./tools.nix
+    ./tools
   ];
 }
