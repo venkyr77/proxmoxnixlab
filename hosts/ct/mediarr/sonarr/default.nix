@@ -1,10 +1,4 @@
 {config, ...}: {
-  imports = [
-    ../../../modules/users/mediarr.nix
-  ];
-
-  mediarr.make_user = true;
-
   services.sonarr = {
     enable = true;
     environmentFiles = [
@@ -16,7 +10,7 @@
   };
 
   sops = {
-    secrets.sonarr-api-key.sopsFile = ../../../secrets/common/sonarr-api-key;
+    secrets.sonarr-api-key.sopsFile = ../secrets/sonarr-api-key;
     templates.sonarr-api-key-ev = {
       content = ''
         SONARR__AUTH__APIKEY=${config.sops.placeholder.sonarr-api-key}

@@ -13,27 +13,27 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: hosts/ct/mediarr/secrets/jellyfin-admin-pass
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: hosts/ct/mediarr/secrets/lidarr-api-key
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: hosts/ct/mediarr/secrets/prowlarr-api-key
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: hosts/ct/mediarr/secrets/radarr-api-key
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: hosts/ct/mediarr/secrets/sonarr-api-key
+    key_groups:
+    - age:
+      - *primary
   - path_regex: hosts/ct/searx/secrets/searx-ev
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: hosts/ct/jellyfin/secrets/admin-pass
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: secrets/common/lidarr-api-key
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: secrets/common/radarr-api-key
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: secrets/common/sonarr-api-key
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: secrets/common/prowlarr-api-key
     key_groups:
     - age:
       - *primary

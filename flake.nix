@@ -167,7 +167,7 @@
               else []
             )
             ++ (
-              if ct == "jellyfin"
+              if ct == "mediarr"
               then [declarative-jellyfin.nixosModules.default]
               else []
             );

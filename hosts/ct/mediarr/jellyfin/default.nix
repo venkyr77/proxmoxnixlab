@@ -6,8 +6,7 @@
   cfg = config.services.jellyfin;
 in {
   imports = [
-    ../../../modules/hardware/intel-igpu.nix
-    ../../../modules/users/mediarr.nix
+    ../../../../modules/hardware/intel-igpu.nix
   ];
 
   options.services.jellyfin.port = pkgs.lib.mkOption {
@@ -27,8 +26,6 @@ in {
       mediagpu_gid = 2999;
       user = "mediarr";
     };
-
-    mediarr.make_user = true;
 
     networking.firewall.allowedTCPPorts = [cfg.port];
 
@@ -98,6 +95,6 @@ in {
       };
     };
 
-    sops.secrets.admin-pass.sopsFile = ./secrets/admin-pass;
+    sops.secrets.admin-pass.sopsFile = ../secrets/jellyfin-admin-pass;
   };
 }

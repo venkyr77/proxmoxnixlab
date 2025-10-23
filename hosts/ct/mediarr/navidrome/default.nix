@@ -1,10 +1,4 @@
 {
-  imports = [
-    ../../../modules/users/mediarr.nix
-  ];
-
-  mediarr.make_user = true;
-
   services.navidrome = {
     enable = true;
     group = "mediarr";

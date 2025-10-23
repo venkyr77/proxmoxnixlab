@@ -1,10 +1,4 @@
 {config, ...}: {
-  imports = [
-    ../../../modules/users/mediarr.nix
-  ];
-
-  mediarr.make_user = true;
-
   services.lidarr = {
     enable = true;
     environmentFiles = [
@@ -16,7 +10,7 @@
   };
 
   sops = {
-    secrets.lidarr-api-key.sopsFile = ../../../secrets/common/lidarr-api-key;
+    secrets.lidarr-api-key.sopsFile = ../secrets/lidarr-api-key;
     templates.lidarr-api-key-ev = {
       content = ''
         LIDARR__AUTH__APIKEY=${config.sops.placeholder.lidarr-api-key}

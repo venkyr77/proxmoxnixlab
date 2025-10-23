@@ -5,18 +5,12 @@
 }: let
   cfg = config.services.sabnzbd;
 in {
-  imports = [
-    ../../../modules/users/mediarr.nix
-  ];
-
   options.services.sabnzbd.port = pkgs.lib.mkOption {
     default = 8082;
     type = pkgs.lib.types.int;
   };
 
   config = {
-    mediarr.make_user = true;
-
     networking.firewall.allowedTCPPorts = [cfg.port];
 
     services.sabnzbd = {
