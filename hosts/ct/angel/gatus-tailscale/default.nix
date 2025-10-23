@@ -13,7 +13,7 @@
           type = "sqlite";
         };
         ui.default-sort-by = "group";
-        web.port = 8080;
+        web.port = 7777;
       };
     };
 

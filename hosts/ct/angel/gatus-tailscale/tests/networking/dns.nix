@@ -16,7 +16,7 @@
           query-type = "A";
         };
         interval = "1m";
-        name = "[UNBOUND] - dns.google";
+        name = "dns.google";
         url = "${props.cts.networking.ipv4_short}";
       }
       {
@@ -29,33 +29,7 @@
           query-type = "A";
         };
         interval = "1m";
-        name = "[UNBOUND] - dns.quad9.net";
-        url = "${props.cts.networking.ipv4_short}";
-      }
-      {
-        conditions = [
-          "[BODY] == any(8.8.8.8,8.8.4.4)"
-          "[DNS_RCODE] == NOERROR"
-        ];
-        dns = {
-          query-name = "dns.google.";
-          query-type = "A";
-        };
-        interval = "1m";
-        name = "[ADG] - dns.google";
-        url = "${props.cts.networking.ipv4_short}";
-      }
-      {
-        conditions = [
-          "[BODY] == any(9.9.9.9,149.112.112.112)"
-          "[DNS_RCODE] == NOERROR"
-        ];
-        dns = {
-          query-name = "dns.quad9.net.";
-          query-type = "A";
-        };
-        interval = "1m";
-        name = "[ADG] - dns.quad9.net";
+        name = "dns.quad9.net";
         url = "${props.cts.networking.ipv4_short}";
       }
       {
@@ -68,7 +42,7 @@
           query-type = "A";
         };
         interval = "1m";
-        name = "[ADG][LOCAL] - test.euls.dev";
+        name = "[LOCAL] - test.euls.dev";
         url = "${props.cts.networking.ipv4_short}";
       }
       {
@@ -81,7 +55,7 @@
           query-type = "A";
         };
         interval = "1m";
-        name = "[ADG][TAILSCALE] - test.euls.dev";
+        name = "[TAILSCALE] - test.euls.dev";
         url = "${props.cts.networking.tailscale_ip}";
       }
       {
@@ -94,7 +68,7 @@
           query-type = "A";
         };
         interval = "1m";
-        name = "[ADG][LOCAL] - searx.euls.dev";
+        name = "[LOCAL] - searx.euls.dev";
         url = "${props.cts.networking.ipv4_short}";
       }
       {
@@ -107,7 +81,7 @@
           query-type = "A";
         };
         interval = "1m";
-        name = "[ADG][TAILSCALE] - searx.euls.dev";
+        name = "[TAILSCALE] - searx.euls.dev";
         url = "${props.cts.networking.tailscale_ip}";
       }
     ];

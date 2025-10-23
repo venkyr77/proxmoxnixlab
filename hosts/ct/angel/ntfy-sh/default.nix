@@ -7,7 +7,7 @@
 in {
   options.services.ntfy-sh.port = lib.mkOption {
     type = lib.types.int;
-    default = 8080;
+    default = 8888;
   };
 
   config = {
