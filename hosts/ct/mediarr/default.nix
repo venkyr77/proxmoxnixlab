@@ -1,5 +1,6 @@
-{
+{inputs, ...}: {
   imports = [
+    inputs.declarative-jellyfin.nixosModules.default
     ./configarr
     ./jellyfin
     ./lidarr

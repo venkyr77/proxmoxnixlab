@@ -61,9 +61,7 @@
   };
 
   outputs = {
-    authentik-nix,
     colmena,
-    declarative-jellyfin,
     nixos-generators,
     nixpkgs,
     sops-nix,
@@ -71,7 +69,7 @@
     terranix,
     treefmt-nix,
     ...
-  }: let
+  } @ inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
     props = import ./props.nix;
@@ -146,6 +144,7 @@
           specialArgs = {
             inherit
               dtnIP
+              inputs
               nasIP
               props
               pveIP
@@ -154,23 +153,12 @@
         };
       }
       // (builtins.mapAttrs (ct: _ct_prop: {
-          imports =
-            [
-              nixos-generators.nixosModules.proxmox-lxc
-              sops-nix.nixosModules.sops
-              ./hosts/ct/base.nix
-              ./hosts/ct/${ct}
-            ]
-            ++ (
-              if ct == "auth-n-pass"
-              then [authentik-nix.nixosModules.default]
-              else []
-            )
-            ++ (
-              if ct == "mediarr"
-              then [declarative-jellyfin.nixosModules.default]
-              else []
-            );
+          imports = [
+            nixos-generators.nixosModules.proxmox-lxc
+            sops-nix.nixosModules.sops
+            ./hosts/ct/base.nix
+            ./hosts/ct/${ct}
+          ];
         })
         props.cts));
 
