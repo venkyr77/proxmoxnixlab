@@ -1,8 +1,11 @@
 {
   config,
+  dtnIP,
+  nasIP,
   nodes,
   pkgs,
   props,
+  pveIP,
   ...
 }: {
   networking.firewall.allowedTCPPorts = [80 443];
@@ -26,6 +29,9 @@
         "adg.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.adg-tailscale.ipv4_short}:${toString nodes.adg-tailscale.config.services.adguardhome.port}
         '';
+        "dtn.euls.dev".extraConfig = ''
+          reverse_proxy ${dtnIP}
+        '';
         "homepage.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.homepage.ipv4_short}:${toString nodes.homepage.config.services.homepage-dashboard.listenPort}
         '';
@@ -47,6 +53,9 @@
         "memos.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.memos.ipv4_short}:${toString nodes.memos.config.services.memos.port}
         '';
+        "nas.euls.dev".extraConfig = ''
+          reverse_proxy ${nasIP}
+        '';
         "navidrome.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.navidrome.ipv4_short}:${toString nodes.navidrome.config.services.navidrome.settings.Port}
         '';
@@ -58,6 +67,13 @@
         '';
         "prowlarr.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.prowlarr.ipv4_short}:${toString nodes.prowlarr.config.services.prowlarr.settings.server.port}
+        '';
+        "pve.euls.dev".extraConfig = ''
+          reverse_proxy ${pveIP}:8006 {
+            transport http {
+              tls_insecure_skip_verify
+            }
+          }
         '';
         "radarr.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.radarr.ipv4_short}:${toString nodes.radarr.config.services.radarr.settings.server.port}

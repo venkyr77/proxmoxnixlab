@@ -76,6 +76,7 @@
     pkgs = nixpkgs.legacyPackages.${system};
     props = import ./props.nix;
 
+    dtnIP = "10.0.0.140";
     nasIP = "10.0.0.222";
     pveIP = "10.0.0.108";
   in {
@@ -143,7 +144,12 @@
         meta = {
           nixpkgs = pkgs;
           specialArgs = {
-            inherit props;
+            inherit
+              dtnIP
+              nasIP
+              props
+              pveIP
+              ;
           };
         };
       }

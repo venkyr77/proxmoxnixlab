@@ -5,6 +5,32 @@
     openFirewall = true;
     services = [
       {
+        HYPERVISOR = [
+          {
+            "proxmox" = {
+              icon = "proxmox.svg";
+              href = "https://pve.euls.dev";
+            };
+          }
+        ];
+      }
+      {
+        STORAGE = [
+          {
+            "NAS" = {
+              icon = "truenas.svg";
+              href = "https://nas.euls.dev";
+            };
+          }
+          {
+            "DTN" = {
+              icon = "truenas.svg";
+              href = "https://dtn.euls.dev";
+            };
+          }
+        ];
+      }
+      {
         DNS = [
           {
             "adguard-unbound" = {
