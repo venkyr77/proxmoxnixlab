@@ -1,13 +1,9 @@
-{
-  nodes,
-  props,
-  ...
-}: {
+{config, ...}: {
   services.gatus.settings.endpoints =
     map (endpoint_conf:
       endpoint_conf
       // {
-        group = "monitoring";
+        group = "angel";
       })
     [
       {
@@ -19,7 +15,7 @@
         ];
         interval = "1m";
         name = "grafana";
-        url = "http://${props.cts.grafana.ipv4_short}:${toString nodes.grafana.config.services.grafana.settings.server.http_port}/api/health";
+        url = "http://localhost:${toString config.services.grafana.settings.server.http_port}/api/health";
       }
       {
         conditions = [
@@ -38,11 +34,11 @@
                 )
             )
             0
-            nodes.prometheus-server.config.services.prometheus.scrapeConfigs)}"
+            config.services.prometheus.scrapeConfigs)}"
         ];
         interval = "1m";
         name = "prometheus-server";
-        url = "http://${props.cts.prometheus-server.ipv4_short}:${toString nodes.prometheus-server.config.services.prometheus.port}/api/v1/query?query=sum(up)";
+        url = "http://localhost:${toString config.services.prometheus.port}/api/v1/query?query=sum(up)";
       }
     ];
 }

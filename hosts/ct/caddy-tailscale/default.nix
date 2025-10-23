@@ -36,10 +36,10 @@
           reverse_proxy ${props.cts.homepage.ipv4_short}:${toString nodes.homepage.config.services.homepage-dashboard.listenPort}
         '';
         "gatus.euls.dev".extraConfig = ''
-          reverse_proxy ${props.cts.gatus-tailscale.ipv4_short}:${toString nodes.gatus-tailscale.config.services.gatus.settings.web.port}
+          reverse_proxy ${props.cts.angel.ipv4_short}:${toString nodes.angel.config.services.gatus.settings.web.port}
         '';
         "grafana.euls.dev".extraConfig = ''
-          reverse_proxy ${props.cts.grafana.ipv4_short}:${toString nodes.grafana.config.services.grafana.settings.server.http_port}
+          reverse_proxy ${props.cts.angel.ipv4_short}:${toString nodes.angel.config.services.grafana.settings.server.http_port}
         '';
         "jellyfin.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.mediarr.ipv4_short}:${toString nodes.mediarr.config.services.jellyfin.port}
@@ -60,10 +60,10 @@
           reverse_proxy ${props.cts.mediarr.ipv4_short}:${toString nodes.mediarr.config.services.navidrome.settings.Port}
         '';
         "ntfysh.euls.dev".extraConfig = ''
-          reverse_proxy ${props.cts.ntfy-sh.ipv4_short}:${toString nodes.ntfy-sh.config.services.ntfy-sh.port}
+          reverse_proxy ${props.cts.angel.ipv4_short}:${toString nodes.angel.config.services.ntfy-sh.port}
         '';
         "prometheus.euls.dev".extraConfig = ''
-          reverse_proxy ${props.cts.prometheus-server.ipv4_short}:${toString nodes.prometheus-server.config.services.prometheus.port}
+          reverse_proxy ${props.cts.angel.ipv4_short}:${toString nodes.angel.config.services.prometheus.port}
         '';
         "prowlarr.euls.dev".extraConfig = ''
           reverse_proxy ${props.cts.mediarr.ipv4_short}:${toString nodes.mediarr.config.services.prowlarr.settings.server.port}

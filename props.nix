@@ -40,23 +40,14 @@ in {
       tailscale_ip = "100.77.0.102";
       vm_id = 152;
     };
-    gatus-tailscale = {
-      cpu_cores = 1;
+    angel = {
+      cpu_cores = 4;
       disk_size = 16;
       ipv4_full = "10.0.0.74/24";
       ipv4_short = "10.0.0.74";
-      memory = 1 * 1024;
+      memory = 4 * 1024;
       mount_point = null;
       vm_id = 154;
-    };
-    grafana = {
-      cpu_cores = 1;
-      disk_size = 16;
-      ipv4_full = "10.0.0.75/24";
-      ipv4_short = "10.0.0.75";
-      memory = 1 * 1024;
-      mount_point = null;
-      vm_id = 155;
     };
     homepage = {
       cpu_cores = 1;
@@ -81,15 +72,6 @@ in {
         (attachProxyMP "/mnt/shows")
       ];
       vm_id = 158;
-    };
-    prometheus-server = {
-      cpu_cores = 1;
-      disk_size = 16;
-      ipv4_full = "10.0.0.80/24";
-      ipv4_short = "10.0.0.80";
-      memory = 1 * 1024;
-      mount_point = null;
-      vm_id = 160;
     };
     searx = {
       cpu_cores = 1;
@@ -117,15 +99,6 @@ in {
       memory = 1 * 1024;
       mount_point = null;
       vm_id = 167;
-    };
-    ntfy-sh = {
-      cpu_cores = 1;
-      disk_size = 16;
-      ipv4_full = "10.0.0.88/24";
-      ipv4_short = "10.0.0.88";
-      memory = 1 * 1024;
-      mount_point = null;
-      vm_id = 168;
     };
     memos = {
       cpu_cores = 1;
