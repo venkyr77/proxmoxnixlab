@@ -18,6 +18,9 @@ in {
       ipv4_short = "10.0.0.70";
       memory = 4 * 1024;
       mount_point = null;
+      need_sops_pk = false;
+      need_igpu_patch = false;
+      need_ts_patch = true;
       vm_id = 150;
     };
     auth-n-pass = {
@@ -27,6 +30,9 @@ in {
       ipv4_short = "10.0.0.71";
       memory = 8 * 1024;
       mount_point = null;
+      need_sops_pk = true;
+      need_igpu_patch = false;
+      need_ts_patch = false;
       vm_id = 151;
     };
     journal = {
@@ -36,6 +42,9 @@ in {
       ipv4_short = "10.0.0.72";
       memory = 2 * 1024;
       mount_point = null;
+      need_sops_pk = true;
+      need_igpu_patch = false;
+      need_ts_patch = false;
       vm_id = 152;
     };
     mediarr = {
@@ -51,6 +60,9 @@ in {
         (attachProxyMP "/mnt/music")
         (attachProxyMP "/mnt/shows")
       ];
+      need_sops_pk = true;
+      need_igpu_patch = true;
+      need_ts_patch = false;
       vm_id = 153;
     };
     networking = {
@@ -60,6 +72,9 @@ in {
       ipv4_short = "10.0.0.74";
       memory = 4 * 1024;
       mount_point = null;
+      need_sops_pk = true;
+      need_igpu_patch = false;
+      need_ts_patch = true;
       tailscale_ip = "100.77.0.100";
       vm_id = 154;
     };
@@ -70,6 +85,9 @@ in {
       ipv4_short = "10.0.0.75";
       memory = 4 * 1024;
       mount_point = null;
+      need_sops_pk = true;
+      need_igpu_patch = false;
+      need_ts_patch = false;
       vm_id = 155;
     };
   };

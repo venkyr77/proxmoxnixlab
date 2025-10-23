@@ -2,13 +2,10 @@
 
 set -euo pipefail
 
-read -r -p "Enter LXC ID: " LXC_ID
-
-ssh root@"${PVE_IP}" bash -s "${LXC_ID}" <<'EOSH'
+ssh root@"${PVE_IP}" bash -s "${TS_PATCH_NEEDED_HOSTS[@]}" <<'EOSH'
 set -euo pipefail
 
-LXC_ID="$1"
-CONF_FILE="/etc/pve/lxc/${LXC_ID}.conf"
+TS_PATCH_NEEDED_HOSTS=("$@")
 
 add_line_if_missing() {
   local line="$1"
@@ -16,10 +13,19 @@ add_line_if_missing() {
   grep -qxF "$line" "$file" || echo "$line" >> "$file"
 }
 
-echo "[+] Ensuring tun device permissions for LXC ${LXC_ID}"
+patch_ct() {
+  local lxc_id="$1"
+  local conf_file="/etc/pve/lxc/${lxc_id}.conf"
 
-add_line_if_missing "lxc.cgroup2.devices.allow: c 10:200 rwm" "$CONF_FILE"
-add_line_if_missing "lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file" "$CONF_FILE"
+  echo "[+] Ensuring tun device permissions for LXC ${lxc_id}"
 
-echo "[✓] Updated $CONF_FILE"
+  add_line_if_missing "lxc.cgroup2.devices.allow: c 10:200 rwm" "$conf_file"
+  add_line_if_missing "lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file" "$conf_file"
+
+  echo "[✓] Updated $conf_file"
+}
+
+for ct in "${TS_PATCH_NEEDED_HOSTS[@]}"; do
+  patch_ct "$ct"
+done
 EOSH

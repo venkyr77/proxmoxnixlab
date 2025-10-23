@@ -49,6 +49,30 @@ in
               NAS_IP=${nasIP}
               PVE_IP=${pveIP}
 
+              SOPS_PK_NEEDED_HOSTS=(${
+                builtins.concatStringsSep " "
+                (
+                  map (ct: props.cts.${ct}.ipv4_short)
+                  (builtins.attrNames (pkgs.lib.attrsets.filterAttrs (_: ct_prop: ct_prop.need_sops_pk) props.cts))
+                )
+              })
+
+              IGPU_PATCH_NEEDED_HOSTS=(${
+                builtins.concatStringsSep " "
+                (
+                  map (ct: toString props.cts.${ct}.vm_id)
+                  (builtins.attrNames (pkgs.lib.attrsets.filterAttrs (_: ct_prop: ct_prop.need_igpu_patch) props.cts))
+                )
+              })
+
+              TS_PATCH_NEEDED_HOSTS=(${
+                builtins.concatStringsSep " "
+                (
+                  map (ct: toString props.cts.${ct}.vm_id)
+                  (builtins.attrNames (pkgs.lib.attrsets.filterAttrs (_: ct_prop: ct_prop.need_ts_patch) props.cts))
+                )
+              })
+
               ${(builtins.readFile ./scripts/${app}.sh)}
             ''
           );
@@ -62,6 +86,7 @@ in
         "pve-authorize-ssh-pk"
         "tailscale-lxc-patch"
         "zfs-create-dataset"
+        "zfs-create-pool"
         "zfs-grant-user-acl"
       ])
   )

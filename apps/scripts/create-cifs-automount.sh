@@ -2,16 +2,30 @@
 
 set -euo pipefail
 
-read -r -p "Enter NAS dataset name (e.g. media, projects): " DATASET
-read -r -p "Enter NAS username for $DATASET: " CIFS_USER
+DATASET="${DATASET:-${1:-}}"
+if [[ -z ${DATASET} ]]; then
+  read -r -p "Enter NAS dataset name (e.g. media, projects): " DATASET
+fi
+
+CIFS_USER="${CIFS_USER:-${2:-}}"
+if [[ -z ${CIFS_USER} ]]; then
+  read -r -p "Enter NAS username for $DATASET: " CIFS_USER
+fi
+
+DO_CHOWN="${DO_CHOWN:-${3:-}}"
+if [[ -z ${DO_CHOWN} ]]; then
+  read -r -p "Bootstrap chown to mapped root (base:base)? (y/N): " DO_CHOWN
+fi
+
+MOUNT_AS_UID="${MOUNT_AS_UID:-${4:-}}"
+if [[ -z ${MOUNT_AS_UID} ]]; then
+  read -r -p "Enter UID(GID will be assumed equal) to mount as: " MOUNT_AS_UID
+fi
+
 read -r -s -p "Enter NAS password for $DATASET: " CIFS_PASS
 echo
-read -r -p "Bootstrap chown to mapped root (base:base)? (y/N): " DO_CHOWN
-DO_CHOWN=${DO_CHOWN:-N}
-read -r -p "Enter UID(GID will be assumed equal) to mount as (default: 0): " MOUNT_AS_UID
-MOUNT_AS_UID=${MOUNT_AS_UID:-0}
 
-echo "[+] Setting up CIFS automount for $DATASET on root@${PVE_IP} pointing to //${NAS_IP}/$DATASET"
+echo "DATASET=$DATASET, CIFS_USER=$CIFS_USER, DO_CHOWN=$DO_CHOWN, MOUNT_AS_UID=$MOUNT_AS_UID"
 
 CRED_FILE_LOCAL=$(mktemp)
 chmod 600 "$CRED_FILE_LOCAL"

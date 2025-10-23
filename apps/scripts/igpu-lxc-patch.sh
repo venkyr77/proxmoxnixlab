@@ -2,13 +2,10 @@
 
 set -euo pipefail
 
-read -r -p "Enter LXC ID: " LXC_ID
-
-ssh root@"${PVE_IP}" bash -s "${LXC_ID}" <<'EOSH'
+ssh root@"${PVE_IP}" bash -s "${IGPU_PATCH_NEEDED_HOSTS[@]}" <<'EOSH'
 set -euo pipefail
 
-LXC_ID="$1"
-CONF_FILE="/etc/pve/lxc/${LXC_ID}.conf"
+IGPU_PATCH_NEEDED_HOSTS=("$@")
 
 add_line_if_missing() {
   local line="$1"
@@ -16,10 +13,19 @@ add_line_if_missing() {
   grep -qxF "$line" "$file" || echo "$line" >> "$file"
 }
 
-echo "[+] Ensuring iGPU (/dev/dri) access for LXC ${LXC_ID}"
+patch_ct() {
+  local lxc_id="$1"
+  local conf_file="/etc/pve/lxc/${lxc_id}.conf"
 
-add_line_if_missing "lxc.cgroup2.devices.allow: c 226:* rwm" "$CONF_FILE"
-add_line_if_missing "lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir" "$CONF_FILE"
+  echo "[+] Ensuring iGPU (/dev/dri) access for LXC ${lxc_id}"
 
-echo "[✓] Updated $CONF_FILE"
+  add_line_if_missing "lxc.cgroup2.devices.allow: c 226:* rwm" "$conf_file"
+  add_line_if_missing "lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir" "$conf_file"
+
+  echo "[✓] Updated $conf_file"
+}
+
+for ct in "${IGPU_PATCH_NEEDED_HOSTS[@]}"; do
+  patch_ct "$ct"
+done
 EOSH
