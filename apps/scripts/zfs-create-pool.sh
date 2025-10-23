@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-read -r -p "Enter ZFS pool name (default: tank): " ZPOOL
-ZPOOL=${ZPOOL:-tank}
+ZPOOL="${ZPOOL:-${1:-}}"
+if [[ -z ${ZPOOL} ]]; then
+  read -r -p "Enter ZFS pool name: " ZPOOL
+fi
 
 ssh root@"${PVE_IP}" bash -s "${ZPOOL}" <<'EOSH'
 set -euo pipefail
