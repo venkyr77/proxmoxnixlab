@@ -47,18 +47,18 @@
 
     pnpmDeps = pkgs.pnpm.fetchDeps {
       fetcherVersion = 1;
-      hash = "sha256-D5mdlYLXAu9gHNrL45bev1+giVL/9x7oTOUUJmVIE8U=";
+      hash = "sha256-tmEr5rX14DWeWo4FDArNU3yrFGRft3nuQ8TqXj6QNS4=";
       inherit (finalAttrs) pname src version;
     };
 
     src = pkgs.fetchFromGitHub {
-      hash = "sha256-x87N8GAerfyqJHLx7gjFaIPKCDhxZjlQ+MPeLK+vshw";
+      hash = "sha256-vpKhIYhXMKOmqsJIRisp1pIcQskTSgd3pPjA/WWWXPo=";
       owner = "raydak-labs";
       repo = "configarr";
-      tag = "v1.15.1";
+      tag = "v1.17.1";
     };
 
-    version = "1.15.1";
+    version = "1.17.1";
   });
 in {
   options.services.configarr = {
@@ -91,7 +91,7 @@ in {
     };
 
     schedule = lib.mkOption {
-      default = "5min";
+      default = "daily";
       description = "Run interval for the timer (applied to OnUnitActiveSec).";
       type = lib.types.str;
     };
@@ -131,11 +131,11 @@ in {
 
       timers.configarr = {
         description = "Schedule Configarr run";
+        partOf = ["configarr.service"];
         timerConfig = {
-          AccuracySec = "30s";
-          OnBootSec = "2min";
-          OnUnitActiveSec = cfg.schedule;
+          OnCalendar = cfg.schedule;
           Persistent = true;
+          RandomizedDelaySec = "5m";
         };
         wantedBy = ["timers.target"];
       };
