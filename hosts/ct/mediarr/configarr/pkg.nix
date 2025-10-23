@@ -92,7 +92,7 @@ in {
 
     schedule = lib.mkOption {
       default = "daily";
-      description = "Run interval for the timer (applied to OnUnitActiveSec).";
+      description = "Run interval for the timer.";
       type = lib.types.str;
     };
 
