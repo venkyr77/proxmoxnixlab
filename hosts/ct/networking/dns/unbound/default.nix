@@ -1,9 +1,4 @@
 {config, ...}: {
-  networking.firewall = {
-    allowedTCPPorts = [53];
-    allowedUDPPorts = [53];
-  };
-
   services = {
     prometheus.exporters.unbound = {
       enable = true;
@@ -15,8 +10,6 @@
         key = null;
       };
     };
-
-    resolved.enable = false;
 
     unbound = {
       enable = true;

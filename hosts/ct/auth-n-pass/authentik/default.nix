@@ -14,5 +14,5 @@
     };
   };
 
-  sops.secrets.authentik-ev.sopsFile = ./secrets/authentik-ev;
+  sops.secrets.authentik-ev.sopsFile = ../secrets/authentik-ev;
 }

@@ -8,5 +8,5 @@
     port = 8080;
   };
 
-  sops.secrets.linkwarden-ev.sopsFile = ./secrets/linkwarden-ev;
+  sops.secrets.linkwarden-ev.sopsFile = ../secrets/linkwarden-ev;
 }

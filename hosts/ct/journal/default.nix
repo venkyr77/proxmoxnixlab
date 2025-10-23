@@ -1,0 +1,6 @@
+{
+  imports = [
+    ./linkwarden
+    ./memos
+  ];
+}

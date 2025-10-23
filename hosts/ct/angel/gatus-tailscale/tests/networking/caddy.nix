@@ -7,5 +7,5 @@
     interval = "1m";
     name = virtual_host;
     url = "https://${virtual_host}";
-  }) (builtins.attrNames nodes.caddy-tailscale.config.services.caddy.virtualHosts);
+  }) (builtins.attrNames nodes.networking.config.services.caddy.virtualHosts);
 }

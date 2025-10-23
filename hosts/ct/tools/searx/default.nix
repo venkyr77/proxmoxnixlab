@@ -17,5 +17,5 @@
     };
   };
 
-  sops.secrets.searx-ev.sopsFile = ./secrets/searx-ev;
+  sops.secrets.searx-ev.sopsFile = ../secrets/searx-ev;
 }

@@ -162,7 +162,7 @@
               ./hosts/ct/${ct}
             ]
             ++ (
-              if ct == "authentik"
+              if ct == "auth-n-pass"
               then [authentik-nix.nixosModules.default]
               else []
             )

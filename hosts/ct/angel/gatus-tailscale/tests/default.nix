@@ -1,9 +1,9 @@
 {
   imports = [
     ./angel.nix
-    ./caddy.nix
-    ./dns.nix
+    ./auth-n-pass.nix
     ./mediarr.nix
-    ./services.nix
+    ./networking
+    ./tools.nix
   ];
 }
