@@ -1,39 +1,39 @@
 keys:
   - &primary age1m47g9gt850xxdepqtuxxuh6tpat4dukmcd3emljk4ul32wfemq6sue6z8q
 creation_rules:
-  - path_regex: hosts/ct/authentik/secrets/authentik-ev
+  - path_regex: hosts/ct/auth-n-pass/secrets/authentik-ev
     key_groups:
     - age:
       - *primary
-  - path_regex: hosts/ct/caddy-tailscale/secrets/caddy-ev
+  - path_regex: hosts/ct/journal/secrets/linkwarden-ev
     key_groups:
     - age:
       - *primary
-  - path_regex: hosts/ct/linkwarden/secrets/linkwarden-ev
+  - path_regex: hosts/ct/mediarr/secrets/jellyfin-admin-pass
     key_groups:
     - age:
       - *primary
-  - path_regex: hosts/ct/searx/secrets/searx-ev
+  - path_regex: hosts/ct/mediarr/secrets/lidarr-api-key
     key_groups:
     - age:
       - *primary
-  - path_regex: hosts/ct/jellyfin/secrets/admin-pass
+  - path_regex: hosts/ct/mediarr/secrets/prowlarr-api-key
     key_groups:
     - age:
       - *primary
-  - path_regex: secrets/common/lidarr-api-key
+  - path_regex: hosts/ct/mediarr/secrets/radarr-api-key
     key_groups:
     - age:
       - *primary
-  - path_regex: secrets/common/radarr-api-key
+  - path_regex: hosts/ct/mediarr/secrets/sonarr-api-key
     key_groups:
     - age:
       - *primary
-  - path_regex: secrets/common/sonarr-api-key
+  - path_regex: hosts/ct/networking/secrets/caddy-ev
     key_groups:
     - age:
       - *primary
-  - path_regex: secrets/common/prowlarr-api-key
+  - path_regex: hosts/ct/tools/secrets/searx-ev
     key_groups:
     - age:
       - *primary

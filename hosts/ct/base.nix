@@ -8,8 +8,8 @@
     ../../minimal.nix
   ];
 
-  networking.nameservers = lib.mkIf (!(name == "unbound" || name == "adg-tailscale")) [
-    props.cts.adg-tailscale.ipv4_short
+  networking.nameservers = lib.mkIf (name != "networking") [
+    props.cts.networking.ipv4_short
   ];
 
   deployment = {
