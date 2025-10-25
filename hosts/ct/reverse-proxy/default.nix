@@ -1,7 +1,6 @@
 {
   imports = [
-    ./caddy
-    ./dns
+    ./caddy.nix
   ];
 
   services.tailscale.enable = true;

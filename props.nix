@@ -35,7 +35,7 @@ in {
       need_ts_patch = false;
       vm_id = 151;
     };
-    journal = {
+    dns = {
       cpu_cores = 2;
       disk_size = 16;
       ipv4_full = "10.0.0.72/24";
@@ -44,14 +44,27 @@ in {
       mount_point = null;
       need_sops_pk = true;
       need_igpu_patch = false;
-      need_ts_patch = false;
+      need_ts_patch = true;
+      tailscale_ip = "100.77.0.100";
       vm_id = 152;
+    };
+    journal = {
+      cpu_cores = 2;
+      disk_size = 16;
+      ipv4_full = "10.0.0.73/24";
+      ipv4_short = "10.0.0.73";
+      memory = 2 * 1024;
+      mount_point = null;
+      need_sops_pk = true;
+      need_igpu_patch = false;
+      need_ts_patch = false;
+      vm_id = 153;
     };
     mediarr = {
       cpu_cores = 8;
       disk_size = 64;
-      ipv4_full = "10.0.0.73/24";
-      ipv4_short = "10.0.0.73";
+      ipv4_full = "10.0.0.74/24";
+      ipv4_short = "10.0.0.74";
       memory = 24 * 1024;
       mount_point = [
         (attachHostDatasetMP "jellyfin")
@@ -63,32 +76,32 @@ in {
       need_sops_pk = true;
       need_igpu_patch = true;
       need_ts_patch = false;
-      vm_id = 153;
+      vm_id = 154;
     };
-    networking = {
-      cpu_cores = 4;
+    reverse-proxy = {
+      cpu_cores = 2;
       disk_size = 16;
-      ipv4_full = "10.0.0.74/24";
-      ipv4_short = "10.0.0.74";
-      memory = 4 * 1024;
+      ipv4_full = "10.0.0.75/24";
+      ipv4_short = "10.0.0.75";
+      memory = 2 * 1024;
       mount_point = null;
       need_sops_pk = true;
       need_igpu_patch = false;
       need_ts_patch = true;
-      tailscale_ip = "100.77.0.100";
-      vm_id = 154;
+      tailscale_ip = "100.77.0.101";
+      vm_id = 155;
     };
     tools = {
       cpu_cores = 4;
       disk_size = 16;
-      ipv4_full = "10.0.0.75/24";
-      ipv4_short = "10.0.0.75";
+      ipv4_full = "10.0.0.76/24";
+      ipv4_short = "10.0.0.76";
       memory = 4 * 1024;
       mount_point = null;
       need_sops_pk = true;
       need_igpu_patch = false;
       need_ts_patch = false;
-      vm_id = 155;
+      vm_id = 156;
     };
   };
 }

@@ -22,7 +22,7 @@
         static_configs = [
           {
             targets = [
-              "${props.cts.networking.ipv4_short}:${toString nodes.networking.config.services.prometheus.exporters.unbound.port}"
+              "${props.cts.dns.ipv4_short}:${toString nodes.dns.config.services.prometheus.exporters.unbound.port}"
             ];
           }
         ];

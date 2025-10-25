@@ -17,7 +17,7 @@
         };
         interval = "1m";
         name = "dns.google";
-        url = "${props.cts.networking.ipv4_short}";
+        url = "${props.cts.dns.ipv4_short}";
       }
       {
         conditions = [
@@ -30,7 +30,7 @@
         };
         interval = "1m";
         name = "dns.quad9.net";
-        url = "${props.cts.networking.ipv4_short}";
+        url = "${props.cts.dns.ipv4_short}";
       }
       {
         conditions = [
@@ -43,7 +43,7 @@
         };
         interval = "1m";
         name = "[LOCAL] - test.euls.dev";
-        url = "${props.cts.networking.ipv4_short}";
+        url = "${props.cts.dns.ipv4_short}";
       }
       {
         conditions = [
@@ -56,11 +56,11 @@
         };
         interval = "1m";
         name = "[TAILSCALE] - test.euls.dev";
-        url = "${props.cts.networking.tailscale_ip}";
+        url = "${props.cts.reverse-proxy.tailscale_ip}";
       }
       {
         conditions = [
-          "[BODY] == ${props.cts.networking.ipv4_short}"
+          "[BODY] == ${props.cts.dns.ipv4_short}"
           "[DNS_RCODE] == NOERROR"
         ];
         dns = {
@@ -69,11 +69,11 @@
         };
         interval = "1m";
         name = "[LOCAL] - searx.euls.dev";
-        url = "${props.cts.networking.ipv4_short}";
+        url = "${props.cts.dns.ipv4_short}";
       }
       {
         conditions = [
-          "[BODY] == ${props.cts.networking.tailscale_ip}"
+          "[BODY] == ${props.cts.reverse-proxy.tailscale_ip}"
           "[DNS_RCODE] == NOERROR"
         ];
         dns = {
@@ -82,7 +82,7 @@
         };
         interval = "1m";
         name = "[TAILSCALE] - searx.euls.dev";
-        url = "${props.cts.networking.tailscale_ip}";
+        url = "${props.cts.reverse-proxy.tailscale_ip}";
       }
     ];
 }

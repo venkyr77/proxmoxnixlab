@@ -1,6 +1,6 @@
 {
   imports = [
-    ./caddy.nix
+    ./reverse-proxy.nix
     ./dns.nix
   ];
 }

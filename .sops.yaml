@@ -29,7 +29,7 @@ creation_rules:
     key_groups:
     - age:
       - *primary
-  - path_regex: hosts/ct/networking/secrets/caddy-ev
+  - path_regex: hosts/ct/reverse-proxy/secrets/caddy-ev
     key_groups:
     - age:
       - *primary

@@ -29,9 +29,9 @@
       user_rules = let
         mkRule = vhost: [
           ''@@*$client="local"''
-          ''||${vhost}.euls.dev^$dnsrewrite=${props.cts.networking.ipv4_short},client="local"''
+          ''||${vhost}.euls.dev^$dnsrewrite=${props.cts.reverse-proxy.ipv4_short},client="local"''
           ''@@*$client="tailscale"''
-          ''||${vhost}.euls.dev^$dnsrewrite=${props.cts.networking.tailscale_ip},client="tailscale"''
+          ''||${vhost}.euls.dev^$dnsrewrite=${props.cts.reverse-proxy.tailscale_ip},client="tailscale"''
         ];
       in
         mkRule "auth"

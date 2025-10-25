@@ -26,7 +26,7 @@
         reverse_proxy ${props.cts.auth-n-pass.ipv4_short}:9000
       '';
       "adg.euls.dev".extraConfig = ''
-        reverse_proxy localhost:${toString config.services.adguardhome.port}
+        reverse_proxy ${props.cts.dns.ipv4_short}:${toString config.services.adguardhome.port}
       '';
       "dtn.euls.dev".extraConfig = ''
         reverse_proxy ${dtnIP}
@@ -92,5 +92,5 @@
     };
   };
 
-  sops.secrets.caddy-ev.sopsFile = ../secrets/caddy-ev;
+  sops.secrets.caddy-ev.sopsFile = ./secrets/caddy-ev;
 }
