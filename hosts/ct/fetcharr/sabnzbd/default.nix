@@ -37,7 +37,11 @@ in {
         script =
           #sh
           ''
-            sleep 5
+            for i in $(seq 1 30); do
+              [ -f "${cfg.configFile}" ] && break
+              sleep 1
+            done
+
             systemctl stop sabnzbd.service
 
             sed -i 's/^host_whitelist\s*=.*/host_whitelist = sabnzbd.euls.dev,/' ${cfg.configFile}
