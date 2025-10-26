@@ -18,7 +18,7 @@
   };
 
   sops = {
-    age.keyFile = "/etc/${name}/sopspk";
+    age.keyFile = "/etc/sopspk-secret/sopspk";
     defaultSopsFormat = "binary";
   };
 }

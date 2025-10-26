@@ -7,7 +7,7 @@ copy_to_host() {
 
   echo "Copying to ${host}"
 
-  if ssh "ops@$host" '[ -f /etc/$HOSTNAME/sopspk ]'; then
+  if ssh "ops@$host" '[ -f /etc/sopspk-secret/sopspk ]'; then
     echo "sopspk already exists on ${host}, skipping."
     return
   fi
@@ -16,10 +16,10 @@ copy_to_host() {
 
   ssh "ops@$host" bash <<'EOSH'
 set -euo pipefail
-sudo mkdir -p "/etc/$HOSTNAME"
-sudo mv "$HOME/sopspk" "/etc/$HOSTNAME/"
-sudo chown root:root "/etc/$HOSTNAME/sopspk"
-sudo chmod 600 "/etc/$HOSTNAME/sopspk"
+sudo mkdir -p "/etc/sopspk-secret"
+sudo mv "$HOME/sopspk" "/etc/sopspk-secret/"
+sudo chown root:root "/etc/sopspk-secret/sopspk"
+sudo chmod 600 "/etc/sopspk-secret/sopspk"
 EOSH
 }
 
