@@ -12,24 +12,7 @@
     ./sonarr
   ];
 
-  systemd.services.fetcharr-config-maker = let
-    sabApiKey = "$(< ${config.sops.secrets.sabnzbd-api-key.path})";
-
-    mkCfgJson = category_prefix: category: priority_infix:
-      builtins.toJSON {
-        host = "localhost";
-        port = 8082;
-        useSsl = false;
-        apiKey = sabApiKey;
-        "${category_prefix}Category" = category;
-        "recent${priority_infix}Priority" = -100;
-        "older${priority_infix}Priority" = -100;
-      };
-
-    cfgJsonLidarr = mkCfgJson "music" "music" "Music";
-    cfgJsonRadarr = mkCfgJson "movie" "movies" "Movie";
-    cfgJsonSonarr = mkCfgJson "tv" "tv" "Tv";
-  in {
+  systemd.services.fetcharr-config-maker = {
     after = ["lidarr.service" "radarr.service" "sonarr.service"];
     wants = ["lidarr.service" "radarr.service" "sonarr.service"];
     path = with pkgs; [sqlite coreutils systemd];
@@ -41,6 +24,12 @@
       # sh
       ''
         set -euo pipefail
+
+        API_KEY="$(< ${config.sops.secrets.sabnzbd-api-key.path})"
+
+        cfgJsonLidarr='{"host":"localhost","port":8082,"useSsl":false,"apiKey":"'"$API_KEY"'","musicCategory":"music","recentMusicPriority":-100,"olderMusicPriority":-100}'
+        cfgJsonRadarr='{"host":"localhost","port":8082,"useSsl":false,"apiKey":"'"$API_KEY"'","movieCategory":"movies","recentMoviePriority":-100,"olderMoviePriority":-100}'
+        cfgJsonSonarr='{"host":"localhost","port":8082,"useSsl":false,"apiKey":"'"$API_KEY"'","tvCategory":"tv","recentTvPriority":-100,"olderTvPriority":-100}'
 
         declare -A APPS=(
           [lidarr]="/var/lib/lidarr/.config/Lidarr/lidarr.db"
@@ -58,18 +47,19 @@
 
           sqlite3 "$db" <<SQL
         BEGIN IMMEDIATE;
-        DELETE FROM DownloadClients WHERE Name='SABnzbd';
         INSERT INTO DownloadClients
         (Enable, Name, Implementation, Settings, ConfigContract, Priority, RemoveCompletedDownloads, RemoveFailedDownloads, Tags)
-        VALUES
-        (1, 'SABnzbd', 'Sabnzbd', '$json', 'SabnzbdSettings', 1, 1, 1, '[]');
+        SELECT 1, 'SABnzbd', 'Sabnzbd', '$json', 'SabnzbdSettings', 1, 1, 1, '[]'
+        WHERE NOT EXISTS (
+          SELECT 1 FROM DownloadClients WHERE Name = 'SABnzbd'
+        );
         COMMIT;
         SQL
         }
 
-        upsert_client lidarr "''${APPS[lidarr]}" '${cfgJsonLidarr}'
-        upsert_client radarr "''${APPS[radarr]}" '${cfgJsonRadarr}'
-        upsert_client sonarr "''${APPS[sonarr]}" '${cfgJsonSonarr}'
+        upsert_client lidarr "''${APPS[lidarr]}" "$cfgJsonLidarr"
+        upsert_client radarr "''${APPS[radarr]}" "$cfgJsonRadarr"
+        upsert_client sonarr "''${APPS[sonarr]}" "$cfgJsonSonarr"
 
         LIDARR_DB="''${APPS[lidarr]}"
         sqlite3 "$LIDARR_DB" <<'SQL'
