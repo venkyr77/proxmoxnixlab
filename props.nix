@@ -110,7 +110,6 @@ in {
       memory = 24 * 1024;
       mount_point = [
         (attachHostDatasetMP "jellyfin")
-        (attachHostDatasetMP "sabnzbd")
         (attachProxyMP "/mnt/movies")
         (attachProxyMP "/mnt/music")
         (attachProxyMP "/mnt/shows")
