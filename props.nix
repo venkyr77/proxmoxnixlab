@@ -90,23 +90,11 @@ in {
       tailscale_ip = "100.77.0.101";
       vm_id = 155;
     };
-    services = {
-      cpu_cores = 4;
-      disk_size = 16;
-      ipv4_full = "10.0.0.76/24";
-      ipv4_short = "10.0.0.76";
-      memory = 4 * 1024;
-      mount_point = null;
-      need_sops_pk = true;
-      need_igpu_patch = false;
-      need_ts_patch = false;
-      vm_id = 156;
-    };
     streamarr = {
       cpu_cores = 8;
       disk_size = 64;
-      ipv4_full = "10.0.0.77/24";
-      ipv4_short = "10.0.0.77";
+      ipv4_full = "10.0.0.76/24";
+      ipv4_short = "10.0.0.76";
       memory = 24 * 1024;
       mount_point = [
         (attachHostDatasetMP "jellyfin")
@@ -116,6 +104,18 @@ in {
       ];
       need_sops_pk = true;
       need_igpu_patch = true;
+      need_ts_patch = false;
+      vm_id = 156;
+    };
+    tools = {
+      cpu_cores = 4;
+      disk_size = 16;
+      ipv4_full = "10.0.0.77/24";
+      ipv4_short = "10.0.0.77";
+      memory = 4 * 1024;
+      mount_point = null;
+      need_sops_pk = true;
+      need_igpu_patch = false;
       need_ts_patch = false;
       vm_id = 157;
     };

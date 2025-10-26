@@ -7,7 +7,7 @@
     map (endpoint_conf:
       endpoint_conf
       // {
-        group = "services";
+        group = "tools";
       })
     [
       {
@@ -17,7 +17,7 @@
         ];
         interval = "1m";
         name = "searx";
-        url = "http://${props.cts.services.ipv4_short}:${toString nodes.services.config.services.searx.settings.server.port}/search?q=test&format=json";
+        url = "http://${props.cts.tools.ipv4_short}:${toString nodes.tools.config.services.searx.settings.server.port}/search?q=test&format=json";
       }
     ];
 }

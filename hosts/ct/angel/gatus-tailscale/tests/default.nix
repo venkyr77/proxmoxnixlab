@@ -5,6 +5,6 @@
     ./fetcharr
     ./networking
     ./streamarr
-    ./services
+    ./tools
   ];
 }
