@@ -19,6 +19,8 @@
           media_management:
             downloadPropersAndRepacks: doNotPrefer
           quality_profiles: ${(pkgs.lib.generators.toYAML {} (import ./quality-profiles/lidarr.nix))}
+          delete_unmanaged_quality_profiles:
+            enabled: true
 
       radarr:
         radarr_instance:
@@ -37,6 +39,8 @@
               rename: true
               standard: jellyfin-imdb
           quality_profiles: ${(pkgs.lib.generators.toYAML {} (import ./quality-profiles/radarr.nix))}
+          delete_unmanaged_quality_profiles:
+            enabled: true
           root_folders:
             - /mnt/movies/English
             - /mnt/movies/Tamil
@@ -61,6 +65,8 @@
             season: default
             series: default
           quality_profiles: ${(pkgs.lib.generators.toYAML {} (import ./quality-profiles/sonarr.nix))}
+          delete_unmanaged_quality_profiles:
+            enabled: true
           root_folders:
             - /mnt/shows
     '';

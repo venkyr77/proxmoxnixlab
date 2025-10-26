@@ -49,10 +49,10 @@ pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
   };
 
   src = pkgs.fetchFromGitHub {
-    hash = "sha256-vpKhIYhXMKOmqsJIRisp1pIcQskTSgd3pPjA/WWWXPo=";
-    owner = "raydak-labs";
+    hash = "sha256-enPsUrHmcm2D+WCd3U5tBtB0i7orqhCPxukFgOLrHys=";
+    owner = "venkyr77";
     repo = "configarr";
-    tag = "v1.17.1";
+    rev = "nix";
   };
 
   version = "1.17.1";
