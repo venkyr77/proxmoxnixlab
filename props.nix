@@ -54,7 +54,7 @@ in {
       ipv4_short = "10.0.0.73";
       memory = 2 * 1024;
       mount_point = null;
-      need_sops_pk = true;
+      need_sops_pk = false;
       need_igpu_patch = false;
       need_ts_patch = true;
       tailscale_ip = "100.77.0.100";
