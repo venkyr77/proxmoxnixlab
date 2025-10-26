@@ -7,12 +7,21 @@ copy_to_host() {
 
   echo "Copying to ${host}"
 
-  ssh -t "ops@$host" 'sudo mkdir -p "/etc/$HOSTNAME"'
-  scp "$HOME/.config/sops/age/keys.txt" "ops@$host:/home/ops/sopspk"
-  ssh -t "ops@$host" 'sudo mv "$HOME/sopspk" "/etc/$HOSTNAME"'
-}
+  if ssh "ops@$host" '[ -f /etc/$HOSTNAME/sopspk ]'; then
+    echo "sopspk already exists on ${host}, skipping."
+    return
+  fi
 
-echo "${SOPS_PK_NEEDED_HOSTS}"
+  scp "$HOME/.config/sops/age/keys.txt" "ops@$host:/home/ops/sopspk"
+
+  ssh "ops@$host" bash <<'EOSH'
+set -euo pipefail
+sudo mkdir -p "/etc/$HOSTNAME"
+sudo mv "$HOME/sopspk" "/etc/$HOSTNAME/"
+sudo chown root:root "/etc/$HOSTNAME/sopspk"
+sudo chmod 600 "/etc/$HOSTNAME/sopspk"
+EOSH
+}
 
 for ct in "${SOPS_PK_NEEDED_HOSTS[@]}"; do
   copy_to_host "$ct"
