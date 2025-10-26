@@ -12,7 +12,7 @@ copy_to_host() {
     return
   fi
 
-  scp "$HOME/.config/sops/age/keys.txt" "ops@$host:/home/ops/sopspk"
+  scp -q "$HOME/.config/sops/age/keys.txt" "ops@$host:/home/ops/sopspk"
 
   ssh "ops@$host" bash <<'EOSH'
 set -euo pipefail
