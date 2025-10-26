@@ -2,8 +2,9 @@
   imports = [
     ./angel
     ./auth-n-pass
-    ./mediarr
+    ./fetcharr
     ./networking
-    ./tools
+    ./streamarr
+    ./services
   ];
 }

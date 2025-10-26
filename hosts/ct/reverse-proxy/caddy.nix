@@ -32,7 +32,7 @@
         reverse_proxy ${dtnIP}
       '';
       "homepage.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.tools.ipv4_short}:${toString nodes.tools.config.services.homepage-dashboard.listenPort}
+        reverse_proxy ${props.cts.services.ipv4_short}:${toString nodes.services.config.services.homepage-dashboard.listenPort}
       '';
       "gatus.euls.dev".extraConfig = ''
         reverse_proxy ${props.cts.angel.ipv4_short}:${toString nodes.angel.config.services.gatus.settings.web.port}
@@ -41,22 +41,22 @@
         reverse_proxy ${props.cts.angel.ipv4_short}:${toString nodes.angel.config.services.grafana.settings.server.http_port}
       '';
       "jellyfin.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.mediarr.ipv4_short}:${toString nodes.mediarr.config.services.jellyfin.port}
+        reverse_proxy ${props.cts.streamarr.ipv4_short}:${toString nodes.streamarr.config.services.jellyfin.port}
       '';
       "lidarr.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.mediarr.ipv4_short}:${toString nodes.mediarr.config.services.lidarr.settings.server.port}
+        reverse_proxy ${props.cts.fetcharr.ipv4_short}:${toString nodes.fetcharr.config.services.lidarr.settings.server.port}
       '';
       "linkwarden.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.journal.ipv4_short}:${toString nodes.journal.config.services.linkwarden.port}
+        reverse_proxy ${props.cts.services.ipv4_short}:${toString nodes.services.config.services.linkwarden.port}
       '';
       "memos.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.journal.ipv4_short}:${toString nodes.journal.config.services.memos.port}
+        reverse_proxy ${props.cts.services.ipv4_short}:${toString nodes.services.config.services.memos.port}
       '';
       "nas.euls.dev".extraConfig = ''
         reverse_proxy ${nasIP}
       '';
       "navidrome.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.mediarr.ipv4_short}:${toString nodes.mediarr.config.services.navidrome.settings.Port}
+        reverse_proxy ${props.cts.streamarr.ipv4_short}:${toString nodes.streamarr.config.services.navidrome.settings.Port}
       '';
       "ntfysh.euls.dev".extraConfig = ''
         reverse_proxy ${props.cts.angel.ipv4_short}:${toString nodes.angel.config.services.ntfy-sh.port}
@@ -65,7 +65,7 @@
         reverse_proxy ${props.cts.angel.ipv4_short}:${toString nodes.angel.config.services.prometheus.port}
       '';
       "prowlarr.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.mediarr.ipv4_short}:${toString nodes.mediarr.config.services.prowlarr.settings.server.port}
+        reverse_proxy ${props.cts.fetcharr.ipv4_short}:${toString nodes.fetcharr.config.services.prowlarr.settings.server.port}
       '';
       "pve.euls.dev".extraConfig = ''
         reverse_proxy ${pveIP}:8006 {
@@ -75,16 +75,16 @@
         }
       '';
       "radarr.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.mediarr.ipv4_short}:${toString nodes.mediarr.config.services.radarr.settings.server.port}
+        reverse_proxy ${props.cts.fetcharr.ipv4_short}:${toString nodes.fetcharr.config.services.radarr.settings.server.port}
       '';
       "sabnzbd.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.mediarr.ipv4_short}:${toString nodes.mediarr.config.services.sabnzbd.port}
+        reverse_proxy ${props.cts.fetcharr.ipv4_short}:${toString nodes.fetcharr.config.services.sabnzbd.port}
       '';
       "searx.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.tools.ipv4_short}:${toString nodes.tools.config.services.searx.settings.server.port}
+        reverse_proxy ${props.cts.services.ipv4_short}:${toString nodes.services.config.services.searx.settings.server.port}
       '';
       "sonarr.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.mediarr.ipv4_short}:${toString nodes.mediarr.config.services.sonarr.settings.server.port}
+        reverse_proxy ${props.cts.fetcharr.ipv4_short}:${toString nodes.fetcharr.config.services.sonarr.settings.server.port}
       '';
       "vaultwarden.euls.dev".extraConfig = ''
         reverse_proxy ${props.cts.auth-n-pass.ipv4_short}:${toString nodes.auth-n-pass.config.services.vaultwarden.config.ROCKET_PORT}
@@ -92,5 +92,5 @@
     };
   };
 
-  sops.secrets.caddy-ev.sopsFile = ./secrets/caddy-ev;
+  sops.secrets.caddy-ev.sopsFile = ../../../secrets/caddy-ev;
 }
