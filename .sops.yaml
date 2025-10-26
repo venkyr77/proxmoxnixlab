@@ -29,6 +29,14 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: secrets/sabnzbd-api-key
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: secrets/sabnzbd-eweka-creds
+    key_groups:
+    - age:
+      - *primary
   - path_regex: secrets/searx-ev
     key_groups:
     - age:

@@ -21,6 +21,11 @@ in {
       user = name;
     };
 
+    sops.secrets = {
+      sabnzbd-api-key.sopsFile = ../../../../secrets/sabnzbd-api-key;
+      sabnzbd-eweka-creds.sopsFile = ../../../../secrets/sabnzbd-eweka-creds;
+    };
+
     systemd.services = {
       sabnzbd.serviceConfig.ExecStart =
         pkgs.lib.mkForce
@@ -34,7 +39,51 @@ in {
           ''
             sleep 5
             systemctl stop sabnzbd.service
+
             sed -i 's/^host_whitelist\s*=.*/host_whitelist = sabnzbd.euls.dev,/' ${cfg.configFile}
+
+            key="$(< ${config.sops.secrets.sabnzbd-api-key.path})"
+            sed -i "s/^api_key\s*=.*/api_key = ''${key}/" ${cfg.configFile}
+
+            if ! grep -q '^\[\[news\.eweka\.nl\]\]' ${cfg.configFile}; then
+              cat >> "${cfg.configFile}" <<SERVER
+            [servers]
+            [[news.eweka.nl]]
+            name = news.eweka.nl
+            displayname = news.eweka.nl
+            host = news.eweka.nl
+            port = 563
+            timeout = 60
+            $(< ${config.sops.secrets.sabnzbd-eweka-creds.path})
+            connections = 50
+            ssl = 1
+            ssl_verify = 2
+            ssl_ciphers = ""
+            enable = 1
+            required = 0
+            optional = 0
+            retention = 0
+            expire_date = ""
+            quota = ""
+            usage_at_start = 0
+            priority = 0
+            notes = ""
+            SERVER
+            fi
+
+            if ! grep -q '^\[\[music\]\]' ${cfg.configFile}; then
+              sed -i '/^\[\[software\]\]/i\
+            [[music]]\
+            name = music\
+            order = 5\
+            pp = ""\
+            script = Default\
+            dir = ""\
+            newzbin = ""\
+            priority = -100
+            ' ${cfg.configFile}
+            fi
+
             systemctl start sabnzbd.service
           '';
         serviceConfig = {
