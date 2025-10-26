@@ -3,7 +3,7 @@
     conditions = [
       "[STATUS] == 200"
     ];
-    group = "caddy";
+    group = "reverse-proxy";
     interval = "1m";
     name = virtual_host;
     url = "https://${virtual_host}";

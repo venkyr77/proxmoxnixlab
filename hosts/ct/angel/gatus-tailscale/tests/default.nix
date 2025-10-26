@@ -2,8 +2,9 @@
   imports = [
     ./angel
     ./auth-n-pass
+    ./dns
     ./fetcharr
-    ./networking
+    ./reverse-proxy
     ./streamarr
     ./tools
   ];

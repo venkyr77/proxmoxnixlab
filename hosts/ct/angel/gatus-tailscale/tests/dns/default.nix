@@ -56,11 +56,11 @@
         };
         interval = "1m";
         name = "[TAILSCALE] - test.euls.dev";
-        url = "${props.cts.reverse-proxy.tailscale_ip}";
+        url = "${props.cts.dns.tailscale_ip}";
       }
       {
         conditions = [
-          "[BODY] == ${props.cts.dns.ipv4_short}"
+          "[BODY] == ${props.cts.reverse-proxy.ipv4_short}"
           "[DNS_RCODE] == NOERROR"
         ];
         dns = {
@@ -82,7 +82,7 @@
         };
         interval = "1m";
         name = "[TAILSCALE] - searx.euls.dev";
-        url = "${props.cts.reverse-proxy.tailscale_ip}";
+        url = "${props.cts.dns.tailscale_ip}";
       }
     ];
 }
