@@ -1,6 +1,7 @@
 {
-  config,
+  nodes,
   pkgs,
+  props,
   ...
 }: {
   services.configarr.config =
@@ -11,7 +12,7 @@
       lidarr:
         lidarr_instance:
           api_key: !env LIDARR_API_KEY
-          base_url: http://localhost:${toString config.services.lidarr.settings.server.port}
+          base_url: http://${props.cts.fetcharr.ipv4_short}:${toString nodes.fetcharr.config.services.lidarr.settings.server.port}
           custom_formats: ${(pkgs.lib.generators.toYAML {} (import ./custom-formats/lidarr.nix))}
           delete_unmanaged_custom_formats:
             enabled: true
@@ -22,7 +23,7 @@
       radarr:
         radarr_instance:
           api_key: !env RADARR_API_KEY
-          base_url: http://localhost:${toString config.services.radarr.settings.server.port}
+          base_url: http://${props.cts.fetcharr.ipv4_short}:${toString nodes.fetcharr.config.services.radarr.settings.server.port}
           custom_formats: ${(pkgs.lib.generators.toYAML {} (import ./custom-formats/radarr.nix))}
           delete_unmanaged_custom_formats:
             enabled: true
@@ -43,7 +44,7 @@
       sonarr:
         sonarr_instance:
           api_key: !env SONARR_API_KEY
-          base_url: http://localhost:${toString config.services.sonarr.settings.server.port}
+          base_url: http://${props.cts.fetcharr.ipv4_short}:${toString nodes.fetcharr.config.services.sonarr.settings.server.port}
           custom_formats: ${(pkgs.lib.generators.toYAML {} (import ./custom-formats/sonarr.nix))}
           delete_unmanaged_custom_formats:
             enabled: true
