@@ -20,6 +20,7 @@
       lidarr-api-key.sopsFile = ../../../secrets/lidarr-api-key;
       radarr-api-key.sopsFile = ../../../secrets/radarr-api-key;
       sonarr-api-key.sopsFile = ../../../secrets/sonarr-api-key;
+      sabnzbd-api-key.sopsFile = ../../../secrets/sabnzbd-api-key;
     };
     templates.configarr-ev = {
       content = ''
@@ -28,6 +29,7 @@
         LIDARR_API_KEY=${config.sops.placeholder.lidarr-api-key}
         RADARR_API_KEY=${config.sops.placeholder.radarr-api-key}
         SONARR_API_KEY=${config.sops.placeholder.sonarr-api-key}
+        SABNZBD_API_KEY=${config.sops.placeholder.sabnzbd-api-key}
       '';
       inherit (config.services.configarr) group;
       owner = config.services.configarr.user;

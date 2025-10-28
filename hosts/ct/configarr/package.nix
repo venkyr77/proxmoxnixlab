@@ -49,7 +49,7 @@ pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
   };
 
   src = pkgs.fetchFromGitHub {
-    hash = "sha256-enPsUrHmcm2D+WCd3U5tBtB0i7orqhCPxukFgOLrHys=";
+    hash = "sha256-IeLEfP9BbH3CDdRl3qdsIuRY6cGSxmBU8mtYgU3D9dY=";
     owner = "venkyr77";
     repo = "configarr";
     rev = "nix";
