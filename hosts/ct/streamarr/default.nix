@@ -1,10 +1,5 @@
-{
-  inputs,
-  name,
-  ...
-}: {
+{name, ...}: {
   imports = [
-    inputs.declarative-jellyfin.nixosModules.default
     ./jellyfin
     ./navidrome
   ];

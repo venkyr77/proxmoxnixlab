@@ -13,6 +13,10 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: secrets/jellarr-api-key
+    key_groups:
+    - age:
+      - *primary
   - path_regex: secrets/lidarr-api-key
     key_groups:
     - age:

@@ -20,14 +20,6 @@
       };
       url = "github:zhaofengli/colmena";
     };
-    declarative-jellyfin = {
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        systems.follows = "systems";
-        treefmt-nix.follows = "treefmt-nix";
-      };
-      url = "github:venkyr77/declarative-jellyfin";
-    };
     flake-compat = {
       flake = false;
       url = "github:edolstra/flake-compat";
@@ -36,6 +28,15 @@
     flake-utils = {
       inputs.systems.follows = "systems";
       url = "github:numtide/flake-utils";
+    };
+    jellarr = {
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+        treefmt-nix.follows = "treefmt-nix";
+      };
+      url = "path:/home/venky/jellarr";
     };
     nixos-generators = {
       inputs.nixpkgs.follows = "nixpkgs";
@@ -99,6 +100,7 @@
               nasIP
               props
               pveIP
+              system
               ;
           };
         };

@@ -82,32 +82,6 @@
         "type": "github"
       }
     },
-    "declarative-jellyfin": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "systems": [
-          "systems"
-        ],
-        "treefmt-nix": [
-          "treefmt-nix"
-        ]
-      },
-      "locked": {
-        "lastModified": 1761173007,
-        "narHash": "sha256-pebbh3IEl8crA9g0fbHeUvNyawAvhO2kNq8klpUWyk0=",
-        "owner": "venkyr77",
-        "repo": "declarative-jellyfin",
-        "rev": "676a6e22b15ca690a662d033228791afa8d08600",
-        "type": "github"
-      },
-      "original": {
-        "owner": "venkyr77",
-        "repo": "declarative-jellyfin",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -160,6 +134,32 @@
         "owner": "numtide",
         "repo": "flake-utils",
         "type": "github"
+      }
+    },
+    "jellarr": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": [
+          "systems"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1761908878,
+        "narHash": "sha256-jSchIqm8s/dMN4BDa65LVcoJO7nzGOaCbA9EmqiH5u8=",
+        "path": "/home/venky/jellarr",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/venky/jellarr",
+        "type": "path"
       }
     },
     "napalm": {
@@ -330,10 +330,10 @@
       "inputs": {
         "authentik-nix": "authentik-nix",
         "colmena": "colmena",
-        "declarative-jellyfin": "declarative-jellyfin",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
         "flake-utils": "flake-utils",
+        "jellarr": "jellarr",
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs",
         "sops-nix": "sops-nix",

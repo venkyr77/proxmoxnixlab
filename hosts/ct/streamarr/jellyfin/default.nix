@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   name,
   pkgs,
   ...
@@ -8,6 +9,7 @@
 in {
   imports = [
     ../../../../modules/hardware/intel-igpu.nix
+    inputs.jellarr.nixosModules.default
   ];
 
   options.services.jellyfin.port = pkgs.lib.mkOption {
@@ -30,72 +32,76 @@ in {
 
     networking.firewall.allowedTCPPorts = [cfg.port];
 
-    services.declarative-jellyfin = {
-      branding.customCss =
-        # css
-        ''
-          @import url("https://cdn.jsdelivr.net/npm/jellyskin@latest/dist/main.css");
-        '';
-      cacheDir = "/mnt/jellyfin-data/cache";
-      enable = true;
-      encoding = {
-        enableHardwareEncoding = true;
-        hardwareAccelerationType = "vaapi";
-        hardwareDecodingCodecs = [
-          "h264"
-          "hevc"
-          "mpeg2video"
-          "vc1"
-          "vp8"
-          "vp9"
-          "av1"
-        ];
-        enableDecodingColorDepth10Hevc = true;
-        enableDecodingColorDepth10HevcRext = true;
-        enableDecodingColorDepth12HevcRext = true;
-        enableDecodingColorDepth10Vp9 = true;
+    services = {
+      jellyfin = {
+        cacheDir = "/mnt/jellyfin-data/cache";
+        enable = true;
+        group = name;
+        user = name;
       };
-      group = name;
-      libraries = {
-        "Movies - English" = {
-          enabled = true;
-          contentType = "movies";
-          pathInfos = [
-            "/mnt/movies/English"
-          ];
+      jellarr = {
+        config = {
+          base_url = "http://localhost:${toString cfg.port}";
         };
-        "Movies - Tamil" = {
-          enabled = true;
-          contentType = "movies";
-          pathInfos = [
-            "/mnt/movies/Tamil"
-          ];
-        };
-        "Shows" = {
-          enabled = true;
-          contentType = "tvshows";
-          pathInfos = [
-            "/mnt/shows"
-          ];
-        };
-      };
-      system = {
-        trickplayOptions = {
-          enableHwAcceleration = true;
-          enableHwEncoding = true;
-        };
-      };
-      user = name;
-      users = {
-        admin = {
-          mutable = false;
-          hashedPasswordFile = config.sops.secrets.admin-pass.path;
-          loginAttemptsBeforeLockout = null;
-          permissions.isAdministrator = true;
-        };
+        environmentFile = config.sops.templates.jellarr-ev.path;
+        enable = true;
+        group = name;
+        user = name;
       };
     };
 
-    sops.secrets.admin-pass.sopsFile = ../../../../secrets/jellyfin-admin-pass;
+    sops = {
+      secrets.jellarr-api-key.sopsFile = ../../../../secrets/jellarr-api-key;
+      templates.jellarr-ev = {
+        content = ''
+          JELLARR_API_KEY=${config.sops.placeholder.jellarr-api-key}
+        '';
+        inherit (config.services.jellarr) group;
+        owner = config.services.jellarr.user;
+      };
+    };
+
+    systemd.services.jellyfin-config-maker = {
+      after = ["jellyfin.service"];
+      before = ["jellarr.service"];
+      path = with pkgs; [
+        coreutils
+        sqlite
+        systemd
+      ];
+      requiredBy = ["jellarr.service"];
+      script =
+        #sh
+        ''
+          set -euo pipefail
+
+          DB="/var/lib/jellyfin/data/jellyfin.db"
+
+          until [ -e "$DB" ]; do
+            sleep 1
+          done
+
+          systemctl stop jellyfin.service
+
+          sleep 10
+
+          sqlite3 "$DB" <<SQL
+          BEGIN IMMEDIATE;
+          INSERT INTO ApiKeys (AccessToken, Name, DateCreated, DateLastActivity)
+          SELECT ''\'''${JELLARR_API_KEY}','jellarr', datetime('now'), datetime('now')
+          WHERE NOT EXISTS (SELECT 1 FROM ApiKeys WHERE Name='jellarr');
+          COMMIT;
+          SQL
+
+          sleep 10
+
+          systemctl start jellyfin.service
+        '';
+      serviceConfig = {
+        EnvironmentFile = config.sops.templates.jellarr-ev.path;
+        Type = "oneshot";
+        User = "root";
+      };
+    };
   };
 }
