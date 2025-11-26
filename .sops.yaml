@@ -45,6 +45,10 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: secrets/fetcharr-db-pass
+    key_groups:
+    - age:
+      - *primary
   - path_regex: secrets/sabnzbd-api-key
     key_groups:
     - age:

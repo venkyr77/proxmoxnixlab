@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  props,
   ...
 }: let
   cfg = config.services.postgresql;
 
-  dbACL = import ./acl.nix;
+  dbACL = import ./acl.nix {inherit props;};
 
   allUsers = lib.unique (
     (map (db: dbACL.${db}.user) (builtins.attrNames dbACL))
@@ -41,6 +42,7 @@ in {
 
   sops = {
     secrets = {
+      fetcharr-db-pass.sopsFile = ../../../secrets/fetcharr-db-pass;
       pgadmin-db-pass.sopsFile = ../../../secrets/pgadmin-db-pass;
       pgadmin-ui-pass.sopsFile = ../../../secrets/pgadmin-ui-pass;
     };

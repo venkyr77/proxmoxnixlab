@@ -1,7 +1,10 @@
 {
   config,
+  lib,
   name,
+  nodes,
   pkgs,
+  props,
   ...
 }: {
   services.lidarr = {
@@ -27,55 +30,25 @@
 
   systemd.services.lidarr-config-maker = {
     after = ["lidarr.service"];
-    path = with pkgs; [
-      coreutils
-      sqlite
-      systemd
+    path = [
+      pkgs.coreutils
+      pkgs.sqlite
+      pkgs.systemd
+      pkgs.xmlstarlet
     ];
     script =
       # sh
       ''
         set -euo pipefail
 
-        systemctl stop lidarr.service
-
-        sleep 10
-
-        DB="/var/lib/lidarr/.config/Lidarr/lidarr.db"
-
-        sqlite3 "$DB" <<'SQL'
-        BEGIN IMMEDIATE;
-        UPDATE MetadataProfiles
-        SET
-          PrimaryAlbumTypes = '[
-            { "primaryAlbumType": 2, "allowed": true },
-            { "primaryAlbumType": 4, "allowed": false },
-            { "primaryAlbumType": 1, "allowed": true },
-            { "primaryAlbumType": 3, "allowed": false },
-            { "primaryAlbumType": 0, "allowed": true }
-          ]',
-          SecondaryAlbumTypes = '[
-            { "secondaryAlbumType": 0, "allowed": true },
-            { "secondaryAlbumType": 3, "allowed": false },
-            { "secondaryAlbumType": 2, "allowed": true },
-            { "secondaryAlbumType": 7, "allowed": true },
-            { "secondaryAlbumType": 9, "allowed": false },
-            { "secondaryAlbumType": 6, "allowed": false },
-            { "secondaryAlbumType": 4, "allowed": false },
-            { "secondaryAlbumType": 8, "allowed": true },
-            { "secondaryAlbumType": 10, "allowed": false },
-            { "secondaryAlbumType": 1, "allowed": true },
-            { "secondaryAlbumType": 11, "allowed": false }
-          ]'
-        WHERE Name = 'Standard';
-        COMMIT;
-        SQL
-
-        sleep 10
-
-        systemctl start lidarr.service
+        ${import ./edit-standard-metadata-profile.nix {inherit config;}}
+        ${import ../psql-shift-script.nix {
+          arr = "lidarr";
+          inherit config lib nodes props;
+        }}
       '';
     serviceConfig = {
+      EnvironmentFile = config.sops.templates.fetcharr-db-pass-ev.path;
       Type = "oneshot";
       User = "root";
     };
