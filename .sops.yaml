@@ -9,7 +9,11 @@ creation_rules:
     key_groups:
     - age:
       - *primary
-  - path_regex: secrets/jellyfin-admin-pass
+  - path_regex: secrets/fetcharr-db-pass
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: secrets/gatus-db-pass
     key_groups:
     - age:
       - *primary
@@ -25,7 +29,15 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: secrets/linkwarden-db-pass
+    key_groups:
+    - age:
+      - *primary
   - path_regex: secrets/linkwarden-nextauth-secret
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: secrets/memos-db-pass
     key_groups:
     - age:
       - *primary
@@ -42,26 +54,6 @@ creation_rules:
     - age:
       - *primary
   - path_regex: secrets/radarr-api-key
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: secrets/fetcharr-db-pass
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: secrets/gatus-db-pass
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: secrets/memos-db-pass
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: secrets/vaultwarden-db-pass
-    key_groups:
-    - age:
-      - *primary
-  - path_regex: secrets/linkwarden-db-pass
     key_groups:
     - age:
       - *primary
@@ -82,6 +74,10 @@ creation_rules:
     - age:
       - *primary
   - path_regex: secrets/sonarr-api-key
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: secrets/vaultwarden-db-pass
     key_groups:
     - age:
       - *primary
