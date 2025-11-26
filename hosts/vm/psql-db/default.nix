@@ -41,15 +41,27 @@ in {
   };
 
   sops = {
-    secrets = {
-      fetcharr-db-pass.sopsFile = ../../../secrets/fetcharr-db-pass;
-      gatus-db-pass.sopsFile = ../../../secrets/gatus-db-pass;
-      linkwarden-db-pass.sopsFile = ../../../secrets/linkwarden-db-pass;
-      memos-db-pass.sopsFile = ../../../secrets/memos-db-pass;
-      vaultwarden-db-pass.sopsFile = ../../../secrets/vaultwarden-db-pass;
-      pgadmin-db-pass.sopsFile = ../../../secrets/pgadmin-db-pass;
-      pgadmin-ui-pass.sopsFile = ../../../secrets/pgadmin-ui-pass;
-    };
+    secrets =
+      (
+        builtins.listToAttrs (
+          map (db-user: {
+            name = "${db-user}-db-pass";
+            value = {sopsFile = ../../../secrets/${db-user}-db-pass;};
+          })
+          [
+            "fetcharr"
+            "gatus"
+            "grafana"
+            "linkwarden"
+            "memos"
+            "pgadmin"
+            "vaultwarden"
+          ]
+        )
+      )
+      // {
+        pgadmin-ui-pass.sopsFile = ../../../secrets/pgadmin-ui-pass;
+      };
     templates = {
       psql-config-env = {
         content =

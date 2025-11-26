@@ -1,6 +1,8 @@
 {
   config,
+  nodes,
   pkgs,
+  props,
   ...
 }: let
   PROMETHEUS_DATASOURCE_UID = "PROMETHEUS_DATASOURCE";
@@ -58,7 +60,24 @@ in {
           }
         ];
       };
-      settings.server.http_addr = "0.0.0.0";
+      settings = {
+        database = {
+          host = props.vms.psql-db.ipv4_short;
+          name = "grafana";
+          password = "$__file{${config.sops.secrets.grafana-db-pass.path}}";
+          inherit (nodes.psql-db.config.services.postgresql.settings) port;
+          ssl_mode = "disable";
+          type = "postgres";
+          user = "grafana";
+        };
+        server.http_addr = "0.0.0.0";
+      };
     };
+  };
+
+  sops.secrets.grafana-db-pass = {
+    group = "grafana";
+    owner = "grafana";
+    sopsFile = ../../../../secrets/grafana-db-pass;
   };
 }
