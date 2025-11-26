@@ -5,7 +5,7 @@
 }: {
   imports = [
     ./module
-    ./config.nix
+    ./config
   ];
 
   services.configarr = {
@@ -17,10 +17,10 @@
 
   sops = {
     secrets = {
-      lidarr-api-key.sopsFile = ../../../secrets/lidarr-api-key;
-      radarr-api-key.sopsFile = ../../../secrets/radarr-api-key;
-      sonarr-api-key.sopsFile = ../../../secrets/sonarr-api-key;
-      sabnzbd-api-key.sopsFile = ../../../secrets/sabnzbd-api-key;
+      lidarr-api-key.sopsFile = ../../../../secrets/lidarr-api-key;
+      radarr-api-key.sopsFile = ../../../../secrets/radarr-api-key;
+      sonarr-api-key.sopsFile = ../../../../secrets/sonarr-api-key;
+      sabnzbd-api-key.sopsFile = ../../../../secrets/sabnzbd-api-key;
     };
     templates.configarr-ev = {
       content = ''

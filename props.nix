@@ -35,7 +35,7 @@ in {
       need_ts_patch = false;
       vm_id = 151;
     };
-    configarr = {
+    confarr = {
       cpu_cores = 2;
       disk_size = 16;
       ipv4_full = "10.0.0.72/24";

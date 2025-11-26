@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   name,
   pkgs,
   ...
@@ -9,7 +8,6 @@
 in {
   imports = [
     ../../../../modules/hardware/intel-igpu.nix
-    inputs.jellarr.nixosModules.default
   ];
 
   options.services.jellyfin.port = pkgs.lib.mkOption {
@@ -32,44 +30,27 @@ in {
 
     networking.firewall.allowedTCPPorts = [cfg.port];
 
-    services = {
-      jellyfin = {
-        cacheDir = "/mnt/jellyfin-data/cache";
-        enable = true;
-        group = name;
-        user = name;
-      };
-      jellarr = {
-        config = {
-          base_url = "http://localhost:${toString cfg.port}";
-        };
-        environmentFile = config.sops.templates.jellarr-ev.path;
-        enable = true;
-        group = name;
-        user = name;
-      };
+    services.jellyfin = {
+      cacheDir = "/mnt/jellyfin-data/cache";
+      enable = true;
+      group = name;
+      user = name;
     };
 
     sops = {
       secrets.jellarr-api-key.sopsFile = ../../../../secrets/jellarr-api-key;
-      templates.jellarr-ev = {
-        content = ''
-          JELLARR_API_KEY=${config.sops.placeholder.jellarr-api-key}
-        '';
-        inherit (config.services.jellarr) group;
-        owner = config.services.jellarr.user;
-      };
+      templates.jellarr-api-key-ev.content = ''
+        JELLARR_API_KEY=${config.sops.placeholder.jellarr-api-key}
+      '';
     };
 
-    systemd.services.jellyfin-config-maker = {
+    systemd.services.jellarr-api-key-maker = {
       after = ["jellyfin.service"];
-      before = ["jellarr.service"];
-      path = with pkgs; [
-        coreutils
-        sqlite
-        systemd
+      path = [
+        pkgs.coreutils
+        pkgs.sqlite
+        pkgs.systemd
       ];
-      requiredBy = ["jellarr.service"];
       script =
         #sh
         ''
@@ -94,14 +75,13 @@ in {
           SQL
 
           systemctl start jellyfin.service
-
-          sleep 60
         '';
       serviceConfig = {
-        EnvironmentFile = config.sops.templates.jellarr-ev.path;
+        EnvironmentFile = config.sops.templates.jellarr-api-key-ev.path;
         Type = "oneshot";
         User = "root";
       };
+      wantedBy = ["multi-user.target"];
     };
   };
 }
