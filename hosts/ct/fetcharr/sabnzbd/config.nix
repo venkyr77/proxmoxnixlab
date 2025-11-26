@@ -320,6 +320,26 @@
   nscript_prio_queue_done = 0
   nscript_prio_other = 1
   [servers]
+  [[news.newshosting.com]]
+  name = news.newshosting.com
+  displayname = news.newshosting.com
+  host = news.newshosting.com
+  port = 563
+  timeout = 60
+  ${config.sops.placeholder.sabnzbd-newshosting-creds}
+  connections = 100
+  ssl = 1
+  ssl_verify = 2
+  ssl_ciphers = ""
+  enable = 1
+  required = 0
+  optional = 0
+  retention = 0
+  expire_date = ""
+  quota = ""
+  usage_at_start = 0
+  priority = 0
+  notes = ""
   [[news.eweka.nl]]
   name = news.eweka.nl
   displayname = news.eweka.nl

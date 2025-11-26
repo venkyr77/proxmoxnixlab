@@ -25,6 +25,7 @@ in {
       secrets = {
         sabnzbd-api-key.sopsFile = ../../../../secrets/sabnzbd-api-key;
         sabnzbd-eweka-creds.sopsFile = ../../../../secrets/sabnzbd-eweka-creds;
+        sabnzbd-newshosting-creds.sopsFile = ../../../../secrets/sabnzbd-newshosting-creds;
       };
       templates.sabnzbd-config = {
         content = import ./config.nix {inherit config;};

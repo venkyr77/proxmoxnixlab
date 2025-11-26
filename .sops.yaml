@@ -41,6 +41,10 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: secrets/sabnzbd-newshosting-creds
+    key_groups:
+    - age:
+      - *primary
   - path_regex: secrets/searx-ev
     key_groups:
     - age:
