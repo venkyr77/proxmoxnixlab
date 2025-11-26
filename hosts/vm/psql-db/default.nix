@@ -49,6 +49,7 @@ in {
             value = {sopsFile = ../../../secrets/${db-user}-db-pass;};
           })
           [
+            "authentik"
             "fetcharr"
             "gatus"
             "grafana"
