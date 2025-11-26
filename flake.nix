@@ -24,7 +24,10 @@
       flake = false;
       url = "github:edolstra/flake-compat";
     };
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts = {
+      inputs.nixpkgs-lib.follows = "nixlib";
+      url = "github:hercules-ci/flake-parts";
+    };
     flake-utils = {
       inputs.systems.follows = "systems";
       url = "github:numtide/flake-utils";
@@ -38,8 +41,12 @@
       };
       url = "path:/home/venky/jellarr";
     };
+    nixlib.url = "github:nix-community/nixpkgs.lib";
     nixos-generators = {
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixlib.follows = "nixlib";
+        nixpkgs.follows = "nixpkgs";
+      };
       url = "github:nix-community/nixos-generators";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";

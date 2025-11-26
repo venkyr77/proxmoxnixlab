@@ -93,9 +93,9 @@ in {
           COMMIT;
           SQL
 
-          sleep 10
-
           systemctl start jellyfin.service
+
+          sleep 60
         '';
       serviceConfig = {
         EnvironmentFile = config.sops.templates.jellarr-ev.path;
