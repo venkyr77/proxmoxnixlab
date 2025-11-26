@@ -18,3 +18,9 @@ in
   // mkACLEntriesForARRName "prowlarr"
   // mkACLEntriesForARRName "radarr"
   // mkACLEntriesForARRName "sonarr"
+  // {
+    memos = {
+      host = props.cts.tools.ipv4_full;
+      user = "memos";
+    };
+  }
