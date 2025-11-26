@@ -18,7 +18,7 @@ in {
       ipv4_short = "10.0.0.70";
       memory = 4 * 1024;
       mount_point = null;
-      need_sops_pk = false;
+      need_sops_pk = true;
       need_igpu_patch = false;
       need_ts_patch = true;
       vm_id = 150;

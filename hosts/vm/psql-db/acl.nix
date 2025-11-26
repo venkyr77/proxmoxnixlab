@@ -19,6 +19,10 @@ in
   // mkACLEntriesForARRName "radarr"
   // mkACLEntriesForARRName "sonarr"
   // {
+    gatus = {
+      host = props.cts.angel.ipv4_full;
+      user = "gatus";
+    };
     memos = {
       host = props.cts.tools.ipv4_full;
       user = "memos";

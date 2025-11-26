@@ -49,6 +49,10 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: secrets/gatus-db-pass
+    key_groups:
+    - age:
+      - *primary
   - path_regex: secrets/memos-db-pass
     key_groups:
     - age:
