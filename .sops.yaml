@@ -25,6 +25,14 @@ creation_rules:
     key_groups:
     - age:
       - *primary
+  - path_regex: secrets/pgadmin-db-pass
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: secrets/pgadmin-ui-pass
+    key_groups:
+    - age:
+      - *primary
   - path_regex: secrets/prowlarr-api-key
     key_groups:
     - age:

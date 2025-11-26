@@ -120,7 +120,16 @@
             ./hosts/ct/${ct}
           ];
         })
-        props.cts));
+        props.cts)
+      // (builtins.mapAttrs (vm: _vm_prop: {
+          imports = [
+            nixos-generators.nixosModules.raw-efi
+            sops-nix.nixosModules.sops
+            ./hosts/vm/base.nix
+            ./hosts/vm/${vm}
+          ];
+        })
+        props.vms));
 
     formatter = let
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
@@ -128,15 +137,25 @@
     in
       eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
 
-    packages.${system}.mktar = nixos-generators.nixosGenerate {
-      format = "proxmox-lxc";
-      modules = [
-        ./minimal.nix
-        {
-          image.baseName = "nixos";
-        }
-      ];
-      inherit system;
+    packages.${system} = {
+      mkimg = nixos-generators.nixosGenerate {
+        format = "raw-efi";
+        modules = [
+          ./minimal.nix
+          ./minimal-vm.nix
+        ];
+        inherit system;
+      };
+      mktar = nixos-generators.nixosGenerate {
+        format = "proxmox-lxc";
+        modules = [
+          ./minimal.nix
+          {
+            image.baseName = "nixos";
+          }
+        ];
+        inherit system;
+      };
     };
   };
 }

@@ -120,4 +120,20 @@ in {
       vm_id = 157;
     };
   };
+
+  vms = {
+    psql-db = {
+      cpu_cores = 4;
+      cpu_host_type = "host";
+      disk_size = 32;
+      hostpci = null;
+      ipv4_full = "10.0.0.78/24";
+      ipv4_short = "10.0.0.78";
+      memory = 8 * 1024;
+      need_sops_pk = true;
+      need_igpu_patch = false;
+      need_ts_patch = false;
+      vm_id = 200;
+    };
+  };
 }

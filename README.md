@@ -11,6 +11,7 @@ nix fmt && git add -A
 rm -rf .terraform/ .terraform.lock.hcl result
 nix-collect-garbage -d
 NIXPKGS_ALLOW_UNFREE=1 nix flake check --impure
+nix build .#mkimg --out-link "./result/img"
 nix build .#mktar --out-link "./result/tar"
 NIXPKGS_ALLOW_UNFREE=1 colmena build --impure
 ```

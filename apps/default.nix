@@ -50,10 +50,15 @@ in
               PVE_IP=${pveIP}
 
               SOPS_PK_NEEDED_HOSTS=(${
-                builtins.concatStringsSep " "
-                (
-                  map (ct: props.cts.${ct}.ipv4_short)
-                  (builtins.attrNames (pkgs.lib.attrsets.filterAttrs (_: ct_prop: ct_prop.need_sops_pk) props.cts))
+                builtins.concatStringsSep " " (
+                  (
+                    map (ct: props.cts.${ct}.ipv4_short)
+                    (builtins.attrNames (pkgs.lib.attrsets.filterAttrs (_: ct_prop: ct_prop.need_sops_pk) props.cts))
+                  )
+                  ++ (
+                    map (vm: props.vms.${vm}.ipv4_short)
+                    (builtins.attrNames (pkgs.lib.attrsets.filterAttrs (_: vm_prop: vm_prop.need_sops_pk) props.vms))
+                  )
                 )
               })
 

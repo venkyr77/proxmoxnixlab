@@ -4,11 +4,12 @@
   ...
 }: {
   imports = [
+    ../../minimal-vm.nix
     ../base.nix
   ];
 
   deployment = {
-    targetHost = props.cts.${name}.ipv4_short;
+    targetHost = props.vms.${name}.ipv4_short;
     targetUser = "ops";
   };
 }
