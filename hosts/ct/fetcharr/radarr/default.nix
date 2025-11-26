@@ -1,8 +1,29 @@
 {
   config,
+  lib,
   name,
+  nodes,
+  pkgs,
+  props,
   ...
 }: {
+  imports = [
+    (import ../config-maker {
+      arr = "radarr";
+      inherit config pkgs;
+      script =
+        # sh
+        ''
+          set -euo pipefail
+
+          ${import ../psql-shift-script.nix {
+            arr = "radarr";
+            inherit config lib nodes props;
+          }}
+        '';
+    })
+  ];
+
   services.radarr = {
     enable = true;
     environmentFiles = [

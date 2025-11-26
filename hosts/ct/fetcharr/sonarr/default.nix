@@ -1,8 +1,28 @@
 {
   config,
+  lib,
   name,
+  nodes,
+  pkgs,
+  props,
   ...
 }: {
+  imports = [
+    (import ../config-maker {
+      arr = "sonarr";
+      inherit config pkgs;
+      script =
+        # sh
+        ''
+          set -euo pipefail
+
+          ${import ../psql-shift-script.nix {
+            arr = "sonarr";
+            inherit config lib nodes props;
+          }}
+        '';
+    })
+  ];
   services.sonarr = {
     enable = true;
     environmentFiles = [

@@ -7,6 +7,24 @@
   props,
   ...
 }: {
+  imports = [
+    (import ../config-maker {
+      arr = "lidarr";
+      inherit config pkgs;
+      script =
+        # sh
+        ''
+          set -euo pipefail
+
+          ${import ./edit-standard-metadata-profile.nix {inherit config;}}
+          ${import ../psql-shift-script.nix {
+            arr = "lidarr";
+            inherit config lib nodes props;
+          }}
+        '';
+    })
+  ];
+
   services.lidarr = {
     enable = true;
     environmentFiles = [
@@ -26,32 +44,5 @@
       group = name;
       owner = name;
     };
-  };
-
-  systemd.services.lidarr-config-maker = {
-    after = ["lidarr.service"];
-    path = [
-      pkgs.coreutils
-      pkgs.sqlite
-      pkgs.systemd
-      pkgs.xmlstarlet
-    ];
-    script =
-      # sh
-      ''
-        set -euo pipefail
-
-        ${import ./edit-standard-metadata-profile.nix {inherit config;}}
-        ${import ../psql-shift-script.nix {
-          arr = "lidarr";
-          inherit config lib nodes props;
-        }}
-      '';
-    serviceConfig = {
-      EnvironmentFile = config.sops.templates.fetcharr-db-pass-ev.path;
-      Type = "oneshot";
-      User = "root";
-    };
-    wantedBy = ["multi-user.target"];
   };
 }

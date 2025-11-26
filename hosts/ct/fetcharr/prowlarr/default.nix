@@ -1,4 +1,28 @@
-{config, ...}: {
+{
+  config,
+  lib,
+  nodes,
+  pkgs,
+  props,
+  ...
+}: {
+  imports = [
+    (import ../config-maker {
+      arr = "prowlarr";
+      inherit config pkgs;
+      script =
+        # sh
+        ''
+          set -euo pipefail
+
+          ${import ../psql-shift-script.nix {
+            arr = "prowlarr";
+            inherit config lib nodes props;
+          }}
+        '';
+    })
+  ];
+
   services.prowlarr = {
     enable = true;
     environmentFiles = [
