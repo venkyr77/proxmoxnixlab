@@ -6,6 +6,7 @@
   services.adguardhome = {
     enable = true;
     mutableSettings = false;
+    openFirewall = true;
     settings = {
       clients = {
         persistent = [
