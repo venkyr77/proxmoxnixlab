@@ -25,7 +25,7 @@ creation_rules:
     key_groups:
     - age:
       - *primary
-  - path_regex: secrets/linkwarden-ev
+  - path_regex: secrets/linkwarden-nextauth-secret
     key_groups:
     - age:
       - *primary
@@ -58,6 +58,10 @@ creation_rules:
     - age:
       - *primary
   - path_regex: secrets/vaultwarden-db-pass
+    key_groups:
+    - age:
+      - *primary
+  - path_regex: secrets/linkwarden-db-pass
     key_groups:
     - age:
       - *primary

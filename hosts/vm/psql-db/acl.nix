@@ -23,6 +23,10 @@ in
       host = props.cts.angel.ipv4_full;
       user = "gatus";
     };
+    linkwarden = {
+      host = props.cts.tools.ipv4_full;
+      user = "linkwarden";
+    };
     memos = {
       host = props.cts.tools.ipv4_full;
       user = "memos";
