@@ -44,6 +44,7 @@ in {
     secrets = {
       fetcharr-db-pass.sopsFile = ../../../secrets/fetcharr-db-pass;
       memos-db-pass.sopsFile = ../../../secrets/memos-db-pass;
+      vaultwarden-db-pass.sopsFile = ../../../secrets/vaultwarden-db-pass;
       pgadmin-db-pass.sopsFile = ../../../secrets/pgadmin-db-pass;
       pgadmin-ui-pass.sopsFile = ../../../secrets/pgadmin-ui-pass;
     };

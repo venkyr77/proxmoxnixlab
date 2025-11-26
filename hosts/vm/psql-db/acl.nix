@@ -23,4 +23,8 @@ in
       host = props.cts.tools.ipv4_full;
       user = "memos";
     };
+    vaultwarden = {
+      host = props.cts.auth-n-pass.ipv4_full;
+      user = "vaultwarden";
+    };
   }
