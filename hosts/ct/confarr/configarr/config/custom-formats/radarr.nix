@@ -103,7 +103,7 @@ in [
   {
     assign_scores_to = [
       {
-        name = "Remux + WEB 2160p";
+        name = "Remux + WEBDL 2160p";
       }
     ];
     trash_ids = let
@@ -122,7 +122,7 @@ in [
   {
     assign_scores_to = [
       {
-        name = "Remux + WEB 1080p";
+        name = "Remux + WEBDL 1080p";
       }
     ];
     trash_ids = let
@@ -139,7 +139,7 @@ in [
   {
     assign_scores_to = [
       {
-        name = "UHD Bluray + WEB";
+        name = "Bluray + WEBDL 2160p";
       }
     ];
     trash_ids = let
@@ -158,7 +158,7 @@ in [
   {
     assign_scores_to = [
       {
-        name = "HD Bluray + WEB";
+        name = "Bluray + WEBDL 1080p";
       }
     ];
     trash_ids = let
