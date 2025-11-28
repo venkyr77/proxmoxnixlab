@@ -8,6 +8,30 @@ in [
   (mkqpfromcf "Bluray-1080p")
   (mkqpfromcf "WEBDL-1080p")
   (mkqpfromcfs {
+    name = "REMUX";
+    qualities = [
+      "Remux-2160p"
+      "Remux-1080p"
+    ];
+    unpgrade_until_quality = "Remux-2160p";
+  })
+  (mkqpfromcfs {
+    name = "BLURAY";
+    qualities = [
+      "Bluray-2160p"
+      "Bluray-1080p"
+    ];
+    unpgrade_until_quality = "Bluray-2160p";
+  })
+  (mkqpfromcfs {
+    name = "WEBDL";
+    qualities = [
+      "WEBDL-2160p"
+      "WEBDL-1080p"
+    ];
+    unpgrade_until_quality = "WEBDL-2160p";
+  })
+  (mkqpfromcfs {
     name = "ALL";
     qualities = [
       "Remux-2160p"

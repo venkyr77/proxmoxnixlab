@@ -166,6 +166,30 @@ in [
   {
     assign_scores_to = [
       {
+        name = "REMUX";
+      }
+    ];
+    trash_ids = remux_tiers ++ common-2160p ++ common;
+  }
+  {
+    assign_scores_to = [
+      {
+        name = "BLURAY";
+      }
+    ];
+    trash_ids = uhd_tiers ++ hd_tiers ++ common-2160p ++ common;
+  }
+  {
+    assign_scores_to = [
+      {
+        name = "WEBDL";
+      }
+    ];
+    trash_ids = common-web ++ common-2160p ++ common;
+  }
+  {
+    assign_scores_to = [
+      {
         name = "ALL";
       }
     ];
