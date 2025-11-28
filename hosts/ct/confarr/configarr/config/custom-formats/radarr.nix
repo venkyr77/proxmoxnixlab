@@ -99,77 +99,76 @@ let
     "eecf3a857724171f968a66cb5719e152" # IMAX
     "9f6cbff8cfe4ebbc1bde14c7b7bec0de" # IMAX Enhanced
   ];
+
+  common =
+    misc_required
+    ++ unwanted
+    ++ audio_optional
+    ++ misc_optional
+    ++ movie_versions_optional;
+
+  common-2160p =
+    hdr_formats
+    ++ misc_uhd_optional;
+
+  common-web =
+    web_tiers
+    ++ general_streaming_services;
 in [
   {
     assign_scores_to = [
       {
-        name = "Remux + WEBDL 2160p";
+        name = "Remux 2160p";
       }
     ];
-    trash_ids = let
-      hq_release_groups = remux_tiers ++ web_tiers;
-    in
-      hdr_formats
-      ++ hq_release_groups
-      ++ misc_required
-      ++ unwanted
-      ++ general_streaming_services
-      ++ audio_optional
-      ++ misc_optional
-      ++ misc_uhd_optional
-      ++ movie_versions_optional;
+    trash_ids = remux_tiers ++ common-2160p ++ common;
   }
   {
     assign_scores_to = [
       {
-        name = "Remux + WEBDL 1080p";
+        name = "Bluray 2160p";
       }
     ];
-    trash_ids = let
-      hq_release_groups = remux_tiers ++ web_tiers;
-    in
-      hq_release_groups
-      ++ misc_required
-      ++ unwanted
-      ++ general_streaming_services
-      ++ audio_optional
-      ++ misc_optional
-      ++ movie_versions_optional;
+    trash_ids = uhd_tiers ++ common-2160p ++ common;
   }
   {
     assign_scores_to = [
       {
-        name = "Bluray + WEBDL 2160p";
+        name = "WEBDL 2160p";
       }
     ];
-    trash_ids = let
-      hq_release_groups = uhd_tiers ++ web_tiers;
-    in
-      hdr_formats
-      ++ hq_release_groups
-      ++ misc_required
-      ++ unwanted
-      ++ general_streaming_services
-      ++ audio_optional
-      ++ misc_optional
-      ++ misc_uhd_optional
-      ++ movie_versions_optional;
+    trash_ids = common-web ++ common-2160p ++ common;
   }
   {
     assign_scores_to = [
       {
-        name = "Bluray + WEBDL 1080p";
+        name = "Remux 1080p";
       }
     ];
-    trash_ids = let
-      hq_release_groups = hd_tiers ++ web_tiers;
-    in
-      hq_release_groups
-      ++ misc_required
-      ++ unwanted
-      ++ general_streaming_services
-      ++ audio_optional
-      ++ misc_optional
-      ++ movie_versions_optional;
+    trash_ids = remux_tiers ++ common;
+  }
+  {
+    assign_scores_to = [
+      {
+        name = "Bluray 1080p";
+      }
+    ];
+    trash_ids = hd_tiers ++ common;
+  }
+  {
+    assign_scores_to = [
+      {
+        name = "WEBDL 1080p";
+      }
+    ];
+    trash_ids = common-web ++ common ++ hdr_formats;
+  }
+  {
+    assign_scores_to = [
+      {
+        name = "ALL";
+      }
+    ];
+    trash_ids = remux_tiers ++ common-web ++ uhd_tiers ++ hd_tiers ++ common-2160p ++ common;
   }
 ]
