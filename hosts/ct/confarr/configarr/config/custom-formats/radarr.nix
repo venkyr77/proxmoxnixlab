@@ -118,7 +118,7 @@ in [
   {
     assign_scores_to = [
       {
-        name = "Remux 2160p";
+        name = "Remux-2160p";
       }
     ];
     trash_ids = remux_tiers ++ common-2160p ++ common;
@@ -126,7 +126,7 @@ in [
   {
     assign_scores_to = [
       {
-        name = "Bluray 2160p";
+        name = "Bluray-2160p";
       }
     ];
     trash_ids = uhd_tiers ++ common-2160p ++ common;
@@ -134,7 +134,7 @@ in [
   {
     assign_scores_to = [
       {
-        name = "WEBDL 2160p";
+        name = "WEBDL-2160p";
       }
     ];
     trash_ids = common-web ++ common-2160p ++ common;
@@ -142,7 +142,7 @@ in [
   {
     assign_scores_to = [
       {
-        name = "Remux 1080p";
+        name = "Remux-1080p";
       }
     ];
     trash_ids = remux_tiers ++ common;
@@ -150,7 +150,7 @@ in [
   {
     assign_scores_to = [
       {
-        name = "Bluray 1080p";
+        name = "Bluray-1080p";
       }
     ];
     trash_ids = hd_tiers ++ common;
@@ -158,7 +158,7 @@ in [
   {
     assign_scores_to = [
       {
-        name = "WEBDL 1080p";
+        name = "WEBDL-1080p";
       }
     ];
     trash_ids = common-web ++ common ++ hdr_formats;

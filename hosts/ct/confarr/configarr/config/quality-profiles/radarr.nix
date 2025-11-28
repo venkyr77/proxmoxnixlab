@@ -1,129 +1,21 @@
-[
-  {
-    name = "Remux 2160p";
+let
+  inherit (import ./helper.nix) mkallcfqp mksinglecfqp;
+in [
+  (mksinglecfqp "Remux-2160p")
+  (mksinglecfqp "Bluray-2160p")
+  (mksinglecfqp "WEBDL-2160p")
+  (mksinglecfqp "Remux-1080p")
+  (mksinglecfqp "Bluray-1080p")
+  (mksinglecfqp "WEBDL-1080p")
+  (mkallcfqp {
     qualities = [
-      {
-        name = "Remux-2160p";
-      }
+      "Remux-2160p"
+      "Bluray-2160p"
+      "WEBDL-2160p"
+      "Remux-1080p"
+      "Bluray-1080p"
+      "WEBDL-1080p"
     ];
-    quality_sort = "top";
-    min_format_score = 0;
-    reset_unmatched_scores.enabled = true;
-    upgrade = {
-      allowed = true;
-      until_quality = "Remux-2160p";
-      until_score = 10000;
-    };
-  }
-  {
-    name = "Bluray 2160p";
-    qualities = [
-      {
-        name = "Bluray-2160p";
-      }
-    ];
-    quality_sort = "top";
-    min_format_score = 0;
-    reset_unmatched_scores.enabled = true;
-    upgrade = {
-      allowed = true;
-      until_quality = "Bluray-2160p";
-      until_score = 10000;
-    };
-  }
-  {
-    name = "WEBDL 2160p";
-    qualities = [
-      {
-        name = "WEBDL-2160p";
-      }
-    ];
-    quality_sort = "top";
-    min_format_score = 0;
-    reset_unmatched_scores.enabled = true;
-    upgrade = {
-      allowed = true;
-      until_quality = "WEBDL-2160p";
-      until_score = 10000;
-    };
-  }
-  {
-    name = "Remux 1080p";
-    qualities = [
-      {
-        name = "Remux-1080p";
-      }
-    ];
-    quality_sort = "top";
-    min_format_score = 0;
-    reset_unmatched_scores.enabled = true;
-    upgrade = {
-      allowed = true;
-      until_quality = "Remux-1080p";
-      until_score = 10000;
-    };
-  }
-  {
-    name = "Bluray 1080p";
-    qualities = [
-      {
-        name = "Bluray-1080p";
-      }
-    ];
-    quality_sort = "top";
-    min_format_score = 0;
-    reset_unmatched_scores.enabled = true;
-    upgrade = {
-      allowed = true;
-      until_quality = "Bluray-1080p";
-      until_score = 10000;
-    };
-  }
-  {
-    name = "WEBDL 1080p";
-    qualities = [
-      {
-        name = "WEBDL-1080p";
-      }
-    ];
-    quality_sort = "top";
-    min_format_score = 0;
-    reset_unmatched_scores.enabled = true;
-    upgrade = {
-      allowed = true;
-      until_quality = "WEBDL-1080p";
-      until_score = 10000;
-    };
-  }
-  {
-    name = "ALL";
-    qualities = [
-      {
-        name = "Remux-2160p";
-      }
-      {
-        name = "Bluray-2160p";
-      }
-      {
-        name = "WEBDL-2160p";
-      }
-      {
-        name = "Remux-1080p";
-      }
-      {
-        name = "Bluray-1080p";
-      }
-      {
-        name = "WEBDL-1080p";
-      }
-    ];
-    quality_sort = "top";
-    min_format_score = 0;
-    reset_unmatched_scores.enabled = true;
-    upgrade = {
-      allowed = true;
-      until_quality = "Remux-2160p";
-      until_score = 10000;
-    };
-  }
+    unpgrade_until_quality = "Remux-2160p";
+  })
 ]

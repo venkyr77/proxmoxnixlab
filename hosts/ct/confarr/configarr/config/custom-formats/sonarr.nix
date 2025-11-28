@@ -78,75 +78,59 @@ let
     "83304f261cf516bb208c18c54c0adf97" # SDR (no WEBDL)
     # "9b64dff695c2115facf1b6ea59c9bd07" # x265 (no HDR/DV)
   ];
+
+  common =
+    unwanted
+    ++ misc_required
+    ++ audio_optional
+    ++ misc_optional;
+
+  common-2160p =
+    hdr_formats
+    ++ misc_uhd_optional;
+
+  common-web =
+    web_tiers
+    ++ general_streaming_services;
 in [
   {
     assign_scores_to = [
       {
-        name = "Remux + WEB 2160p";
+        name = "Bluray-2160p Remux";
       }
     ];
-    trash_ids = let
-      hq_source_groups = remux_tiers ++ web_tiers;
-    in
-      hdr_formats
-      ++ unwanted
-      ++ misc_required
-      ++ general_streaming_services
-      ++ general_streaming_services_uhd
-      ++ hq_source_groups
-      ++ audio_optional
-      ++ misc_optional
-      ++ misc_uhd_optional;
+    trash_ids = remux_tiers ++ common-2160p ++ common;
   }
   {
     assign_scores_to = [
       {
-        name = "WEB-2160p";
+        name = "WEBDL-2160p";
       }
     ];
-    trash_ids = let
-      hq_source_groups = web_tiers;
-    in
-      hdr_formats
-      ++ unwanted
-      ++ misc_required
-      ++ general_streaming_services
-      ++ general_streaming_services_uhd
-      ++ hq_source_groups
-      ++ audio_optional
-      ++ misc_optional
-      ++ misc_uhd_optional;
+    trash_ids = common-web ++ general_streaming_services_uhd ++ common-2160p ++ common;
   }
   {
     assign_scores_to = [
       {
-        name = "Remux + WEB 1080p";
+        name = "Bluray-1080p Remux";
       }
     ];
-    trash_ids = let
-      hq_source_groups = remux_tiers ++ web_tiers;
-    in
-      unwanted
-      ++ misc_required
-      ++ general_streaming_services
-      ++ hq_source_groups
-      ++ audio_optional
-      ++ misc_optional;
+    trash_ids = remux_tiers ++ common;
   }
   {
     assign_scores_to = [
       {
-        name = "WEB-1080p";
+        name = "WEBDL-1080p";
       }
     ];
-    trash_ids = let
-      hq_source_groups = web_tiers;
-    in
-      unwanted
-      ++ misc_required
-      ++ general_streaming_services
-      ++ hq_source_groups
-      ++ audio_optional
-      ++ misc_optional;
+    trash_ids = common-web ++ common ++ hdr_formats;
+  }
+  {
+    assign_scores_to = [
+      {
+        name = "ALL";
+      }
+    ];
+    trash_ids = remux_tiers ++ common-web ++ general_streaming_services_uhd ++ common-2160p ++ common;
   }
 ]
