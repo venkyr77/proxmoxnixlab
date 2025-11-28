@@ -1,13 +1,14 @@
 let
-  inherit (import ./helper.nix) mkallcfqp mksinglecfqp;
+  inherit (import ./helper.nix) mkqpfromcfs mkqpfromcf;
 in [
-  (mksinglecfqp "Remux-2160p")
-  (mksinglecfqp "Bluray-2160p")
-  (mksinglecfqp "WEBDL-2160p")
-  (mksinglecfqp "Remux-1080p")
-  (mksinglecfqp "Bluray-1080p")
-  (mksinglecfqp "WEBDL-1080p")
-  (mkallcfqp {
+  (mkqpfromcf "Remux-2160p")
+  (mkqpfromcf "Bluray-2160p")
+  (mkqpfromcf "WEBDL-2160p")
+  (mkqpfromcf "Remux-1080p")
+  (mkqpfromcf "Bluray-1080p")
+  (mkqpfromcf "WEBDL-1080p")
+  (mkqpfromcfs {
+    name = "ALL";
     qualities = [
       "Remux-2160p"
       "Bluray-2160p"

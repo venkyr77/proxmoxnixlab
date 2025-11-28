@@ -65,7 +65,7 @@ in {
       disk_size = 16;
       ipv4_full = "10.0.0.74/24";
       ipv4_short = "10.0.0.74";
-      memory = 8 * 1024;
+      memory = 16 * 1024;
       mount_point = [
         (attachHostDatasetMP "sabnzbd")
         (attachProxyMP "/mnt/movies")

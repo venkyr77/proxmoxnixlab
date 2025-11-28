@@ -1,9 +1,10 @@
 {
-  mkallcfqp = {
+  mkqpfromcfs = {
+    name,
     qualities,
     unpgrade_until_quality,
   }: {
-    name = "ALL";
+    inherit name;
     qualities = map (quality: {name = quality;}) qualities;
     quality_sort = "top";
     min_format_score = 0;
@@ -14,7 +15,7 @@
       until_score = 10000;
     };
   };
-  mksinglecfqp = quality: {
+  mkqpfromcf = quality: {
     name = quality;
     qualities = [
       {
