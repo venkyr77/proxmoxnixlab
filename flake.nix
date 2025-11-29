@@ -136,15 +136,15 @@
       ));
 
     formatter =
-      nixpkgs.lib.genAttrs
       (import systems)
-      (
-        system: let
-          pkgs = nixpkgs.legacyPackages.${system};
-          treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
-        in
-          treefmtEval.config.build.wrapper
-      );
+      |> (systems:
+        nixpkgs.lib.genAttrs systems (
+          system: let
+            pkgs = nixpkgs.legacyPackages.${system};
+            treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
+          in
+            treefmtEval.config.build.wrapper
+        ));
 
     packages.${system} = {
       mkimg = nixos-generators.nixosGenerate {
