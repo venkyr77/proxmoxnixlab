@@ -17,8 +17,7 @@
 
   sleep 5
 
-  xmlstarlet ed -L ${lib.concatStringsSep " " (builtins.attrValues (
-    builtins.mapAttrs (name: value: ''-d "/Config/${name}" -s "/Config" -t elem -n "${name}" -v "${value}"'')
+  xmlstarlet ed -L ${
     {
       PostgresHost = props.vms.psql-db.ipv4_short;
       PostgresPort = toString nodes.psql-db.config.services.postgresql.settings.port;
@@ -27,7 +26,10 @@
       PostgresMainDb = "${arr}-main";
       PostgresLogDb = "${arr}-logs";
     }
-  ))} "$CONFIG_FILE"
+    |> builtins.mapAttrs (name: value: ''-d "/Config/${name}" -s "/Config" -t elem -n "${name}" -v "${value}"'')
+    |> builtins.attrValues
+    |> lib.concatStringsSep " "
+  } "$CONFIG_FILE"
 
   systemctl start ${arr}.service
 ''
