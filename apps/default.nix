@@ -26,13 +26,15 @@
     );
 in
   (
-    builtins.listToAttrs (map (action: {
+    ["apply" "destroy" "plan"]
+    |> map (action: {
       name = "proxmox-${action}";
       value = {
         type = "app";
         program = mkTerraformProgramForProxmox action;
       };
-    }) ["apply" "destroy" "plan"])
+    })
+    |> builtins.listToAttrs
   )
   // (
     builtins.listToAttrs (map (app: {
@@ -50,32 +52,30 @@ in
               PVE_IP=${pveIP}
 
               SOPS_PK_NEEDED_HOSTS=(${
-                builtins.concatStringsSep " " (
-                  (
-                    map (ct: props.cts.${ct}.ipv4_short)
-                    (builtins.attrNames (pkgs.lib.attrsets.filterAttrs (_: ct_prop: ct_prop.need_sops_pk) props.cts))
-                  )
-                  ++ (
-                    map (vm: props.vms.${vm}.ipv4_short)
-                    (builtins.attrNames (pkgs.lib.attrsets.filterAttrs (_: vm_prop: vm_prop.need_sops_pk) props.vms))
-                  )
+                (
+                  ((builtins.attrValues props.cts) ++ (builtins.attrValues props.vms))
+                  |> builtins.filter (host_prop: host_prop.need_sops_pk)
+                  |> map (host_prop: host_prop.ipv4_short)
                 )
+                |> builtins.concatStringsSep " "
               })
 
               IGPU_PATCH_NEEDED_HOSTS=(${
-                builtins.concatStringsSep " "
                 (
-                  map (ct: toString props.cts.${ct}.vm_id)
-                  (builtins.attrNames (pkgs.lib.attrsets.filterAttrs (_: ct_prop: ct_prop.need_igpu_patch) props.cts))
+                  (builtins.attrValues props.cts)
+                  |> builtins.filter (ct_prop: ct_prop.need_igpu_patch)
+                  |> map (ct_prop: ct_prop.ipv4_short)
                 )
+                |> builtins.concatStringsSep " "
               })
 
               TS_PATCH_NEEDED_HOSTS=(${
-                builtins.concatStringsSep " "
                 (
-                  map (ct: toString props.cts.${ct}.vm_id)
-                  (builtins.attrNames (pkgs.lib.attrsets.filterAttrs (_: ct_prop: ct_prop.need_ts_patch) props.cts))
+                  (builtins.attrValues props.cts)
+                  |> builtins.filter (ct_prop: ct_prop.need_ts_patch)
+                  |> map (ct_prop: ct_prop.ipv4_short)
                 )
+                |> builtins.concatStringsSep " "
               })
 
               ${(builtins.readFile ./scripts/${app}.sh)}
