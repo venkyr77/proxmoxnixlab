@@ -1,10 +1,5 @@
 {props, ...}: {
   services.gatus.settings.endpoints =
-    map (endpoint_conf:
-      endpoint_conf
-      // {
-        group = "dns";
-      })
     [
       {
         conditions = [
@@ -84,5 +79,6 @@
         name = "[TAILSCALE] - searx.euls.dev";
         url = "${props.cts.dns.tailscale_ip}";
       }
-    ];
+    ]
+    |> map (endpoint_conf: endpoint_conf // {group = "dns";});
 }

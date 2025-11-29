@@ -4,11 +4,6 @@
   ...
 }: {
   services.gatus.settings.endpoints =
-    map (endpoint_conf:
-      endpoint_conf
-      // {
-        group = "tools";
-      })
     [
       {
         conditions = [
@@ -19,5 +14,6 @@
         name = "searx";
         url = "http://${props.cts.tools.ipv4_short}:${toString nodes.tools.config.services.searx.settings.server.port}/search?q=test&format=json";
       }
-    ];
+    ]
+    |> map (endpoint_conf: endpoint_conf // {group = "tools";});
 }

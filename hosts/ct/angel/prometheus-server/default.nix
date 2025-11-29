@@ -13,9 +13,11 @@
     scrapeConfigs = [
       {
         job_name = "node";
-        static_configs = map (ct: {
-          targets = ["${props.cts.${ct}.ipv4_short}:${toString nodes.${ct}.config.services.prometheus.exporters.node.port}"];
-        }) (builtins.attrNames props.cts);
+        static_configs =
+          (builtins.attrNames props.cts)
+          |> map (ct: {
+            targets = ["${props.cts.${ct}.ipv4_short}:${toString nodes.${ct}.config.services.prometheus.exporters.node.port}"];
+          });
       }
       {
         job_name = "unbound";

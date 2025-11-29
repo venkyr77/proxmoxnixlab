@@ -4,11 +4,6 @@
   ...
 }: {
   services.gatus.settings.endpoints =
-    map (endpoint_conf:
-      endpoint_conf
-      // {
-        group = "streamarr";
-      })
     [
       {
         conditions = [
@@ -28,5 +23,6 @@
         name = "navidrome";
         url = "http://${props.cts.streamarr.ipv4_short}:${toString nodes.streamarr.config.services.navidrome.settings.Port}/ping";
       }
-    ];
+    ]
+    |> map (endpoint_conf: endpoint_conf // {group = "streamarr";});
 }

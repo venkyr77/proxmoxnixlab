@@ -4,11 +4,6 @@
   ...
 }: {
   services.gatus.settings.endpoints =
-    map (endpoint_conf:
-      endpoint_conf
-      // {
-        group = "fetcharr";
-      })
     [
       {
         conditions = [
@@ -55,5 +50,6 @@
         name = "sabnzbd";
         url = "http://${props.cts.fetcharr.ipv4_short}:${toString nodes.fetcharr.config.services.sabnzbd.port}";
       }
-    ];
+    ]
+    |> map (endpoint_conf: endpoint_conf // {group = "fetcharr";});
 }
