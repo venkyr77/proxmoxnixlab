@@ -112,7 +112,9 @@
           };
         };
       }
-      // (builtins.mapAttrs (ct: _ct_prop: {
+      // (
+        props.cts
+        |> builtins.mapAttrs (ct: _ct_prop: {
           imports = [
             nixos-generators.nixosModules.proxmox-lxc
             sops-nix.nixosModules.sops
@@ -120,8 +122,10 @@
             ./hosts/ct/${ct}
           ];
         })
-        props.cts)
-      // (builtins.mapAttrs (vm: _vm_prop: {
+      )
+      // (
+        props.vms
+        |> builtins.mapAttrs (vm: _vm_prop: {
           imports = [
             nixos-generators.nixosModules.raw-efi
             sops-nix.nixosModules.sops
@@ -129,13 +133,18 @@
             ./hosts/vm/${vm}
           ];
         })
-        props.vms));
+      ));
 
-    formatter = let
-      eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
-      treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
-    in
-      eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
+    formatter =
+      nixpkgs.lib.genAttrs
+      (import systems)
+      (
+        system: let
+          pkgs = nixpkgs.legacyPackages.${system};
+          treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
+        in
+          treefmtEval.config.build.wrapper
+      );
 
     packages.${system} = {
       mkimg = nixos-generators.nixosGenerate {
