@@ -52,29 +52,23 @@ in
               PVE_IP=${pveIP}
 
               SOPS_PK_NEEDED_HOSTS=(${
-                (
-                  ((builtins.attrValues props.cts) ++ (builtins.attrValues props.vms))
-                  |> builtins.filter (host_prop: host_prop.need_sops_pk)
-                  |> map (host_prop: host_prop.ipv4_short)
-                )
+                ((builtins.attrValues props.cts) ++ (builtins.attrValues props.vms))
+                |> builtins.filter (host_prop: host_prop.need_sops_pk)
+                |> map (host_prop: host_prop.ipv4_short)
                 |> builtins.concatStringsSep " "
               })
 
               IGPU_PATCH_NEEDED_HOSTS=(${
-                (
-                  (builtins.attrValues props.cts)
-                  |> builtins.filter (ct_prop: ct_prop.need_igpu_patch)
-                  |> map (ct_prop: ct_prop.ipv4_short)
-                )
+                (builtins.attrValues props.cts)
+                |> builtins.filter (ct_prop: ct_prop.need_igpu_patch)
+                |> map (ct_prop: toString ct_prop.vm_id)
                 |> builtins.concatStringsSep " "
               })
 
               TS_PATCH_NEEDED_HOSTS=(${
-                (
-                  (builtins.attrValues props.cts)
-                  |> builtins.filter (ct_prop: ct_prop.need_ts_patch)
-                  |> map (ct_prop: ct_prop.ipv4_short)
-                )
+                (builtins.attrValues props.cts)
+                |> builtins.filter (ct_prop: ct_prop.need_ts_patch)
+                |> map (ct_prop: toString ct_prop.vm_id)
                 |> builtins.concatStringsSep " "
               })
 
