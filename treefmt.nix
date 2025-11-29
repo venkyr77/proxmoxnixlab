@@ -1,4 +1,4 @@
-_: {
+{pkgs, ...}: {
   projectRootFile = "flake.nix";
 
   programs = {
@@ -9,6 +9,18 @@ _: {
 
     statix = {
       enable = true;
+      package = pkgs.statix.overrideAttrs (_old: rec {
+        cargoDeps = pkgs.rustPlatform.importCargoLock {
+          allowBuiltinFetchGit = true;
+          lockFile = "${src}/Cargo.lock";
+        };
+        src = pkgs.fetchFromGitHub {
+          hash = "sha256-duH6Il124g+CdYX+HCqOGnpJxyxOCgWYcrcK0CBnA2M=";
+          owner = "oppiliappan";
+          repo = "statix";
+          rev = "master";
+        };
+      });
       priority = 20;
     };
 
