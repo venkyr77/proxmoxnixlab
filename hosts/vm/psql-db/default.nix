@@ -8,15 +8,16 @@
 
   dbACL = import ./acl.nix {inherit props;};
 
-  allUsers = lib.unique (
-    (map (db: dbACL.${db}.user) (builtins.attrNames dbACL))
-    ++ ["pgadmin"]
-  );
+  allUsers =
+    (builtins.attrNames dbACL)
+    |> map (db: dbACL.${db}.user)
+    |> (users: users ++ ["pgadmin"])
+    |> lib.unique;
 
-  authRules = lib.concatStringsSep "\n" (
-    lib.mapAttrsToList (dbName: config: "host ${dbName} ${config.user} ${config.host} md5")
+  authRules =
     dbACL
-  );
+    |> lib.mapAttrsToList (db: config: "host ${db} ${config.user} ${config.host} md5")
+    |> lib.concatStringsSep "\n";
 in {
   services = {
     pgadmin = {
@@ -43,22 +44,21 @@ in {
   sops = {
     secrets =
       (
-        builtins.listToAttrs (
-          map (db-user: {
-            name = "${db-user}-db-pass";
-            value = {sopsFile = ../../../secrets/${db-user}-db-pass;};
-          })
-          [
-            "authentik"
-            "fetcharr"
-            "gatus"
-            "grafana"
-            "linkwarden"
-            "memos"
-            "pgadmin"
-            "vaultwarden"
-          ]
-        )
+        [
+          "authentik"
+          "fetcharr"
+          "gatus"
+          "grafana"
+          "linkwarden"
+          "memos"
+          "pgadmin"
+          "vaultwarden"
+        ]
+        |> map (user: {
+          name = "${user}-db-pass";
+          value = {sopsFile = ../../../secrets/${user}-db-pass;};
+        })
+        |> builtins.listToAttrs
       )
       // {
         pgadmin-ui-pass.sopsFile = ../../../secrets/pgadmin-ui-pass;
@@ -66,10 +66,9 @@ in {
     templates = {
       psql-config-env = {
         content =
-          lib.concatMapStringsSep "\n" (
-            user: ''${lib.toUpper "${user}"}_DBPASS=${config.sops.placeholder."${user}-db-pass"}''
-          )
-          allUsers;
+          allUsers
+          |> map (user: ''${lib.toUpper "${user}"}_DBPASS=${config.sops.placeholder."${user}-db-pass"}'')
+          |> lib.concatStringsSep "\n";
         group = "postgres";
         owner = "postgres";
       };
@@ -111,27 +110,31 @@ in {
           psql -tAc "ALTER USER pgadmin CREATEDB CREATEROLE SUPERUSER"
         fi
 
-        ${lib.concatMapStringsSep "\n" (
-          db: let
-            inherit (dbACL.${db}) user;
-          in ''
-            USER_EXISTS=$(psql -tAc "SELECT 1 FROM pg_user WHERE usename = '${user}'")
+        ${
+          (builtins.attrNames dbACL)
+          |> map (
+            db: let
+              inherit (dbACL.${db}) user;
+            in ''
+              USER_EXISTS=$(psql -tAc "SELECT 1 FROM pg_user WHERE usename = '${user}'")
 
-            if [ -z "$USER_EXISTS" ]; then
-              ENV_NAME="$(echo '${user}' | tr '[:lower:]-' '[:upper:]_')_DBPASS"
-              PASSWORD="''${!ENV_NAME}"
-              psql -tAc "CREATE USER \"${user}\" WITH PASSWORD ''\'''${PASSWORD}'"
-            fi
+              if [ -z "$USER_EXISTS" ]; then
+                ENV_NAME="$(echo '${user}' | tr '[:lower:]-' '[:upper:]_')_DBPASS"
+                PASSWORD="''${!ENV_NAME}"
+                psql -tAc "CREATE USER \"${user}\" WITH PASSWORD ''\'''${PASSWORD}'"
+              fi
 
-            DB_EXISTS=$(psql -tAc "SELECT 1 FROM pg_database WHERE datname = '${db}'")
+              DB_EXISTS=$(psql -tAc "SELECT 1 FROM pg_database WHERE datname = '${db}'")
 
-            if [ -z "$DB_EXISTS" ]; then
-              psql -tAc "CREATE DATABASE \"${db}\" OWNER \"${user}\""
-            else
-              psql -tAc "ALTER DATABASE \"${db}\" OWNER TO \"${user}\""
-            fi
-          ''
-        ) (builtins.attrNames dbACL)}
+              if [ -z "$DB_EXISTS" ]; then
+                psql -tAc "CREATE DATABASE \"${db}\" OWNER \"${user}\""
+              else
+                psql -tAc "ALTER DATABASE \"${db}\" OWNER TO \"${user}\""
+              fi
+            ''
+          )
+          |> lib.concatStringsSep "\n"
+        }
       '';
     serviceConfig = {
       EnvironmentFile = config.sops.templates.psql-config-env.path;
