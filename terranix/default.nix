@@ -130,42 +130,36 @@ in {
 
   resource = {
     proxmox_virtual_environment_container =
-      builtins.mapAttrs
-      (
-        ct_name: ct_prop:
-          mkCT {
-            vm_name = ct_name;
-            inherit
-              (ct_prop)
-              cpu_cores
-              disk_size
-              ipv4_full
-              memory
-              mount_point
-              vm_id
-              ;
-          }
-      )
-      props.cts;
+      props.cts
+      |> builtins.mapAttrs (ct_name: ct_prop:
+        mkCT {
+          vm_name = ct_name;
+          inherit
+            (ct_prop)
+            cpu_cores
+            disk_size
+            ipv4_full
+            memory
+            mount_point
+            vm_id
+            ;
+        });
 
     proxmox_virtual_environment_vm =
-      builtins.mapAttrs
-      (
-        vm_name: vm_prop:
-          mkVM {
-            inherit vm_name;
-            inherit
-              (vm_prop)
-              cpu_cores
-              cpu_host_type
-              disk_size
-              hostpci
-              ipv4_full
-              memory
-              vm_id
-              ;
-          }
-      )
-      props.vms;
+      props.vms
+      |> builtins.mapAttrs (vm_name: vm_prop:
+        mkVM {
+          inherit vm_name;
+          inherit
+            (vm_prop)
+            cpu_cores
+            cpu_host_type
+            disk_size
+            hostpci
+            ipv4_full
+            memory
+            vm_id
+            ;
+        });
   };
 }
