@@ -1,7 +1,9 @@
 {
   config,
   lib,
+  nodes,
   pkgs,
+  props,
   ...
 }: let
   cfg = config.services.configarr;
@@ -20,6 +22,7 @@ in {
         in ''
           install -D -m 0644 ${configFile} ${cfg.dataDir}/config/config.yml
           chown ${cfg.user}:${cfg.group} ${cfg.dataDir}/config/config.yml
+          ${import ../edit-standard-metadata-profile.nix {inherit nodes pkgs props;}}
         '';
         serviceConfig = {
           EnvironmentFile = lib.optional (cfg.environmentFile != null) cfg.environmentFile;

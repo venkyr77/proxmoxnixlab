@@ -7,20 +7,12 @@
   ...
 }: {
   imports = [
-    (import ../config-maker {
-      arr = "prowlarr";
-      inherit config pkgs;
-      script =
-        # sh
-        ''
-          set -euo pipefail
-
-          ${import ../psql-shift-script.nix {
-            arr = "prowlarr";
-            inherit config lib nodes props;
-          }}
-        '';
-    })
+    (
+      import ../psql-shifter.nix {
+        arr = "prowlarr";
+        inherit config lib nodes pkgs props;
+      }
+    )
   ];
 
   services.prowlarr = {

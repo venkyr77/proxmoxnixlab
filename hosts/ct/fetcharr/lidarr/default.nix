@@ -8,21 +8,12 @@
   ...
 }: {
   imports = [
-    (import ../config-maker {
-      arr = "lidarr";
-      inherit config pkgs;
-      script =
-        # sh
-        ''
-          set -euo pipefail
-
-          ${import ./edit-standard-metadata-profile.nix {inherit config;}}
-          ${import ../psql-shift-script.nix {
-            arr = "lidarr";
-            inherit config lib nodes props;
-          }}
-        '';
-    })
+    (
+      import ../psql-shifter.nix {
+        arr = "lidarr";
+        inherit config lib nodes pkgs props;
+      }
+    )
   ];
 
   services.lidarr = {
