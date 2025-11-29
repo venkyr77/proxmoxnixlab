@@ -5,7 +5,7 @@
     unpgrade_until_quality,
   }: {
     inherit name;
-    qualities = map (quality: {name = quality;}) qualities;
+    qualities = qualities |> map (quality: {name = quality;});
     quality_sort = "top";
     min_format_score = 0;
     reset_unmatched_scores.enabled = true;
