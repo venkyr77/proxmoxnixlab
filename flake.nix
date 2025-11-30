@@ -20,6 +20,14 @@
       };
       url = "github:zhaofengli/colmena";
     };
+    configarr = {
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+      };
+      url = "github:venkyr77/configarr/nix";
+    };
     flake-compat = {
       flake = false;
       url = "github:edolstra/flake-compat";

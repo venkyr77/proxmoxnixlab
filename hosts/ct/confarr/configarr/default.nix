@@ -1,17 +1,22 @@
 {
   config,
+  inputs,
+  lib,
   name,
+  pkgs,
   ...
 }: {
   imports = [
-    ./module
-    ./config
+    inputs.configarr.nixosModules.default
+    ./config.nix
   ];
 
   services.configarr = {
+    dataDir = "/var/lib/configarr-new";
     enable = true;
     environmentFile = "${config.sops.templates.configarr-ev.path}";
     group = name;
+    package = import ./package.nix {inherit lib pkgs;};
     user = name;
   };
 

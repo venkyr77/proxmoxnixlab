@@ -19,6 +19,8 @@
           media_management:
             downloadPropersAndRepacks: doNotPrefer
           media_naming:
+            renameTracks: true
+            replaceIllegalCharacters: true
             standardTrackFormat: "{Album Title} {(Album Disambiguation)}/{Artist Name}_{Album Title}_{track:00}_{Track Title}"
             multiDiscTrackFormat: "{Album Title} {(Album Disambiguation)}/{Artist Name}_{Album Title}_{medium:00}-{track:00}_{Track Title}"
             artistFolderFormat: "{Artist Name}"
@@ -55,6 +57,30 @@
                 value: -100
               - name: olderMusicPriority
                 value: -100
+          metadata_profiles:
+            - name: Standard
+              primary_types:
+                - Album
+                - EP
+                - Single
+              secondary_types:
+                - Studio
+                - Soundtrack
+                - Remix
+                - DJ-mix
+                - Compilation
+              release_statuses:
+                - Official
+          delete_unmanaged_metadata_profiles:
+            enabled: true
+          root_folders:
+            - path: "/mnt/music"
+              name: "Music"
+              metadata_profile: "Standard"
+              quality_profile: "HQ"
+              monitor: "all"
+              monitor_new_album: "all"
+              tags: []
 
       radarr:
         radarr_instance:

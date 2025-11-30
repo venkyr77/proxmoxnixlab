@@ -44,12 +44,12 @@ pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
 
   pnpmDeps = pkgs.pnpm.fetchDeps {
     fetcherVersion = 1;
-    hash = "sha256-tmEr5rX14DWeWo4FDArNU3yrFGRft3nuQ8TqXj6QNS4=";
+    hash = "sha256-0P5gT29uLCmm10Xerk9ZVblEoauTEd9jzi0jseO3Ojc=";
     inherit (finalAttrs) pname src version;
   };
 
   src = pkgs.fetchFromGitHub {
-    hash = "sha256-IeLEfP9BbH3CDdRl3qdsIuRY6cGSxmBU8mtYgU3D9dY=";
+    hash = "sha256-Ho7E3gslpOOYyyFyLqSQpH19GDz6fYaMruqIKNEDs+c=";
     owner = "venkyr77";
     repo = "configarr";
     rev = "nix";

@@ -82,6 +82,33 @@
         "type": "github"
       }
     },
+    "configarr": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": [
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1764543843,
+        "narHash": "sha256-Ho7E3gslpOOYyyFyLqSQpH19GDz6fYaMruqIKNEDs+c=",
+        "owner": "venkyr77",
+        "repo": "configarr",
+        "rev": "e7434130768a0eeeb0898ccca5ede8b13c1fe608",
+        "type": "github"
+      },
+      "original": {
+        "owner": "venkyr77",
+        "ref": "nix",
+        "repo": "configarr",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -322,6 +349,7 @@
       "inputs": {
         "authentik-nix": "authentik-nix",
         "colmena": "colmena",
+        "configarr": "configarr",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
         "flake-utils": "flake-utils",
