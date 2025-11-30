@@ -154,14 +154,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1764377289,
-        "narHash": "sha256-Xb+QXzzj5nwJrmfRGVktXl3uWOE7bpLlVXZ7REp+D7M=",
-        "path": "/home/venky/jellarr",
-        "type": "path"
+        "lastModified": 1764520999,
+        "narHash": "sha256-MW+0ia36QuMcPlGKrEgCFHUmK9lziSDLFvc+e3aThJA=",
+        "owner": "venkyr77",
+        "repo": "jellarr",
+        "rev": "228741dc12550b5d20a2731c10c51cb3c7661978",
+        "type": "github"
       },
       "original": {
-        "path": "/home/venky/jellarr",
-        "type": "path"
+        "owner": "venkyr77",
+        "repo": "jellarr",
+        "type": "github"
       }
     },
     "napalm": {

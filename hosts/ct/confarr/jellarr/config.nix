@@ -68,6 +68,7 @@
         ];
       }
     ];
+    startup.completeStartupWizard = true;
     system = {
       enableMetrics = true;
       pluginRepositories = [
