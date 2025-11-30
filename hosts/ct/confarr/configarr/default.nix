@@ -1,9 +1,9 @@
 {
   config,
   inputs,
-  lib,
   name,
   pkgs,
+  system,
   ...
 }: {
   imports = [
@@ -16,7 +16,20 @@
     enable = true;
     environmentFile = "${config.sops.templates.configarr-ev.path}";
     group = name;
-    package = import ./package.nix {inherit lib pkgs;};
+    package = inputs.configarr.packages.${system}.default.overrideAttrs (old: {
+      pnpmDeps = pkgs.pnpm.fetchDeps {
+        fetcherVersion = 1;
+        hash = "sha256-0P5gT29uLCmm10Xerk9ZVblEoauTEd9jzi0jseO3Ojc=";
+        inherit (old) pname src version;
+      };
+
+      src = pkgs.fetchFromGitHub {
+        hash = "sha256-Ho7E3gslpOOYyyFyLqSQpH19GDz6fYaMruqIKNEDs+c=";
+        owner = "venkyr77";
+        repo = "configarr";
+        rev = "nix";
+      };
+    });
     user = name;
   };
 
