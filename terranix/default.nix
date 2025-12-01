@@ -38,6 +38,7 @@
       type = "nixos";
     };
     started = true;
+    start_on_boot = false;
     unprivileged = true;
     inherit vm_id;
   };
@@ -79,6 +80,7 @@
       name = "${vm_name}";
       network_device = {};
       node_name = "pve";
+      on_boot = false;
       started = true;
       stop_on_destroy = true;
       inherit vm_id;
@@ -96,7 +98,7 @@ in {
     };
     required_providers.proxmox = {
       source = "bpg/proxmox";
-      version = "0.82.1";
+      version = "0.87.0";
     };
   };
 
