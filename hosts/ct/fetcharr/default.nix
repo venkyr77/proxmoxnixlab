@@ -5,6 +5,7 @@
 }: {
   imports = [
     ./lidarr
+    ./nzbhydra
     ./prowlarr
     ./radarr
     ./sabnzbd

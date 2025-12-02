@@ -43,6 +43,7 @@
           "nas"
           "navidrome"
           "ntfysh"
+          "nzbhydra"
           "prometheus"
           "prowlarr"
           "pve"

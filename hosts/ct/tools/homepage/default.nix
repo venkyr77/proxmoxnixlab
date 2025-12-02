@@ -49,18 +49,6 @@
             };
           }
           {
-            "prowlarr" = {
-              icon = "prowlarr.svg";
-              href = "https://prowlarr.euls.dev";
-            };
-          }
-          {
-            "lidarr" = {
-              icon = "lidarr.svg";
-              href = "https://lidarr.euls.dev";
-            };
-          }
-          {
             "radarr" = {
               icon = "radarr.svg";
               href = "https://radarr.euls.dev";
@@ -70,6 +58,24 @@
             "sonarr" = {
               icon = "sonarr.svg";
               href = "https://sonarr.euls.dev";
+            };
+          }
+          {
+            "lidarr" = {
+              icon = "lidarr.svg";
+              href = "https://lidarr.euls.dev";
+            };
+          }
+          {
+            "nzbhydra" = {
+              icon = "nzbhydra2.svg";
+              href = "https://nzbhydra.euls.dev";
+            };
+          }
+          {
+            "prowlarr" = {
+              icon = "prowlarr.svg";
+              href = "https://prowlarr.euls.dev";
             };
           }
         ];
