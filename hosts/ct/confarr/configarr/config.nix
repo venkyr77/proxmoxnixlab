@@ -31,8 +31,8 @@
           - enable: true
             protocol: usenet
             priority: 1
-            removeCompletedDownloads: false
-            removeFailedDownloads: false
+            removeCompletedDownloads: true
+            removeFailedDownloads: true
             name: SABnzbd
             implementationName: SABnzbd
             implementation: Sabnzbd
@@ -108,8 +108,8 @@
           - enable: true
             protocol: usenet
             priority: 1
-            removeCompletedDownloads: false
-            removeFailedDownloads: false
+            removeCompletedDownloads: true
+            removeFailedDownloads: true
             name: SABnzbd
             implementationName: SABnzbd
             implementation: Sabnzbd
@@ -163,8 +163,8 @@
           - enable: true
             protocol: usenet
             priority: 1
-            removeCompletedDownloads: false
-            removeFailedDownloads: false
+            removeCompletedDownloads: true
+            removeFailedDownloads: true
             name: SABnzbd
             implementationName: SABnzbd
             implementation: Sabnzbd
