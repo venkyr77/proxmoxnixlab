@@ -61,9 +61,6 @@
       "ntfysh.euls.dev".extraConfig = ''
         reverse_proxy ${props.cts.angel.ipv4_short}:${toString nodes.angel.config.services.ntfy-sh.port}
       '';
-      "nzbhydra.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.fetcharr.ipv4_short}:5076
-      '';
       "prometheus.euls.dev".extraConfig = ''
         reverse_proxy ${props.cts.angel.ipv4_short}:${toString nodes.angel.config.services.prometheus.port}
       '';

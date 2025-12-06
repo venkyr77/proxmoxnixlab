@@ -49,15 +49,9 @@
             };
           }
           {
-            "radarr" = {
-              icon = "radarr.svg";
-              href = "https://radarr.euls.dev";
-            };
-          }
-          {
-            "sonarr" = {
-              icon = "sonarr.svg";
-              href = "https://sonarr.euls.dev";
+            "prowlarr" = {
+              icon = "prowlarr.svg";
+              href = "https://prowlarr.euls.dev";
             };
           }
           {
@@ -67,15 +61,15 @@
             };
           }
           {
-            "nzbhydra" = {
-              icon = "nzbhydra2.svg";
-              href = "https://nzbhydra.euls.dev";
+            "radarr" = {
+              icon = "radarr.svg";
+              href = "https://radarr.euls.dev";
             };
           }
           {
-            "prowlarr" = {
-              icon = "prowlarr.svg";
-              href = "https://prowlarr.euls.dev";
+            "sonarr" = {
+              icon = "sonarr.svg";
+              href = "https://sonarr.euls.dev";
             };
           }
         ];
