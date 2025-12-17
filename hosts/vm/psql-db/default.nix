@@ -16,7 +16,10 @@
 
   authRules =
     dbACL
-    |> lib.mapAttrsToList (db: config: "host ${db} ${config.user} ${config.host} md5")
+    |> lib.mapAttrsToList (db: config: ''
+      host ${db} ${config.user} ${config.host} md5
+      host ${db} pgadmin 10.0.0.60/24 md5
+    '')
     |> lib.concatStringsSep "\n";
 in {
   services = {
