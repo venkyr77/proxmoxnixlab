@@ -1,9 +1,15 @@
 {
   config,
   nodes,
+  pkgs,
   props,
   ...
-}: {
+}: let
+  b64 = str:
+    builtins.readFile (pkgs.runCommandLocal "b64" {} ''
+      printf '%s' '${str}' | base64 -w0 > $out
+    '');
+in {
   services.jellarr.config = {
     base_url = "http://${props.cts.streamarr.ipv4_short}:${toString nodes.streamarr.config.services.jellyfin.port}";
     branding = {
@@ -88,6 +94,41 @@
         name = "admin";
         passwordFile = config.sops.secrets.jellyfin-admin-pass.path;
         policy.isAdministrator = true;
+      }
+    ];
+    plugins = [
+      {
+        name = "Webhook";
+        configuration = {
+          GenericOptions = [
+            {
+              WebhookName = "ntfy";
+              WebhookUri = "http://${props.cts.angel.ipv4_short}:${toString nodes.angel.config.services.ntfy-sh.port}";
+              NotificationTypes = [
+                "PlaybackStart"
+              ];
+              Template = b64 ''
+                {
+                  "topic": "jellyfin",
+
+                  {{#if_equals NotificationType "PlaybackStart"}}
+                    "priority": 2,
+                    "title": "{{{NotificationUsername}}} | Playback started",
+                    {{#if_equals ItemType "Episode"}}
+                      "message": "User:{{{NotificationUsername}}}\nDevice/Client: {{{DeviceName}}} - {{{ClientName}}}\nIP Address: {{{RemoteEndPoint}}}\nSeries: {{{SeriesName}}}\nPlay Method: {{{PlayMethod}}}\n"
+                    {{/if_equals}}
+                    {{#if_equals ItemType "Movie"}}
+                      "message": "User:{{{NotificationUsername}}}\nDevice/Client: {{{DeviceName}}} - {{{ClientName}}}\nIP Address: {{{RemoteEndPoint}}}\nMovie: {{{Name}}}\nPlay Method: {{{PlayMethod}}}\n"
+                    {{/if_equals}}
+                  {{/if_equals}}
+                }
+              '';
+              SendAllProperties = false;
+              TrimWhitespace = false;
+              SkipEmptyMessageBody = false;
+            }
+          ];
+        };
       }
     ];
     version = 1;

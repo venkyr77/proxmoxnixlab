@@ -47,7 +47,7 @@
         systems.follows = "systems";
         treefmt-nix.follows = "treefmt-nix";
       };
-      url = "github:venkyr77/jellarr";
+      url = "github:venkyr77/jellarr/v0.1.0";
     };
     nixlib.url = "github:nix-community/nixpkgs.lib";
     nixos-generators = {
