@@ -17,6 +17,7 @@ in {
       settings = {
         base-url = "https://ntfysh.euls.dev";
         listen-http = ":${toString cfg.port}";
+        upstream-base-url = "https://ntfy.sh";
       };
     };
   };
