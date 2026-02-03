@@ -18,13 +18,10 @@
       email {env.CLOUDFLARE_EMAIL}
     '';
     package = pkgs.caddy.withPlugins {
-      hash = "sha256-Dvifm7rRwFfgXfcYvXcPDNlMaoxKd5h4mHEK6kJ+T4A=";
+      hash = "sha256-Zls+5kWd/JSQsmZC4SRQ/WS+pUcRolNaaI7UQoPzJA0=";
       plugins = ["github.com/caddy-dns/cloudflare@v0.2.1"];
     };
     virtualHosts = {
-      "auth.euls.dev".extraConfig = ''
-        reverse_proxy ${props.cts.auth-n-pass.ipv4_short}:9000
-      '';
       "adg.euls.dev".extraConfig = ''
         reverse_proxy ${props.cts.dns.ipv4_short}:${toString config.services.adguardhome.port}
       '';

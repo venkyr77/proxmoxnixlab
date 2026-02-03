@@ -2,16 +2,6 @@
   description = "nixos proxmox fleet managed by colmena";
 
   inputs = {
-    authentik-nix = {
-      inputs = {
-        flake-compat.follows = "flake-compat";
-        flake-parts.follows = "flake-parts";
-        flake-utils.follows = "flake-utils";
-        nixpkgs.follows = "nixpkgs";
-        systems.follows = "systems";
-      };
-      url = "github:nix-community/authentik-nix";
-    };
     colmena = {
       inputs = {
         flake-compat.follows = "flake-compat";
