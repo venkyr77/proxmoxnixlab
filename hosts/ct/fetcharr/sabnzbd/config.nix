@@ -409,4 +409,12 @@
   dir = ""
   newzbin = ""
   priority = -100
+  [[private]]
+  name = private
+  order = 6
+  pp = ""
+  script = Default
+  dir = ""
+  newzbin = ""
+  priority = -100
 ''
