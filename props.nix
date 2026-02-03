@@ -71,6 +71,7 @@ in {
         (attachProxyMP "/mnt/movies")
         (attachProxyMP "/mnt/music")
         (attachProxyMP "/mnt/shows")
+        (attachProxyMP "/mnt/private")
       ];
       need_sops_pk = true;
       need_igpu_patch = false;
@@ -101,6 +102,7 @@ in {
         (attachProxyMP "/mnt/movies")
         (attachProxyMP "/mnt/music")
         (attachProxyMP "/mnt/shows")
+        (attachProxyMP "/mnt/private")
       ];
       need_sops_pk = true;
       need_igpu_patch = true;
